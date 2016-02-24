@@ -1,0 +1,16 @@
+{
+  "name": "gl-changesets",
+  "version": "0.0.1",
+  "description": "Visualize OSM changesets on a GL map (WIP)",
+  "main": " ",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mapbox",
+  "license": "ISC",
+  "dependencies": {
+    "moment": "^2.11.2",
+    "watchify": "^3.7.0",
+    "xhr": "^2.2.0"
+  }
+}
