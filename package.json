@@ -9,6 +9,7 @@
   "author": "Mapbox",
   "license": "ISC",
   "dependencies": {
+    "mapbox-gl": "^0.14.2",
     "moment": "^2.11.2",
     "watchify": "^3.7.0",
     "xhr": "^2.2.0"

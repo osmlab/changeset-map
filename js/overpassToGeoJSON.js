@@ -43,7 +43,15 @@ function getNodeGeoJSON(node) {
 
 function getCoords(geom) {
     return geom.map(function(pt) {
-        return [pt.lon, pt.lat];
+        if (pt && pt.lon && pt.lat) {
+            return [pt.lon, pt.lat];
+        } else {
+            return null;
+        }
+    }).filter(function(pt) {
+        if (pt) {
+            return pt;
+        }
     });
 }
 
@@ -58,6 +66,7 @@ function getWayGeoJSON(way) {
     } else {
         geomType = 'LineString';
     }
+    console.log('way', way);
     var coords = getCoords(way.geometry);
     if (geomType === 'Polygon') {
         coords = [coords];

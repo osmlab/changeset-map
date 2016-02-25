@@ -20,6 +20,7 @@ var query = function(changesetID, callback) {
             var elements = response.body.elements;
             var geojson = overpassToGeoJSON(elements);
             var changeObj = geojsonChanges(geojson, changeset);
+            changeObj['changeset'] = changeset;
             console.log('changeObj', changeObj);
             return callback(null, changeObj);
         });
