@@ -8,6 +8,7 @@
         <style>
             body { margin:0; padding:0; }
             #map { position:absolute; top:0; bottom:0; width:100%; }
+            #formContainer { position:absolute; z-index: 10;}
             #menu {
                 background: #fff;
                 position: absolute;
@@ -52,7 +53,10 @@
         </style>
     </head>
     <body>
-
+        <div id="formContainer">
+            <input id="changesetInput" value="" />
+            <button id="submitChangeset">Submit</button>
+        </div>
         <div id="map"></div>
         <div id="menu"></div>
         <script src="dist/bundle.js"></script>

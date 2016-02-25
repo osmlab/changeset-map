@@ -2,9 +2,11 @@
   "name": "gl-changesets",
   "version": "0.0.1",
   "description": "Visualize OSM changesets on a GL map (WIP)",
-  "main": " ",
+  "main": "",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "watchify --debug js/index.js -o dist/bundle.js",
+    "build": "browserify js/index.js -o dist/bundle.js"
   },
   "author": "Mapbox",
   "license": "ISC",

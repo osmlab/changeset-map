@@ -32,26 +32,28 @@ function render(id, options) {
         console.log('doing map stuff');
 
         Object.keys(layers).forEach(function(layerName) {
-            console.log('geojson', layerName, result[layerName]);
-            map.addSource(layerName, {
-                'type': 'geojson',
-                'data': result[layerName]
-            });
-            map.addLayer({
-                "id": layerName,
-                "type": "line",
-                "source": layerName,
-                "layout": {
-                    "line-join": "round",
-                    "line-cap": "round",
-                    "visibility": "visible"
-                },
-                "paint": {
-                    "line-color": layers[layerName].color,
-                    "line-width": 8
-                }
-            });
-            addLayer(layerName, layerName);
+            if (result[layerName].features.length > 0) {
+                console.log('geojson', layerName, result[layerName]);
+                map.addSource(layerName, {
+                    'type': 'geojson',
+                    'data': result[layerName]
+                });
+                map.addLayer({
+                    "id": layerName,
+                    "type": "line",
+                    "source": layerName,
+                    "layout": {
+                        "line-join": "round",
+                        "line-cap": "round",
+                        "visibility": "visible"
+                    },
+                    "paint": {
+                        "line-color": layers[layerName].color,
+                        "line-width": 8
+                    }
+                });
+                addLayer(layerName, layerName);
+            }
         });
         var bounds = [
             [bbox.left, bbox.top],
