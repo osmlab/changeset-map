@@ -1,5 +1,4 @@
 var xhr = require('xhr');
-var changeset = require('./changeset');
 var config = require('./config');
 var osm = require('./osm');
 var overpassToGeoJSON = require('./overpassToGeoJSON');
