@@ -1,3 +1,4 @@
+var moment = require('moment');
 
 function getChanges(geojson, changeset) {
     var changeObj = {
@@ -29,7 +30,11 @@ function getChangeType(feature, features, changeset) {
         return 'modifiedNew';
     }
     if (version === 1) {
-        if (props.uid === parseInt(changeset.uid)) {
+        if (props.uid === parseInt(changeset.uid) && 
+                moment(props.timestamp) > moment(changeset.from) &&
+                moment(props.timestamp) < moment(changeset.to)
+            ) {
+            // console.log("timestamps", props.timestamp, changeset.from, changeset.to);
             return 'added';
         } else {
             return 'deleted';
