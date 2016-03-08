@@ -19,10 +19,12 @@ var query = function(changesetID, callback) {
             }
             var elements = response.body.elements;
             var geojson = overpassToGeoJSON(elements);
-            var changeObj = geojsonChanges(geojson, changeset);
-            changeObj['changeset'] = changeset;
-            console.log('changeObj', changeObj);
-            return callback(null, changeObj);
+            var changedGeoJSON = geojsonChanges(geojson, changeset);
+            var ret = {
+                'geojson': changedGeoJSON,
+                'changeset': changeset
+            };
+            return callback(null, ret);
         });
 
     });

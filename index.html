@@ -20,7 +20,17 @@
                 border: 1px solid rgba(0,0,0,0.4);
                 font-family: 'Open Sans', sans-serif;
             }
-
+            #feature {
+                background: rgba(255,255,255,0.7);
+                position: absolute;
+                z-index: 1;
+                top: 10px;
+                right: 10px;
+                border-radius: 3px;
+                width: 400px;
+                border: 1px solid rgba(0,0,0,0.4);
+                font-family: 'Open Sans', sans-serif;
+            }
             #menu a {
                 font-size: 13px;
                 color: #404040;
@@ -58,7 +68,10 @@
             <button id="submitChangeset">Submit</button>
         </div>
         <div id="map"></div>
-        <div id="menu"></div>
+        <!-- <div id="menu"></div> -->
+        <div id="feature">
+            <pre id="properties"></pre>
+        </div>
         <script src="dist/bundle.js"></script>
     </body>
 </html>

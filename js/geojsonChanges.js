@@ -12,10 +12,10 @@ function getChanges(geojson, changeset) {
 
     features.forEach(function(feature) {
         var type = getChangeType(feature, features, changeset);
-        changeObj[type].features.push(feature);
+        feature.properties.changeType = type;
     });
 
-    return changeObj;
+    return geojson;
 }
 
 function getChangeType(feature, features, changeset) {
