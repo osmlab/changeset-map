@@ -282,34 +282,19 @@ var overpass = require('./overpass');
 var config = require('./config');
 
 function render(id, options) {
-    var options = options || {};
+    options = options || {};
     var container = options.container || 'map';
     mapboxgl.accessToken = config.mapboxAccessToken;
+
     window.map = new mapboxgl.Map({
         container: container,
         style: 'mapbox://styles/planemad/cijcefp3q00elbskq4cgvcivf',
-        //style: 'mapbox://styles/mapbox/streets-v8',
         center: [0, 0],
         zoom: 3
     });
 
     overpass.query(id, function(err, result) {
-        // var layers = {
-        //     'added': {
-        //         'color': '#0f0'
-        //     },
-        //     'modifiedOld': {
-        //         'color': '#888'
-        //     },
-        //     'modifiedNew': {
-        //         'color': '#ff6'
-        //     },
-        //     'deleted': {
-        //         'color': '#f00'
-        //     }
-        // };
         var bbox = result.changeset.bbox;
-        console.log('doing map stuff', result.geojson);
         map.addSource('changeset', {
             'type': 'geojson',
             'data': result.geojson
@@ -318,7 +303,6 @@ function render(id, options) {
             'id': 'changeset-line',
             'source': 'changeset',
             'type': 'line',
-            'interactive': true,
             'layout': {
                 'line-join': 'round',
                 'line-cap': 'round',
@@ -336,7 +320,6 @@ function render(id, options) {
             'id': 'changeset-point',
             'source': 'changeset',
             'type': 'circle',
-            'interactive': true,
             'layout': {
                 'visibility': 'visible'
             },
@@ -352,6 +335,7 @@ function render(id, options) {
             'id': 'added-line',
             'source': 'changeset',
             'type': 'line',
+            'interactive': true,
             'layout': {
                 'visibility': 'visible'
             },
@@ -367,6 +351,7 @@ function render(id, options) {
             'id': 'added-point',
             'source': 'changeset',
             'type': 'circle',
+            'interactive': true,
             'layout': {
                 'visibility': 'visible'
             },
@@ -382,6 +367,7 @@ function render(id, options) {
             'id': 'modified-old-line',
             'source': 'changeset',
             'type': 'line',
+            'interactive': true,
             'layout': {
                 'visibility': 'visible'
             },
@@ -397,6 +383,7 @@ function render(id, options) {
             'id': 'modified-old-point',
             'source': 'changeset',
             'type': 'circle',
+            'interactive': true,
             'layout': {
                 'visibility': 'visible'
             },
@@ -412,6 +399,7 @@ function render(id, options) {
             'id': 'modified-new-line',
             'source': 'changeset',
             'type': 'line',
+            'interactive': true,
             'layout': {
                 'visibility': 'visible'
             },
@@ -427,6 +415,7 @@ function render(id, options) {
             'id': 'modified-new-point',
             'source': 'changeset',
             'type': 'circle',
+            'interactive': true,
             'layout': {
                 'visibility': 'visible'
             },
@@ -442,6 +431,7 @@ function render(id, options) {
             'id': 'deleted-line',
             'source': 'changeset',
             'type': 'line',
+            'interactive': true,
             'layout': {
                 'visibility': 'visible'
             },
@@ -457,6 +447,7 @@ function render(id, options) {
             'id': 'deleted-point',
             'source': 'changeset',
             'type': 'circle',
+            'interactive': true,
             'layout': {
                 'visibility': 'visible'
             },
@@ -475,16 +466,21 @@ function render(id, options) {
             map.featuresAt(e.point, {
                 'radius': 5,
                 'layer': [
-                    'changeset-line',
-                    'changeset-point'
+                    'added-line',
+                    'added-point',
+                    'modified-old-line',
+                    'modified-old-point',
+                    'modified-new-line',
+                    'modified-new-point',
+                    'deleted-line',
+                    'deleted-point'
                 ]
             }, function(err, features) {
-                console.log('featuresAt callback called', features);
                 if (err) {
-                    console.log('featuresAt error', err);
+                    throw err;
+                    return;
                 }
-                if (!err && features.length) {
-                    console.log('features at', features);
+                if (features.length) {
                     map.setFilter('changeset-line', [
                         '==', 'id', features[0].properties.id
                     ]);
@@ -503,30 +499,6 @@ function render(id, options) {
                 }
             });
         });
-        // Object.keys(layers).forEach(function(layerName) {
-        //     if (result[layerName].features.length > 0) {
-        //         console.log('geojson', layerName, result[layerName]);
-        //         map.addSource(layerName, {
-        //             'type': 'geojson',
-        //             'data': result[layerName]
-        //         });
-        //         map.addLayer({
-        //             "id": layerName,
-        //             "type": "line",
-        //             "source": layerName,
-        //             "layout": {
-        //                 "line-join": "round",
-        //                 "line-cap": "round",
-        //                 "visibility": "visible"
-        //             },
-        //             "paint": {
-        //                 "line-color": layers[layerName].color,
-        //                 "line-width": 8
-        //             }
-        //         });
-        //         addLayer(layerName, layerName);
-        //     }
-        // });
         var bounds = [
             [bbox.left, bbox.top],
             [bbox.right, bbox.bottom]
