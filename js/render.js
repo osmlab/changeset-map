@@ -182,8 +182,7 @@ function render(id, options) {
 
             
         });
-        map.on('mousemove', function(e) {
-            console.log('mouse moved', e);
+        map.on('click', function(e) {
             map.featuresAt(e.point, {
                 'radius': 5,
                 'layer': [
