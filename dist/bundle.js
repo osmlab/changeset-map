@@ -11,21 +11,28 @@ module.exports = config;
 var moment = require('moment');
 
 function getChanges(geojson, changeset) {
-    var changeObj = {
-        'added': getEmptyFeatureCollection(),
-        'modifiedOld': getEmptyFeatureCollection(),
-        'modifiedNew': getEmptyFeatureCollection(),
-        'deleted': getEmptyFeatureCollection()
-    };
-    
     var features = geojson.features;
+    var featureMap = {};
+    var changeGeoJSON = {
+        'type': 'FeatureCollection',
+        'features': []
+    };
+    for (var i = 0, len = features.length; i < len; i++) {
+        var id = features[i].properties.id;
+        featureMap[id] = featureMap[id] || [];
+        featureMap[id].push(features[i]);
+    }
 
-    features.forEach(function(feature) {
-        var type = getChangeType(feature, features, changeset);
-        feature.properties.changeType = type;
-    });
+    for (var osmID in featureMap) {
+        for (var j = 0; j < featureMap[osmID].length; j++) {
+            var f = featureMap[osmID][j];
+            var type = getChangeType(f, featureMap, changeset);
+            f.properties.changeType = type;
+            changeGeoJSON.features.push(f);
+        }
+    }
 
-    return geojson;
+    return changeGeoJSON;
 }
 
 function getChangeType(feature, features, changeset) {
@@ -54,9 +61,10 @@ function getChangeType(feature, features, changeset) {
 }
 
 function hasNextVersion(version, feature, features) {
-    for (var i = 0; i < features.length; i++) {
-        var f = features[i].properties;
-        if (f.id === feature.properties.id && f.version === (version + 1)) {
+    var id = feature.properties.id;
+    for (var i = 0; i < features[id].length; i++) {
+        var f = features[id][i];
+        if (f.properties.version === (version +1)) {
             return f;
         }
     }
@@ -67,21 +75,16 @@ function hasPreviousVersion(version, feature, features) {
     if (version === 1) {
         return false;
     }
-    for (var i = 0; i < features.length; i++) {
-        var f = features[i].properties;
-        if (f.id === feature.properties.id && f.version === (version - 1)) {
+    var id = feature.properties.id;
+    for (var i = 0; i < features[id].length; i++) {
+        var f = features[id][i];
+        if (f.properties.version === (version - 1)) {
             return f;
         }
     }
     return false;
 }
 
-function getEmptyFeatureCollection() {
-    return {
-        'type': 'FeatureCollection',
-        'features': []
-    };
-}
 
 module.exports = getChanges;
 },{"moment":164}],3:[function(require,module,exports){
