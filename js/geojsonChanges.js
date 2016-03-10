@@ -22,7 +22,10 @@ function getChanges(geojson, changeset) {
         }
     }
 
-    return changeGeoJSON;
+    return {
+        'featureMap': featureMap,
+        'geojson': changeGeoJSON
+    };
 }
 
 function getChangeType(feature, features, changeset) {

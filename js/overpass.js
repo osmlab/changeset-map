@@ -19,14 +19,15 @@ var query = function(changesetID, callback) {
             }
             var elements = response.body.elements;
             var geojson = overpassToGeoJSON(elements);
-            var changedGeoJSON = geojsonChanges(geojson, changeset);
+            var changes = geojsonChanges(geojson, changeset);
+
             var ret = {
-                'geojson': changedGeoJSON,
+                'geojson': changes.geojson,
+                'featureMap': changes.featureMap,
                 'changeset': changeset
             };
             return callback(null, ret);
         });
-
     });
 };
 

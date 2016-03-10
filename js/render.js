@@ -1,5 +1,6 @@
 var mapboxgl = require('mapbox-gl');
 var overpass = require('./overpass');
+var propsDiff = require('./propsDiff');
 var config = require('./config');
 
 function render(id, options) {
@@ -16,6 +17,7 @@ function render(id, options) {
 
     overpass.query(id, function(err, result) {
         var bbox = result.changeset.bbox;
+        var featureMap = result.featureMap;
         map.addSource('changeset', {
             'type': 'geojson',
             'data': result.geojson
@@ -207,7 +209,7 @@ function render(id, options) {
                     map.setFilter('changeset-point', [
                         '==', 'id', features[0].properties.id
                     ]);
-                    displayProperties(features[0]);
+                    displayProperties(features[0].properties.id, featureMap);
                 } else {
                     map.setFilter('changeset-line', [
                         '==', 'id', ''
@@ -226,13 +228,40 @@ function render(id, options) {
         map.fitBounds(bounds);
     });
 
-    function displayProperties(feature) {
-        var json = JSON.stringify(feature.properties, null, 2);
-        document.getElementById('properties').innerHTML = json;
+    function displayProperties(id, featureMap) {
+        var featuresWithId = featureMap[id];
+        var propsArray = featuresWithId.map(function(f) {
+            return f.properties;
+        });
+        var diff = propsDiff(propsArray);
+        var diffHTML = getDiffHTML(diff);
+        // console.log('props diff', diff);
+        // var json = JSON.stringify(propsArray, null, 2);
+        document.getElementById('properties').appendChild(diffHTML);
     }
 
     function clearProperties() {
         document.getElementById('properties').innerHTML = '';
+    }
+
+    function getDiffHTML(diff) {
+        var root = document.createElement('div');
+        root.classList.add('diff-list');
+        var types = ['added', 'unchanged', 'deleted', 'modifiedOld', 'modifiedNew'];
+        for (var prop in diff) {
+            types.forEach(function(type) {
+                if (diff[prop].hasOwnProperty(type)) {
+                    var elem = document.createElement('div');
+                    elem.classList.add('diff-property');
+                    elem.classList.add(type);
+
+                    var text = prop + ": " + diff[prop][type];
+                    elem.textContent = text;
+                    root.appendChild(elem);
+                }
+            });
+        }
+        return root;
     }
 
     function addLayer(name, id) {
