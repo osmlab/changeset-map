@@ -237,6 +237,7 @@ function render(id, options) {
         var diffHTML = getDiffHTML(diff);
         // console.log('props diff', diff);
         // var json = JSON.stringify(propsArray, null, 2);
+        document.getElementById('properties').innerHTML = '';
         document.getElementById('properties').appendChild(diffHTML);
     }
 
