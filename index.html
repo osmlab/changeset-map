@@ -9,6 +9,22 @@
         <style>
             body { margin:0; padding:0; }
             #map { position:absolute; top:0; bottom:0; width:100%; }
+            #loading { 
+                position:fixed;
+                top:0;
+                bottom:0;
+                width:100%;
+                z-index: 100;
+                background: rgba(255,255,255,0.9);
+            }
+            #loading img {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                -ms-transform: translateX(-50%) translateY(-50%);
+                -webkit-transform: translateX(-50%) translateY(-50%);
+                transform: translateX(-50%) translateY(-50%); 
+            }
             #formContainer { position:absolute; z-index: 10;}
             #menu {
                 background: #fff;
@@ -64,13 +80,16 @@
         </style>
     </head>
     <body>
+        <div id="loading" style="display:none;">
+            <img src="img/loading.gif" />
+        </div>
         <div id="formContainer">
             <input id="changesetInput" value="" />
             <button id="submitChangeset">Submit</button>
         </div>
         <div id="map"></div>
         <!-- <div id="menu"></div> -->
-        <div id="feature">
+        <div id="feature" style="display:none;">
             <div id="properties"></div>
         </div>
         <script src="dist/bundle.js"></script>

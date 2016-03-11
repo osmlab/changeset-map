@@ -4,6 +4,7 @@ var propsDiff = require('./propsDiff');
 var config = require('./config');
 
 function render(id, options) {
+    document.getElementById('loading').style.display = 'block';
     options = options || {};
     var container = options.container || 'map';
     mapboxgl.accessToken = config.mapboxAccessToken;
@@ -16,6 +17,12 @@ function render(id, options) {
     });
 
     overpass.query(id, function(err, result) {
+        if (err) {
+            alert("An unexpected error occured");
+            console.log(err);
+            return;
+        }
+        document.getElementById('loading').style.display = 'none';
         var bbox = result.changeset.bbox;
         var featureMap = result.featureMap;
         map.addSource('changeset', {
@@ -239,10 +246,12 @@ function render(id, options) {
         // var json = JSON.stringify(propsArray, null, 2);
         document.getElementById('properties').innerHTML = '';
         document.getElementById('properties').appendChild(diffHTML);
+        document.getElementById('feature').style.display = 'block';
     }
 
     function clearProperties() {
         document.getElementById('properties').innerHTML = '';
+        document.getElementById('feature').style.display = 'none';
     }
 
     function getDiffHTML(diff) {
