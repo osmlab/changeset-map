@@ -3,15 +3,15 @@
 }
 
 .diff-list .unchanged {
-    color: #111;
+    color: #333;
 }
 
 .diff-list .modifiedOld {
-    color: #646d27;
+    color: #6d6b42;
 }
 
 .diff-list .modifiedNew {
-    color: #899923;
+    color: #999441;
 }
 
 .diff-list .deleted {
