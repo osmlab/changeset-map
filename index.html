@@ -6,6 +6,7 @@
         <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
         <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.14.2/mapbox-gl.css' rel='stylesheet' />
         <link href='css/style.css' rel='stylesheet' />
+        <link href='https://www.mapbox.com/base/latest/base.css' rel='stylesheet' />
         <style>
             body { margin:0; padding:0; }
             #map { position:absolute; top:0; bottom:0; width:100%; }
@@ -32,7 +33,8 @@
                 left: 50%;
                 -ms-transform: translateX(-50%) translateY(-50%);
                 -webkit-transform: translateX(-50%) translateY(-50%);
-                transform: translateX(-50%) translateY(-50%);                 
+                transform: translateX(-50%) translateY(-50%);
+                text-align: center;
             }
             #menu {
                 background: #fff;
@@ -67,7 +69,12 @@
                 border-bottom: 1px solid rgba(0,0,0,0.25);
                 text-align: center;
             }
-
+            #submitChangeset {
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                margin-top: 8px;
+            }
             #menu a:last-child {
                 border: none;
             }
@@ -93,8 +100,8 @@
         </div>
         <div id="formContainer">
             <form id="changesetForm">
-                <input id="changesetInput" value="" />
-                <button id="submitChangeset">Submit</button>
+                <input id="changesetInput" value="" placeholder="Changeset ID" />
+                <button id="submitChangeset" class="button">Submit</button>
             </form>
         </div>
         <div id="map"></div>
