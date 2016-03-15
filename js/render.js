@@ -18,8 +18,13 @@ function render(id, options) {
 
     overpass.query(id, function(err, result) {
         if (err) {
-            alert("An unexpected error occured");
-            console.log(err);
+            if (err.msg) {
+                alert(err.msg);
+                console.log(err.error);
+            } else {
+                alert("An unexpected error occured");
+                console.log(err);
+            }
             return;
         }
         document.getElementById('loading').style.display = 'none';

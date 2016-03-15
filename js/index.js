@@ -6,8 +6,8 @@ if (hash !== '') {
     render(hash, {});
 }
 
-document.getElementById('submitChangeset').addEventListener('click', function(e) {
-    console.log('click fired');
+document.getElementById('changesetForm').addEventListener('submit', function(e) {
+    e.preventDefault();
     document.getElementById('formContainer').style.display = 'none';
     var changesetID = document.getElementById('changesetInput').value;
     location.hash = changesetID;

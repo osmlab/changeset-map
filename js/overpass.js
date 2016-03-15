@@ -6,6 +6,12 @@ var geojsonChanges = require('./geojsonChanges');
 
 var query = function(changesetID, callback) {
     osm.query(changesetID, function(err, changeset) {
+        if (err) {
+            callback({
+                'msg': 'OSM Query failed. Are you sure you entered a valid changeset id?',
+                'error': err
+            }, null);
+        }
         var data = getDataParam(changeset);
         var bbox = getBboxParam(changeset.bbox);
         var url = config.overpassBase + '?data=' + data + '&bbox=' + bbox;
@@ -15,7 +21,10 @@ var query = function(changesetID, callback) {
         xhr.get(url, xhrOptions, function(err, response) {
             console.log('overpass response', response);
             if (err) {
-                return callback(err, null);
+                return callback({
+                    'msg': 'Overpass query failed.',
+                    'error': err
+                }, null);
             }
             var elements = response.body.elements;
             var geojson = overpassToGeoJSON(elements);

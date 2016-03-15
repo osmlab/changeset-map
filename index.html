@@ -25,7 +25,15 @@
                 -webkit-transform: translateX(-50%) translateY(-50%);
                 transform: translateX(-50%) translateY(-50%); 
             }
-            #formContainer { position:absolute; z-index: 10;}
+            #formContainer { 
+                position:absolute;
+                z-index: 10;
+                top: 50%;
+                left: 50%;
+                -ms-transform: translateX(-50%) translateY(-50%);
+                -webkit-transform: translateX(-50%) translateY(-50%);
+                transform: translateX(-50%) translateY(-50%);                 
+            }
             #menu {
                 background: #fff;
                 position: absolute;
@@ -84,8 +92,10 @@
             <img src="img/loading.gif" />
         </div>
         <div id="formContainer">
-            <input id="changesetInput" value="" />
-            <button id="submitChangeset">Submit</button>
+            <form id="changesetForm">
+                <input id="changesetInput" value="" />
+                <button id="submitChangeset">Submit</button>
+            </form>
         </div>
         <div id="map"></div>
         <!-- <div id="menu"></div> -->
