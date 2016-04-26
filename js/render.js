@@ -210,13 +210,8 @@ function render(id, options) {
             }, function(err, features) {
                 if (err) {
                     throw err;
-                    return;
                 }
-                if (features.length) {
-                    map.getCanvas().style.cursor = 'pointer';
-                } else {
-                    map.getCanvas().style.cursor = 'default';
-                }
+                map.getCanvas().style.cursor = (features.length) ? 'pointer' : 'default';
             });
         });
         map.on('click', function(e) {
@@ -235,7 +230,6 @@ function render(id, options) {
             }, function(err, features) {
                 if (err) {
                     throw err;
-                    return;
                 }
                 if (features.length) {
                     map.setFilter('changeset-line', [
