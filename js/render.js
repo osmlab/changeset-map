@@ -28,6 +28,7 @@ function render(id, options) {
             return;
         }
         document.getElementById('loading').style.display = 'none';
+        document.getElementById('layerSelector').style.display = 'block';
         var bbox = result.changeset.bbox;
         var featureMap = result.featureMap;
         map.addSource('changeset', {
