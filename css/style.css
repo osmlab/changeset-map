@@ -1,6 +1,7 @@
 body {
     margin:0;
     padding:0;
+    font: 13px 'Open Sans', sans-serif;
 }
 
 #map {
@@ -48,18 +49,18 @@ body {
     border-radius: 3px;
     width: 120px;
     border: 1px solid rgba(0,0,0,0.4);
-    font-family: 'Open Sans', sans-serif;
 }
 
 #diff {
-    background: rgba(255,255,255,0.9);
     position: absolute;
     z-index: 1;
     top: 10px;
     right: 10px;
     padding: 20px;
+    background: #f5f5f5;
     border-radius: 5px;
-    font-family: 'Open Sans', sans-serif;
+    max-height: 90%;
+    overflow-y: scroll;
 }
 
 #menu a {
@@ -97,4 +98,26 @@ body {
 
 #menu a.active:hover {
     background: #3074a4;
+}
+
+.diff-table {
+    border-collapse: collapse;
+}
+
+.diff-table,
+.diff-table th,
+.diff-table td {
+    border: 1px solid #c1dad7;
+    padding: 6px 12px;
+}
+
+.diff-table tr:nth-of-type(even) {
+    background: #fff;
+}
+.diff-table tr:nth-of-type(odd) {
+    background: #f5fafa;
+}
+
+.diff-table tr:hover {
+    background: #e5f3f3;
 }
