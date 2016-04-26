@@ -193,8 +193,26 @@ function render(id, options) {
             'filter': [
                 '==', 'changeType', 'deleted'
             ]
-
-            
+        });
+        map.on('mousemove', function(e) {
+            map.featuresAt(e.point, {
+                'radius': 5,
+                'layer': [
+                    'added-line',
+                    'added-point',
+                    'modified-old-line',
+                    'modified-old-point',
+                    'modified-new-line',
+                    'modified-new-point',
+                    'deleted-line',
+                    'deleted-point'
+                ]
+            }, function(err, features) {
+                if (err) {
+                    throw err;
+                }
+                map.getCanvas().style.cursor = (features.length) ? 'pointer' : 'default';
+            });
         });
         map.on('click', function(e) {
             map.featuresAt(e.point, {
@@ -212,7 +230,6 @@ function render(id, options) {
             }, function(err, features) {
                 if (err) {
                     throw err;
-                    return;
                 }
                 if (features.length) {
                     map.setFilter('changeset-line', [
