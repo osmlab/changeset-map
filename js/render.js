@@ -28,6 +28,7 @@ function render(id, options) {
             return;
         }
         document.getElementById('loading').style.display = 'none';
+        document.getElementById('layerSelector').style.display = 'block';
         var bbox = result.changeset.bbox;
         var featureMap = result.featureMap;
         map.addSource('changeset', {
@@ -255,6 +256,51 @@ function render(id, options) {
             [bbox.right, bbox.bottom]
         ];
         map.fitBounds(bounds);
+
+        var layersKey = {
+            'added': [
+                'added-line',
+                'added-point'
+            ],
+            'modified': [
+                'modified-old-line',
+                'modified-old-point',
+                'modified-new-line',
+                'modified-new-point'
+            ],
+            'deleted': [
+                'deleted-line',
+                'deleted-point'
+            ]
+        };
+        var selectedLayers = [
+            'added-line',
+            'added-point',
+            'modified-old-line',
+            'modified-old-point',
+            'modified-new-line',
+            'modified-new-point',
+            'deleted-line',
+            'deleted-point'
+        ];
+        var layerSelector = document.getElementById('layerSelector');
+        layerSelector.addEventListener('change', function(e) {
+            console.log(e.target.checked, e.target.value);
+            var key = e.target.value;
+            if (e.target.checked) {
+                selectedLayers = selectedLayers.concat(layersKey[key]);
+                layersKey[key].forEach(function(layer) {
+                    map.setLayoutProperty(layer, 'visibility', 'visible');
+                })
+            } else {
+                selectedLayers = selectedLayers.filter(function(layer) {
+                    return !layer in layersKey[key];
+                });
+                layersKey[key].forEach(function(layer) {
+                    map.setLayoutProperty(layer, 'visibility', 'none');
+                });
+            }
+        });
     });
 
     function displayDiff(id, featureMap) {
