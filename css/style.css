@@ -1,6 +1,7 @@
 body {
     margin:0;
     padding:0;
+    font: 13px 'Open Sans', sans-serif;
 }
 
 #map {
@@ -48,19 +49,18 @@ body {
     border-radius: 3px;
     width: 120px;
     border: 1px solid rgba(0,0,0,0.4);
-    font-family: 'Open Sans', sans-serif;
 }
 
-#feature {
-    background: rgba(255,255,255,0.9);
+#diff {
     position: absolute;
     z-index: 1;
     top: 10px;
     right: 10px;
-    border-radius: 3px;
-    width: 400px;
-    border: 1px solid rgba(0,0,0,0.4);
-    font-family: 'Open Sans', sans-serif;
+    padding: 20px;
+    background: #f5f5f5;
+    border-radius: 5px;
+    max-height: 90%;
+    overflow-y: scroll;
 }
 
 #menu a {
@@ -100,22 +100,24 @@ body {
     background: #3074a4;
 }
 
-.diff-list .added {
-    color: #2f6325;
+.diff-table {
+    border-collapse: collapse;
 }
 
-.diff-list .unchanged {
-    color: #333;
+.diff-table,
+.diff-table th,
+.diff-table td {
+    border: 1px solid #c1dad7;
+    padding: 6px 12px;
 }
 
-.diff-list .modifiedOld {
-    color: #6d6b42;
+.diff-table tr:nth-of-type(even) {
+    background: #fff;
+}
+.diff-table tr:nth-of-type(odd) {
+    background: #f5fafa;
 }
 
-.diff-list .modifiedNew {
-    color: #999441;
-}
-
-.diff-list .deleted {
-    color: #722121;
+.diff-table tr:hover {
+    background: #e5f3f3;
 }

@@ -221,7 +221,7 @@ function render(id, options) {
                     map.setFilter('changeset-point', [
                         '==', 'id', features[0].properties.id
                     ]);
-                    displayProperties(features[0].properties.id, featureMap);
+                    displayDiff(features[0].properties.id, featureMap);
                 } else {
                     map.setFilter('changeset-line', [
                         '==', 'id', ''
@@ -229,7 +229,7 @@ function render(id, options) {
                     map.setFilter('changeset-point', [
                         '==', 'id', ''
                     ]);
-                    clearProperties();
+                    clearDiff();
                 }
             });
         });
@@ -240,41 +240,53 @@ function render(id, options) {
         map.fitBounds(bounds);
     });
 
-    function displayProperties(id, featureMap) {
+    function displayDiff(id, featureMap) {
         var featuresWithId = featureMap[id];
         var propsArray = featuresWithId.map(function(f) {
             return f.properties;
         });
+
         var diff = propsDiff(propsArray);
         var diffHTML = getDiffHTML(diff);
-        // console.log('props diff', diff);
-        // var json = JSON.stringify(propsArray, null, 2);
-        document.getElementById('properties').innerHTML = '';
-        document.getElementById('properties').appendChild(diffHTML);
-        document.getElementById('feature').style.display = 'block';
+
+        document.getElementById('diff').innerHTML = '';
+        document.getElementById('diff').appendChild(diffHTML);
+        document.getElementById('diff').style.display = 'block';
     }
 
-    function clearProperties() {
-        document.getElementById('properties').innerHTML = '';
-        document.getElementById('feature').style.display = 'none';
+    function clearDiff() {
+        document.getElementById('diff').innerHTML = '';
+        document.getElementById('diff').style.display = 'none';
     }
 
     function getDiffHTML(diff) {
-        var root = document.createElement('div');
-        root.classList.add('diff-list');
+        var root = document.createElement('table');
+        root.classList.add('diff-table');
+
         var types = ['added', 'unchanged', 'deleted', 'modifiedOld', 'modifiedNew'];
         for (var prop in diff) {
+            var tr = document.createElement('tr');
+
+            var th = document.createElement('th');
+            th.textContent = prop;
+            tr.appendChild(th);
+
             types.forEach(function(type) {
                 if (diff[prop].hasOwnProperty(type)) {
-                    var elem = document.createElement('div');
-                    elem.classList.add('diff-property');
-                    elem.classList.add(type);
+                    var td = document.createElement('td');
+                    td.classList.add('diff-property');
+                    td.classList.add(type);
 
-                    var text = prop + ": " + diff[prop][type];
-                    elem.textContent = text;
-                    root.appendChild(elem);
+                    td.textContent = diff[prop][type];
+                    tr.appendChild(td);
+
+                    if (type == "unchanged") {
+                        tr.appendChild(td.cloneNode(true));
+                    }
                 }
             });
+
+            root.appendChild(tr);
         }
         return root;
     }
