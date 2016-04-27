@@ -76,8 +76,8 @@ function render(id, options) {
                 'visibility': 'visible'
             },
             'paint': {
-                'line-color': '#0f0',
-                'line-width': 1
+                'line-color': '#859900',
+                'line-width': 2
             },
             'filter': [
                 '==', 'changeType', 'added'
@@ -92,8 +92,9 @@ function render(id, options) {
                 'visibility': 'visible'
             },
             'paint': {
-                'circle-radius': 2,
-                'circle-color': '#0f0'
+                'circle-color': '#859900',
+                'circle-radius': 3,
+                'circle-blur': 1
             },
             'filter': [
                 '==', 'changeType', 'added'
@@ -108,8 +109,8 @@ function render(id, options) {
                 'visibility': 'visible'
             },
             'paint': {
-                'line-color': '#ccc',
-                'line-width': 1
+                'line-color': '#fdf6e3',
+                'line-width': 2
             },
             'filter': [
                 '==', 'changeType', 'modifiedOld'
@@ -124,8 +125,9 @@ function render(id, options) {
                 'visibility': 'visible'
             },
             'paint': {
-                'circle-radius': 2,
-                'circle-color': '#fff'
+                'circle-color': '#fdf6e3',
+                'circle-radius': 3,
+                'circle-blue': 1
             },
             'filter': [
                 '==', 'changeType', 'modifiedOld'
@@ -140,8 +142,8 @@ function render(id, options) {
                 'visibility': 'visible'
             },
             'paint': {
-                'line-color': '#ff0',
-                'line-width': 1
+                'line-color': '#b58900',
+                'line-width': 2
             },
             'filter': [
                 '==', 'changeType', 'modifiedNew'
@@ -156,8 +158,9 @@ function render(id, options) {
                 'visibility': 'visible'
             },
             'paint': {
-                'circle-radius': 2,
-                'circle-color': '#B0AD4D'
+                'circle-color': '#b58900',
+                'circle-radius': 3,
+                'circle-blur': 1
             },
             'filter': [
                 '==', 'changeType', 'modifiedNew'
@@ -172,8 +175,8 @@ function render(id, options) {
                 'visibility': 'visible'
             },
             'paint': {
-                'line-color': '#f00',
-                'line-width': 1
+                'line-color': '#dc322f',
+                'line-width': 2
             },
             'filter': [
                 '==', 'changeType', 'deleted'
@@ -188,8 +191,9 @@ function render(id, options) {
                 'visibility': 'visible'
             },
             'paint': {
-                'circle-radius': 2,
-                'circle-color': '#9E1010'
+                'circle-color': '#dc322f',
+                'circle-radius': 3,
+                'circle-blur': 1
             },
             'filter': [
                 '==', 'changeType', 'deleted'
