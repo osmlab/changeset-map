@@ -6,15 +6,12 @@ Heavily inspired by the ACHAVI Changeset Viewer: http://wiki.openstreetmap.org/w
 
 ### Setup
 
- - `npm install`
- - `npm install -g watchify`
- - `npm install -g browserify`
+ Install dependencies using `npm install`.
 
  ### Test Locally
 
- Run `npm start` to start the `watchify` process to watch for changes to your files and re-build.
- In another terminal, use your favourite way to serve a local directory - eg. `serve` or `python -m SimpleHTTPServer`. Go to the browser at the port where your local webserver is running. eg. `http://localhost:3000`
+ Run `npm run start` to start a server and `watchify` process to watch for changes to your files and re-build. Go to the browser at the port where the webserver is running. eg. `http://localhost:8080`
 
  ### Build
 
- To build files, run `npm build`.
+ To build files, run `npm run build`.
