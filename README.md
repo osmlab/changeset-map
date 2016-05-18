@@ -8,10 +8,10 @@ Heavily inspired by the ACHAVI Changeset Viewer: http://wiki.openstreetmap.org/w
 
  Install dependencies using `npm install`.
 
- ### Test Locally
+### Test Locally
 
- Run `npm run start` to start a server and `watchify` process to watch for changes to your files and re-build. Go to the browser at the port where the webserver is running. eg. `http://localhost:8080`
+Run `npm run start` to start a server and `watchify` process to watch for changes to your files and re-build. Go to the browser at the port where the webserver is running. eg. `http://localhost:8080`
 
- ### Build
+### Build
 
- To build files, run `npm run build`.
+To build files, run `npm run build`.
