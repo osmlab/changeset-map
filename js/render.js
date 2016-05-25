@@ -220,9 +220,10 @@ function render(id, options) {
             });
         });
         map.on('click', function(e) {
-            map.featuresAt(e.point, {
-                'radius': 5,
-                'layer': [
+            var x1y1 = [e.point.x - 5, e.point.y - 5];
+            var x2y2 = [e.point.x + 5, e.point.y + 5];
+            var features = map.queryRenderedFeatures([x1y1, x2y2], {
+                'layers': [
                     'added-line',
                     'added-point',
                     'modified-old-line',
@@ -232,28 +233,24 @@ function render(id, options) {
                     'deleted-line',
                     'deleted-point'
                 ]
-            }, function(err, features) {
-                if (err) {
-                    throw err;
-                }
-                if (features.length) {
-                    map.setFilter('changeset-line', [
-                        '==', 'id', features[0].properties.id
-                    ]);
-                    map.setFilter('changeset-point', [
-                        '==', 'id', features[0].properties.id
-                    ]);
-                    displayDiff(features[0].properties.id, featureMap);
-                } else {
-                    map.setFilter('changeset-line', [
-                        '==', 'id', ''
-                    ]);
-                    map.setFilter('changeset-point', [
-                        '==', 'id', ''
-                    ]);
-                    clearDiff();
-                }
             });
+            if (features.length) {
+                map.setFilter('changeset-line', [
+                    '==', 'id', features[0].properties.id
+                ]);
+                map.setFilter('changeset-point', [
+                    '==', 'id', features[0].properties.id
+                ]);
+                displayDiff(features[0].properties.id, featureMap);
+            } else {
+                map.setFilter('changeset-line', [
+                    '==', 'id', ''
+                ]);
+                map.setFilter('changeset-point', [
+                    '==', 'id', ''
+                ]);
+                clearDiff();
+            }
         });
         var bounds = [
             [bbox.left, bbox.top],
