@@ -63,12 +63,15 @@ body {
     overflow-y: scroll;
 }
 
-#layerSelector {
-    position: absolute;
+.info {
     z-index: 1;
-    top: 10px;
-    left: 10px;
-    background: #f5f5f5;
+    padding: 20px;
+    width: 250px;
+}
+
+#sidebar {
+    position: absolute;
+    top: 0;
 }
 
 #layerSelector ul {
