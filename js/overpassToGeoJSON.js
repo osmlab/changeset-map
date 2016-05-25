@@ -76,7 +76,6 @@ function getWayGeoJSON(way) {
     } else {
         geomType = 'LineString';
     }
-    console.log('way', way);
     var coords = getCoords(way.geometry);
     if (geomType === 'Polygon') {
         coords = [coords];

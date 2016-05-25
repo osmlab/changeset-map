@@ -19,7 +19,6 @@ var query = function(changesetID, callback) {
             'responseType': 'json'
         };
         xhr.get(url, xhrOptions, function(err, response) {
-            console.log('overpass response', response);
             if (err) {
                 return callback({
                     'msg': 'Overpass query failed.',

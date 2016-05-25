@@ -267,7 +267,6 @@ function render(id, options) {
         ];
         var layerSelector = document.getElementById('layerSelector');
         layerSelector.addEventListener('change', function(e) {
-            console.log(e.target.checked, e.target.value);
             var key = e.target.value;
             if (e.target.checked) {
                 selectedLayers = selectedLayers.concat(layersKey[key]);
