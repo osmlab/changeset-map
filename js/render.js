@@ -32,7 +32,8 @@ function render(id, options) {
         document.getElementById('layerSelector').style.display = 'block';
         document.getElementById('changeset').text = id;
         document.getElementById('user').text = result.changeset.user;
-        document.getElementById('time').textContent = moment(result.changeset.to).format('MMMM Do YYYY, h:mm a');
+        var time = result.changeset.to ? result.changeset.to : result.changeset.from;
+        document.getElementById('time').textContent = moment(time).format('MMMM Do YYYY, h:mm a');
         document.getElementById('user').href = "https://openstreetmap.org/user/" + result.changeset.user;
         document.getElementById('changeset').href = "https://openstreetmap.org/changeset/" + id;
         document.getElementById('sidebar').style.display = 'block';
