@@ -134,7 +134,7 @@ function render(id, options) {
             'paint': {
                 'circle-color': '#fdf6e3',
                 'circle-radius': 3,
-                'circle-blue': 1
+                'circle-blur': 1
             },
             'filter': [
                 '==', 'changeType', 'modifiedOld'
