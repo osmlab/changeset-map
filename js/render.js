@@ -199,23 +199,7 @@ function render(id, options) {
                 '==', 'changeType', 'deleted'
             ]
         });
-        map.on('mousemove', function(e) {
-            var x1y1 = [e.point.x - 5, e.point.y - 5];
-            var x2y2 = [e.point.x + 5, e.point.y + 5];
-            var features = map.queryRenderedFeatures([x1y1, x2y2], {
-                'layers': [
-                    'added-line',
-                    'added-point',
-                    'modified-old-line',
-                    'modified-old-point',
-                    'modified-new-line',
-                    'modified-new-point',
-                    'deleted-line',
-                    'deleted-point'
-                ]
-            });
-            map.getCanvas().style.cursor = (features.length) ? 'pointer' : 'default';
-        });
+
         map.on('click', function(e) {
             var x1y1 = [e.point.x - 5, e.point.y - 5];
             var x2y2 = [e.point.x + 5, e.point.y + 5];
