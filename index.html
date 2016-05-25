@@ -21,12 +21,19 @@
         <div id="map"></div>
         <!-- <div id="menu"></div> -->
         <div id="diff" style="display:none;"></div>
-        <div id="layerSelector" style="display:none;">
-            <ul>
-                <li><input type="checkbox" value="added" checked>Added features</input></li>
-                <li><input type="checkbox" value="modified" checked>Modified features</input></li>
-                <li><input type="checkbox" value="deleted" checked>Deleted features</input></li>
-            </ul>
+        <div id="sidebar" class="pad1" style="display:none">
+            <div class="fill-grey info">
+                <a id="changeset" class="icon bolt" href=""></a><br>
+                <a id="user" class="icon account" href=""></a><br>
+                <span id="time" class="icon time"></span>
+            </div>
+            <div id="layerSelector" class="info fill-grey">
+                <ul>
+                    <li><input type="checkbox" value="added" checked>Added features</input></li>
+                    <li><input type="checkbox" value="modified" checked>Modified features</input></li>
+                    <li><input type="checkbox" value="deleted" checked>Deleted features</input></li>
+                </ul>
+            </div>
         </div>
         <script src="dist/bundle.js"></script>
     </body>

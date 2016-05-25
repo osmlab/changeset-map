@@ -23,6 +23,7 @@ var query = function(changesetID, callback) {
         var right = cs.max_lon.textContent;
         var top = cs.max_lat.textContent;
         var changeset = {
+            'id': changesetID,
             'uid': uid,
             'user': user,
             'from': from,

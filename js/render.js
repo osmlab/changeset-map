@@ -2,6 +2,7 @@ var mapboxgl = require('mapbox-gl');
 var overpass = require('./overpass');
 var propsDiff = require('./propsDiff');
 var config = require('./config');
+var moment = require('moment');
 
 function render(id, options) {
     document.getElementById('loading').style.display = 'block';
@@ -29,6 +30,12 @@ function render(id, options) {
         }
         document.getElementById('loading').style.display = 'none';
         document.getElementById('layerSelector').style.display = 'block';
+        document.getElementById('changeset').text = id;
+        document.getElementById('user').text = result.changeset.user;
+        document.getElementById('time').textContent = moment(result.changeset.to).format('MMMM Do YYYY, h:mm a');
+        document.getElementById('user').href = "https://openstreetmap.org/user/" + result.changeset.user;
+        document.getElementById('changeset').href = "https://openstreetmap.org/changeset/" + id;
+        document.getElementById('sidebar').style.display = 'block';
         var bbox = result.changeset.bbox;
         var featureMap = result.featureMap;
         map.addSource('changeset', {
