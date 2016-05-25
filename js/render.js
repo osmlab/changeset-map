@@ -200,9 +200,10 @@ function render(id, options) {
             ]
         });
         map.on('mousemove', function(e) {
-            map.featuresAt(e.point, {
-                'radius': 5,
-                'layer': [
+            var x1y1 = [e.point.x - 5, e.point.y - 5];
+            var x2y2 = [e.point.x + 5, e.point.y + 5];
+            var features = map.queryRenderedFeatures([x1y1, x2y2], {
+                'layers': [
                     'added-line',
                     'added-point',
                     'modified-old-line',
@@ -212,12 +213,8 @@ function render(id, options) {
                     'deleted-line',
                     'deleted-point'
                 ]
-            }, function(err, features) {
-                if (err) {
-                    throw err;
-                }
-                map.getCanvas().style.cursor = (features.length) ? 'pointer' : 'default';
             });
+            map.getCanvas().style.cursor = (features.length) ? 'pointer' : 'default';
         });
         map.on('click', function(e) {
             var x1y1 = [e.point.x - 5, e.point.y - 5];
