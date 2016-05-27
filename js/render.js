@@ -325,12 +325,28 @@ function render(id, options) {
 
             types.forEach(function(type) {
                 if (diff[prop].hasOwnProperty(type)) {
+                    if (type == "added") {
+                      var empty = document.createElement('td');
+                      empty.classList.add('diff-property');
+                      empty.classList.add(type);
+
+                      tr.appendChild(empty);
+                    }
+
                     var td = document.createElement('td');
                     td.classList.add('diff-property');
                     td.classList.add(type);
 
                     td.textContent = diff[prop][type];
                     tr.appendChild(td);
+
+                    if (type == "deleted") {
+                      var empty = document.createElement('td');
+                      empty.classList.add('diff-property');
+                      empty.classList.add(type);
+
+                      tr.appendChild(empty);
+                    }
 
                     if (type == "unchanged") {
                         tr.appendChild(td.cloneNode(true));
