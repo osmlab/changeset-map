@@ -40,10 +40,8 @@ function getChangeType(feature, features, changeset) {
         return 'modifiedNew';
     }
     if (version === 1) {
-        if (props.uid === parseInt(changeset.uid) && 
-                moment(props.timestamp) > moment(changeset.from) &&
-                moment(props.timestamp) < moment(changeset.to)
-            ) {
+        console.log ('foo', props, changeset);
+        if (props.uid === parseInt(changeset.uid) && props.changeset === parseInt(changeset.id)) {
             // console.log("timestamps", props.timestamp, changeset.from, changeset.to);
             return 'added';
         } else {
