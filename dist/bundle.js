@@ -103,7 +103,7 @@ document.getElementById('changesetForm').addEventListener('submit', function(e) 
     document.getElementById('formContainer').style.display = 'none';
     var changesetID = document.getElementById('changesetInput').value;
     location.hash = '/' + changesetID;
-    render(changesetID, {});
+    render(location.hash, {});
 });
 
 },{"./render":8}],4:[function(require,module,exports){
