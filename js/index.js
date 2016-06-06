@@ -9,6 +9,6 @@ document.getElementById('changesetForm').addEventListener('submit', function(e) 
     e.preventDefault();
     document.getElementById('formContainer').style.display = 'none';
     var changesetID = document.getElementById('changesetInput').value;
-    location.hash = '/' + changesetID;
+    location.hash = changesetID;
     render(location.hash, {});
 });

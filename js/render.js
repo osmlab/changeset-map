@@ -5,7 +5,8 @@ var config = require('./config');
 var moment = require('moment');
 
 function render(hash, options) {
-    var changesetId = hash.split('/')[1];
+    debugger;
+    var changesetId = hash.split('/')[0].replace('#', '');
 
     document.getElementById('loading').style.display = 'block';
     options = options || {};
@@ -283,7 +284,7 @@ function render(hash, options) {
             }
         });
 
-        var [, changesetId, geometryType, featureId] = hash.split('/');
+        var [, geometryType, featureId] = hash.split('/');
 
         if (geometryType && featureId) {
             selectFeature(featureMap[featureId][0], featureMap);
@@ -408,8 +409,11 @@ function render(hash, options) {
     }
 
     function clearHash() {
-      var changesetId = location.hash.split('/')[1];
-      location.hash = '/' + changesetId;
+      var changesetId = location.hash
+        .split('/')[0]
+        .replace('#', '');
+
+      location.hash = changesetId;
     }
 
     function selectFeature(feature, featureMap) {
