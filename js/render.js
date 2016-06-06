@@ -4,7 +4,9 @@ var propsDiff = require('./propsDiff');
 var config = require('./config');
 var moment = require('moment');
 
-function render(id, options) {
+function render(hash, options) {
+    var changesetId = hash.split('/')[1];
+
     document.getElementById('loading').style.display = 'block';
     options = options || {};
     var container = options.container || 'map';
@@ -17,7 +19,7 @@ function render(id, options) {
         zoom: 3
     });
 
-    overpass.query(id, function(err, result) {
+    overpass.query(changesetId, function(err, result) {
         if (err) {
             if (err.msg) {
                 alert(err.msg);
@@ -30,12 +32,12 @@ function render(id, options) {
         }
         document.getElementById('loading').style.display = 'none';
         document.getElementById('layerSelector').style.display = 'block';
-        document.getElementById('changeset').text = id;
+        document.getElementById('changeset').text = changesetId;
         document.getElementById('user').text = result.changeset.user;
         var time = result.changeset.to ? result.changeset.to : result.changeset.from;
         document.getElementById('time').textContent = moment(time).format('MMMM Do YYYY, h:mm a');
         document.getElementById('user').href = "https://openstreetmap.org/user/" + result.changeset.user;
-        document.getElementById('changeset').href = "https://openstreetmap.org/changeset/" + id;
+        document.getElementById('changeset').href = "https://openstreetmap.org/changeset/" + changesetId;
         document.getElementById('sidebar').style.display = 'block';
         var bbox = result.changeset.bbox;
         var featureMap = result.featureMap;
@@ -54,7 +56,7 @@ function render(id, options) {
             },
             'paint': {
                 'line-color': '#fff',
-                'line-width': 2
+                'line-width': 3
             },
             'filter': [
                 '==', 'id', ''
@@ -68,7 +70,7 @@ function render(id, options) {
                 'visibility': 'visible'
             },
             'paint': {
-                'circle-radius': 3,
+                'circle-radius': 4,
                 'circle-color': '#fff'
             },
             'filter': [
@@ -223,24 +225,14 @@ function render(id, options) {
                     'deleted-point'
                 ]
             });
+
             if (features.length) {
-                map.setFilter('changeset-line', [
-                    '==', 'id', features[0].properties.id
-                ]);
-                map.setFilter('changeset-point', [
-                    '==', 'id', features[0].properties.id
-                ]);
-                displayDiff(features[0].properties.id, featureMap);
+                selectFeature(features[0], featureMap);
             } else {
-                map.setFilter('changeset-line', [
-                    '==', 'id', ''
-                ]);
-                map.setFilter('changeset-point', [
-                    '==', 'id', ''
-                ]);
-                clearDiff();
+                clearFeature();
             }
         });
+
         var bounds = [
             [bbox.left, bbox.top],
             [bbox.right, bbox.bottom]
@@ -290,6 +282,12 @@ function render(id, options) {
                 });
             }
         });
+
+        var [, changesetId, geometryType, featureId] = hash.split('/');
+
+        if (geometryType && featureId) {
+            selectFeature(featureMap[featureId][0], featureMap);
+        }
     });
 
     function displayDiff(id, featureMap) {
@@ -384,6 +382,50 @@ function render(id, options) {
         layers.appendChild(link);
     }
 
+    function highlightFeature(featureId) {
+        map.setFilter('changeset-line', [
+            '==', 'id', featureId
+        ]);
+        map.setFilter('changeset-point', [
+            '==', 'id', featureId
+        ]);
+    }
+
+    function clearHighlight() {
+        map.setFilter('changeset-line', [
+            '==', 'id', ''
+        ]);
+        map.setFilter('changeset-point', [
+            '==', 'id', ''
+        ]);
+    }
+
+    function updateHash(geometryType, featureId) {
+      clearHash();
+
+      location.hash += '/' + geometryType;
+      location.hash += '/' + featureId;
+    }
+
+    function clearHash() {
+      var changesetId = location.hash.split('/')[1];
+      location.hash = '/' + changesetId;
+    }
+
+    function selectFeature(feature, featureMap) {
+      var featureId = feature.properties.id;
+      var geometryType = feature.geometry.type;
+
+      highlightFeature(featureId);
+      displayDiff(featureId, featureMap);
+      updateHash(geometryType, featureId);
+    }
+
+    function clearFeature() {
+      clearHighlight();
+      clearDiff();
+      clearHash();
+    }
 }
 
 
