@@ -1,9 +1,8 @@
 var render = require('./render');
 
-var hash = location.hash.replace('#', '');
-if (hash !== '') {
+if (location.hash !== '') {
     document.getElementById('formContainer').style.display = 'none';
-    render(hash, {});
+    render(location.hash, {});
 }
 
 document.getElementById('changesetForm').addEventListener('submit', function(e) {
@@ -11,5 +10,5 @@ document.getElementById('changesetForm').addEventListener('submit', function(e) 
     document.getElementById('formContainer').style.display = 'none';
     var changesetID = document.getElementById('changesetInput').value;
     location.hash = changesetID;
-    render(changesetID, {});
+    render(location.hash, {});
 });
