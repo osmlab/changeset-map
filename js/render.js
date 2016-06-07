@@ -5,7 +5,6 @@ var config = require('./config');
 var moment = require('moment');
 
 function render(hash, options) {
-    debugger;
     var changesetId = hash.split('/')[0].replace('#', '');
 
     document.getElementById('loading').style.display = 'block';
