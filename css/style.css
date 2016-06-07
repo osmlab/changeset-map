@@ -11,7 +11,7 @@ body {
     width:100%;
 }
 
-#loading { 
+#loading {
     position:fixed;
     top:0;
     bottom:0;
@@ -26,10 +26,10 @@ body {
     left: 50%;
     -ms-transform: translateX(-50%) translateY(-50%);
     -webkit-transform: translateX(-50%) translateY(-50%);
-    transform: translateX(-50%) translateY(-50%); 
+    transform: translateX(-50%) translateY(-50%);
 }
 
-#formContainer { 
+#formContainer {
     position:absolute;
     z-index: 10;
     top: 50%;
@@ -145,4 +145,27 @@ body {
 
 .diff-table tr:hover {
     background: #e5f3f3;
+}
+
+.color-box {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin-top: 4px;
+}
+
+.color-box.added {
+    background: #859900;
+}
+
+.color-box.deleted {
+    background: #dc322f;
+}
+
+.color-box.modified-old {
+    background: #fff;
+}
+
+.color-box.modified-new {
+    background: #b58900;
 }
