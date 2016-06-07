@@ -29,9 +29,26 @@
             </div>
             <div id="layerSelector" class="info fill-grey">
                 <ul>
-                    <li><input type="checkbox" value="added" checked>Added features</input></li>
-                    <li><input type="checkbox" value="modified" checked>Modified features</input></li>
-                    <li><input type="checkbox" value="deleted" checked>Deleted features</input></li>
+                    <li>
+                      <input type="checkbox" value="added" checked>Added features</input>
+                      <span class="fr">
+                        <span class="color-box added"></span>
+                      </span>
+                    </li>
+                    <li>
+                      <input type="checkbox" value="modified" checked>Modified features</input>
+                      <span class="fr">
+                        <span class="color-box modified-old"></span>
+                        &rarr;
+                        <span class="color-box modified-new"></span>
+                      </span>
+                    </li>
+                    <li>
+                      <input type="checkbox" value="deleted" checked>Deleted features</input>
+                      <span class="fr">
+                        <span class="color-box deleted"></span>
+                      </span>
+                    </li>
                 </ul>
             </div>
         </div>
