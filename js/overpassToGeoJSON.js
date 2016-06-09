@@ -1,12 +1,13 @@
-
 function overpassToGeoJSON(overpassElements) {
+    var NODES = getNodesById(overpassElements);
+
     var features = [];
     overpassElements.forEach(function(el) {
         var geojson;
         if (el.type === 'node') {
             geojson = getNodeGeoJSON(el);
         } else {
-            geojson = getWayGeoJSON(el);
+            geojson = getWayGeoJSON(el, NODES);
         }
         features.push(geojson);
     });
@@ -16,6 +17,19 @@ function overpassToGeoJSON(overpassElements) {
     };
 }
 
+function getNodesById(overpassElements) {
+  return overpassElements
+    .filter(function(elt) { return elt.type == "node" })
+    .reduce(function(nodes, node) {
+      nodes[node.id] = nodes[node.id] || [];
+      nodes[node.id].push({
+        lat: node.lat,
+        lon: node.lon,
+        version: node.version
+      })
+      return nodes;
+    }, {});
+}
 
 function getProps(obj) {
     var props = obj.tags || {};
@@ -56,18 +70,39 @@ function getCoords(geom) {
 }
 
 // get geojson for a "way" - either line or polygon
-function getWayGeoJSON(way) {
+function getWayGeoJSON(way, NODES) {
     var props = getProps(way);
 
     // for some reason, Overpass sometime returns nodes in a geometry as null
-    // since I don't know what else to do with them, let's just filter them out.
-    way.geometry = way.geometry.filter(function(geom) {
-        if (geom) {
-            return true;
-        } else {
-            return false;
+    // since I don't know what else to do with them, let's just filter them out
+    // along with their corresponding nodes
+    for (var i = 0; i < way.geometry.length; i++) {
+        if (way.geometry[i] == null) {
+          way.geometry.splice(i, 1);
+          way.nodes.splice(i, 1);
+          i--;
         }
+    }
+
+    var nodeVersions = {};
+    for (var i = 0; i < way.nodes.length; i++) {
+        var id = way.nodes[i];
+        var geometry = way.geometry[i];
+        if (NODES[id]) {
+          var node = NODES[id].filter(function(node) {
+              return node.lat == geometry.lat &&
+                     node.lon == geometry.lon
+          })[0];
+          nodeVersions[id] = node.version;
+        }
+    }
+    // add as a non-enumerable property, so that it doesn't
+    // get picked up by when generating the props table
+    Object.defineProperty(props, '_nodeVersions', {
+      enumerable: false,
+      value: nodeVersions
     });
+
     var firstNode = way.geometry[0];
     var lastNode = way.geometry[way.geometry.length - 1];
     var geomType;
