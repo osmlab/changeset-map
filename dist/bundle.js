@@ -317,7 +317,7 @@ function getWayGeoJSON(way, NODES) {
         }
     }
     // add as a non-enumerable property, so that it doesn't
-    // get picked up by when generating the props table
+    // get picked up when generating the props table
     Object.defineProperty(props, '_nodeVersions', {
       enumerable: false,
       value: nodeVersions
