@@ -400,10 +400,10 @@ function render(hash, options) {
         ]);
     }
 
-    function updateHash(geometryType, featureId) {
+    function updateHash(osmType, featureId) {
       clearHash();
 
-      location.hash += '/' + geometryType;
+      location.hash += '/' + osmType;
       location.hash += '/' + featureId;
     }
 
@@ -417,11 +417,11 @@ function render(hash, options) {
 
     function selectFeature(feature, featureMap) {
       var featureId = feature.properties.id;
-      var geometryType = feature.geometry.type;
+      var osmType = feature.properties.type;
 
       highlightFeature(featureId);
       displayDiff(featureId, featureMap);
-      updateHash(geometryType, featureId);
+      updateHash(osmType, featureId);
     }
 
     function clearFeature() {
