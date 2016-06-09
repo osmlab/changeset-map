@@ -39,6 +39,7 @@ function getProps(obj) {
     props.uid = obj.uid;
     props.user = obj.user;
     props.id = obj.id;
+    props.type = obj.type;
     return props;
 }
 
