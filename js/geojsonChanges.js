@@ -40,9 +40,7 @@ function getChangeType(feature, features, changeset) {
         return 'modifiedNew';
     }
     if (version === 1) {
-        console.log ('foo', props, changeset);
         if (props.uid === parseInt(changeset.uid) && props.changeset === parseInt(changeset.id)) {
-            // console.log("timestamps", props.timestamp, changeset.from, changeset.to);
             return 'added';
         } else {
             return 'deleted';
@@ -59,13 +57,19 @@ function hasNextVersion(version, feature, features) {
             return f;
         }
     }
+    for (var i = 0; i < features[id].length; i++) {
+        var f = features[id][i];
+        for (var nodeId in f.properties._nodeVersions) {
+          var currentVersion = feature.properties._nodeVersions[nodeId];
+          if (currentVersion < f.properties._nodeVersions[nodeId]) {
+            return f;
+          }
+        }
+    }
     return false;
 }
 
 function hasPreviousVersion(version, feature, features) {
-    if (version === 1) {
-        return false;
-    }
     var id = feature.properties.id;
     for (var i = 0; i < features[id].length; i++) {
         var f = features[id][i];
@@ -73,8 +77,16 @@ function hasPreviousVersion(version, feature, features) {
             return f;
         }
     }
+    for (var i = 0; i < features[id].length; i++) {
+        var f = features[id][i];
+        for (var nodeId in f.properties._nodeVersions) {
+          var currentVersion = feature.properties._nodeVersions[nodeId];
+          if (currentVersion > f.properties._nodeVersions[nodeId]) {
+            return f;
+          }
+        }
+    }
     return false;
 }
-
 
 module.exports = getChanges;
