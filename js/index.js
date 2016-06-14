@@ -1,3 +1,5 @@
+'use strict';
+
 var render = require('./render');
 
 if (location.hash !== '') {
@@ -5,7 +7,7 @@ if (location.hash !== '') {
     render(location.hash, {});
 }
 
-document.getElementById('changesetForm').addEventListener('submit', function(e) {
+document.getElementById('changesetForm').addEventListener('submit', function (e) {
     e.preventDefault();
     document.getElementById('formContainer').style.display = 'none';
     var changesetID = document.getElementById('changesetInput').value;

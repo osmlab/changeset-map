@@ -1,3 +1,4 @@
+'use strict';
 
 function propsDiff(propsArray) {
     if (propsArray.length === 1) {
@@ -7,7 +8,7 @@ function propsDiff(propsArray) {
         } else if (changeType === 'deleted') {
             return getDeleted(propsArray[0]);
         } else {
-            throw new Error("only 1 element but neither added nor deleted");
+            throw new Error('only 1 element but neither added nor deleted');
         }
     } else {
         var modifiedOld = getOld(propsArray);
@@ -69,6 +70,7 @@ function getOld(propsArray) {
             return propsArray[i];
         }
     }
+    return null;
 }
 
 function getNew(propsArray) {
@@ -77,6 +79,7 @@ function getNew(propsArray) {
             return propsArray[i];
         }
     }
+    return null;
 }
 
 module.exports = propsDiff;

@@ -1,11 +1,13 @@
+'use strict';
+
 var xhr = require('xhr');
 var config = require('./config');
 var osm = require('./osm');
 var overpassToGeoJSON = require('./overpassToGeoJSON');
 var geojsonChanges = require('./geojsonChanges');
 
-var query = function(changesetID, callback) {
-    osm.query(changesetID, function(err, changeset) {
+var query = function (changesetID, callback) {
+    osm.query(changesetID, function (err, changeset) {
         if (err) {
             callback({
                 'msg': 'OSM Query failed. Are you sure you entered a valid changeset id?',
@@ -18,7 +20,7 @@ var query = function(changesetID, callback) {
         var xhrOptions = {
             'responseType': 'json'
         };
-        xhr.get(url, xhrOptions, function(err, response) {
+        xhr.get(url, xhrOptions, function (err, response) {
             if (err) {
                 return callback({
                     'msg': 'Overpass query failed.',

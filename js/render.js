@@ -1,3 +1,5 @@
+'use strict';
+
 var mapboxgl = require('mapbox-gl');
 var overpass = require('./overpass');
 var propsDiff = require('./propsDiff');
@@ -12,20 +14,20 @@ function render(hash, options) {
     var container = options.container || 'map';
     mapboxgl.accessToken = config.mapboxAccessToken;
 
-    window.map = new mapboxgl.Map({
+    var map = new mapboxgl.Map({
         container: container,
         style: 'mapbox://styles/planemad/cijcefp3q00elbskq4cgvcivf',
         center: [0, 0],
         zoom: 3
     });
 
-    overpass.query(changesetId, function(err, result) {
+    overpass.query(changesetId, function (err, result) {
         if (err) {
             if (err.msg) {
                 alert(err.msg);
                 console.log(err.error);
             } else {
-                alert("An unexpected error occured");
+                alert('An unexpected error occured');
                 console.log(err);
             }
             return;
@@ -36,8 +38,8 @@ function render(hash, options) {
         document.getElementById('user').text = result.changeset.user;
         var time = result.changeset.to ? result.changeset.to : result.changeset.from;
         document.getElementById('time').textContent = moment(time).format('MMMM Do YYYY, h:mm a');
-        document.getElementById('user').href = "https://openstreetmap.org/user/" + result.changeset.user;
-        document.getElementById('changeset').href = "https://openstreetmap.org/changeset/" + changesetId;
+        document.getElementById('user').href = 'https://openstreetmap.org/user/' + result.changeset.user;
+        document.getElementById('changeset').href = 'https://openstreetmap.org/changeset/' + changesetId;
         document.getElementById('sidebar').style.display = 'block';
         var bbox = result.changeset.bbox;
         var featureMap = result.featureMap;
@@ -210,7 +212,7 @@ function render(hash, options) {
             ]
         });
 
-        map.on('click', function(e) {
+        map.on('click', function (e) {
             var x1y1 = [e.point.x - 5, e.point.y - 5];
             var x2y2 = [e.point.x + 5, e.point.y + 5];
             var features = map.queryRenderedFeatures([x1y1, x2y2], {
@@ -266,18 +268,18 @@ function render(hash, options) {
             'deleted-point'
         ];
         var layerSelector = document.getElementById('layerSelector');
-        layerSelector.addEventListener('change', function(e) {
+        layerSelector.addEventListener('change', function (e) {
             var key = e.target.value;
             if (e.target.checked) {
                 selectedLayers = selectedLayers.concat(layersKey[key]);
-                layersKey[key].forEach(function(layer) {
+                layersKey[key].forEach(function (layer) {
                     map.setLayoutProperty(layer, 'visibility', 'visible');
-                })
-            } else {
-                selectedLayers = selectedLayers.filter(function(layer) {
-                    return !layer in layersKey[key];
                 });
-                layersKey[key].forEach(function(layer) {
+            } else {
+                selectedLayers = selectedLayers.filter(function (layer) {
+                    return !(layer in layersKey[key]);
+                });
+                layersKey[key].forEach(function (layer) {
                     map.setLayoutProperty(layer, 'visibility', 'none');
                 });
             }
@@ -292,7 +294,7 @@ function render(hash, options) {
 
     function displayDiff(id, featureMap) {
         var featuresWithId = featureMap[id];
-        var propsArray = featuresWithId.map(function(f) {
+        var propsArray = featuresWithId.map(function (f) {
             return f.properties;
         });
 
@@ -321,14 +323,14 @@ function render(hash, options) {
             th.textContent = prop;
             tr.appendChild(th);
 
-            types.forEach(function(type) {
+            types.forEach(function (type) {
                 if (diff[prop].hasOwnProperty(type)) {
-                    if (type == "added") {
-                      var empty = document.createElement('td');
-                      empty.classList.add('diff-property');
-                      empty.classList.add(type);
+                    if (type === 'added') {
+                        var empty = document.createElement('td');
+                        empty.classList.add('diff-property');
+                        empty.classList.add(type);
 
-                      tr.appendChild(empty);
+                        tr.appendChild(empty);
                     }
 
                     var td = document.createElement('td');
@@ -338,15 +340,15 @@ function render(hash, options) {
                     td.textContent = diff[prop][type];
                     tr.appendChild(td);
 
-                    if (type == "deleted") {
-                      var empty = document.createElement('td');
-                      empty.classList.add('diff-property');
-                      empty.classList.add(type);
+                    if (type === 'deleted') {
+                        var empty = document.createElement('td');
+                        empty.classList.add('diff-property');
+                        empty.classList.add(type);
 
-                      tr.appendChild(empty);
+                        tr.appendChild(empty);
                     }
 
-                    if (type == "unchanged") {
+                    if (type === 'unchanged') {
                         tr.appendChild(td.cloneNode(true));
                     }
                 }
@@ -355,31 +357,6 @@ function render(hash, options) {
             root.appendChild(tr);
         }
         return root;
-    }
-
-    function addLayer(name, id) {
-        var link = document.createElement('a');
-        link.href = '#';
-        link.className = 'active';
-        link.textContent = name;
-
-        link.onclick = function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            var visibility = map.getLayoutProperty(id, 'visibility');
-
-            if (visibility === 'visible') {
-                map.setLayoutProperty(id, 'visibility', 'none');
-                this.className = '';
-            } else {
-                this.className = 'active';
-                map.setLayoutProperty(id, 'visibility', 'visible');
-            }
-        };
-
-        var layers = document.getElementById('menu');
-        layers.appendChild(link);
     }
 
     function highlightFeature(featureId) {
@@ -401,35 +378,34 @@ function render(hash, options) {
     }
 
     function updateHash(osmType, featureId) {
-      clearHash();
+        clearHash();
 
-      location.hash += '/' + osmType;
-      location.hash += '/' + featureId;
+        location.hash += '/' + osmType;
+        location.hash += '/' + featureId;
     }
 
     function clearHash() {
-      var changesetId = location.hash
-        .split('/')[0]
-        .replace('#', '');
+        var changesetId = location.hash
+          .split('/')[0]
+          .replace('#', '');
 
-      location.hash = changesetId;
+        location.hash = changesetId;
     }
 
     function selectFeature(feature, featureMap) {
-      var featureId = feature.properties.id;
-      var osmType = feature.properties.type;
+        var featureId = feature.properties.id;
+        var osmType = feature.properties.type;
 
-      highlightFeature(featureId);
-      displayDiff(featureId, featureMap);
-      updateHash(osmType, featureId);
+        highlightFeature(featureId);
+        displayDiff(featureId, featureMap);
+        updateHash(osmType, featureId);
     }
 
     function clearFeature() {
-      clearHighlight();
-      clearDiff();
-      clearHash();
+        clearHighlight();
+        clearDiff();
+        clearHash();
     }
 }
-
 
 module.exports = render;

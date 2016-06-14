@@ -1,13 +1,15 @@
+'use strict';
+
 var xhr = require('xhr');
 var moment = require('moment');
 var config = require('./config');
 
-var query = function(changesetID, callback) {
+var query = function (changesetID, callback) {
     var url = config.osmBase + 'changeset/' + changesetID;
     var xhrOptions = {
         'responseType': 'document'
     };
-    xhr.get(url, xhrOptions, function(err, response) {
+    xhr.get(url, xhrOptions, function (err, response) {
         if (err) {
             return callback(err, null);
         }
@@ -35,7 +37,7 @@ var query = function(changesetID, callback) {
                 'top': top
             }
         };
-        callback(null, changeset);
+        return callback(null, changeset);
     });
 };
 

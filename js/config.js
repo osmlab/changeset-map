@@ -1,3 +1,5 @@
+'use strict';
+
 var config = {
     'overpassBase': 'https://overpass-cfn-staging.tilestream.net/api/interpreter',
     //'overpassBase': 'https://overpass-api.de/api/interpreter',
