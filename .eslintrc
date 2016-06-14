@@ -1,3 +1,7 @@
 {
-  "extends": "mourner"
+  "extends": "mourner",
+  "rules": {
+    "no-redeclare": 0,
+    "no-loop-func": 0
+  }
 }

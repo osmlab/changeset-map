@@ -1,8 +1,10 @@
+'use strict';
+
 function overpassToGeoJSON(overpassElements) {
     var NODES = getNodesById(overpassElements);
 
     var features = [];
-    overpassElements.forEach(function(el) {
+    overpassElements.forEach(function (el) {
         var geojson;
         if (el.type === 'node') {
             geojson = getNodeGeoJSON(el);
@@ -18,17 +20,17 @@ function overpassToGeoJSON(overpassElements) {
 }
 
 function getNodesById(overpassElements) {
-  return overpassElements
-    .filter(function(elt) { return elt.type == "node" })
-    .reduce(function(nodes, node) {
-      nodes[node.id] = nodes[node.id] || [];
-      nodes[node.id].push({
-        lat: node.lat,
-        lon: node.lon,
-        version: node.version
-      })
-      return nodes;
-    }, {});
+    return overpassElements
+      .filter(function (elt) { return elt.type === 'node'; })
+      .reduce(function (nodes, node) {
+          nodes[node.id] = nodes[node.id] || [];
+          nodes[node.id].push({
+              lat: node.lat,
+              lon: node.lon,
+              version: node.version
+          });
+          return nodes;
+      }, {});
 }
 
 function getProps(obj) {
@@ -57,16 +59,14 @@ function getNodeGeoJSON(node) {
 }
 
 function getCoords(geom) {
-    return geom.map(function(pt) {
+    return geom.map(function (pt) {
         if (pt && pt.lon && pt.lat) {
             return [pt.lon, pt.lat];
         } else {
             return null;
         }
-    }).filter(function(pt) {
-        if (pt) {
-            return pt;
-        }
+    }).filter(function (pt) {
+        return !!pt;
     });
 }
 
@@ -78,10 +78,10 @@ function getWayGeoJSON(way, NODES) {
     // since I don't know what else to do with them, let's just filter them out
     // along with their corresponding nodes
     for (var i = 0; i < way.geometry.length; i++) {
-        if (way.geometry[i] == null) {
-          way.geometry.splice(i, 1);
-          way.nodes.splice(i, 1);
-          i--;
+        if (way.geometry[i] === null) {
+            way.geometry.splice(i, 1);
+            way.nodes.splice(i, 1);
+            i--;
         }
     }
 
@@ -90,18 +90,18 @@ function getWayGeoJSON(way, NODES) {
         var id = way.nodes[i];
         var geometry = way.geometry[i];
         if (NODES[id]) {
-          var node = NODES[id].filter(function(node) {
-              return node.lat == geometry.lat &&
-                     node.lon == geometry.lon
-          })[0];
-          nodeVersions[id] = node.version;
+            var node = NODES[id].filter(function (node) {
+                return node.lat === geometry.lat &&
+                       node.lon === geometry.lon;
+            })[0];
+            nodeVersions[id] = node.version;
         }
     }
     // add as a non-enumerable property, so that it doesn't
     // get picked up when generating the props table
     Object.defineProperty(props, '_nodeVersions', {
-      enumerable: false,
-      value: nodeVersions
+        enumerable: false,
+        value: nodeVersions
     });
 
     var firstNode = way.geometry[0];

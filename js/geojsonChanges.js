@@ -1,4 +1,4 @@
-var moment = require('moment');
+'use strict';
 
 function getChanges(geojson, changeset) {
     var features = geojson.features;
@@ -12,7 +12,6 @@ function getChanges(geojson, changeset) {
         featureMap[id] = featureMap[id] || [];
         featureMap[id].push(features[i]);
     }
-
     for (var osmID in featureMap) {
         for (var j = 0; j < featureMap[osmID].length; j++) {
             var f = featureMap[osmID][j];
@@ -21,7 +20,6 @@ function getChanges(geojson, changeset) {
             changeGeoJSON.features.push(f);
         }
     }
-
     return {
         'featureMap': featureMap,
         'geojson': changeGeoJSON
@@ -53,17 +51,17 @@ function hasNextVersion(version, feature, features) {
     var id = feature.properties.id;
     for (var i = 0; i < features[id].length; i++) {
         var f = features[id][i];
-        if (f.properties.version === (version +1)) {
+        if (f.properties.version === (version + 1)) {
             return f;
         }
     }
     for (var i = 0; i < features[id].length; i++) {
         var f = features[id][i];
         for (var nodeId in f.properties._nodeVersions) {
-          var currentVersion = feature.properties._nodeVersions[nodeId];
-          if (currentVersion < f.properties._nodeVersions[nodeId]) {
-            return f;
-          }
+            var currentVersion = feature.properties._nodeVersions[nodeId];
+            if (currentVersion < f.properties._nodeVersions[nodeId]) {
+                return f;
+            }
         }
     }
     return false;
@@ -80,10 +78,10 @@ function hasPreviousVersion(version, feature, features) {
     for (var i = 0; i < features[id].length; i++) {
         var f = features[id][i];
         for (var nodeId in f.properties._nodeVersions) {
-          var currentVersion = feature.properties._nodeVersions[nodeId];
-          if (currentVersion > f.properties._nodeVersions[nodeId]) {
-            return f;
-          }
+            var currentVersion = feature.properties._nodeVersions[nodeId];
+            if (currentVersion > f.properties._nodeVersions[nodeId]) {
+                return f;
+            }
         }
     }
     return false;
