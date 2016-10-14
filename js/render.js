@@ -7,6 +7,7 @@ var events = require('events');
 
 function render(id, options) {
     var changesetId = id;
+    var e = new events();
 
     document.getElementById('loading').style.display = 'block';
     options = options || {};
@@ -302,11 +303,15 @@ function render(id, options) {
             }
         });
 
-        var [, geometryType, featureId] = window.location.hash.split('/');
+        // var [, geometryType, featureId] = options.hash.split('/');
 
-        if (geometryType && featureId) {
-            selectFeature(featureMap[featureId][0], featureMap);
-        }
+        // if (geometryType && featureId) {
+        //     selectFeature(featureMap[featureId][0], featureMap);
+        // }
+        e.on('selectFeature', function () {
+            console.log('triggered selectFeature');
+            // selectFeature(featureMap[featureId][0], featureMap);
+        });
     });
 
     function displayDiff(id, featureMap) {
@@ -449,7 +454,6 @@ function render(id, options) {
       clearHash();
     }
 
-    var e = new events();
     return e;
 }
 
