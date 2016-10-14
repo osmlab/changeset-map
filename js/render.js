@@ -244,12 +244,12 @@ function render(hash, options) {
         //    bbox.top == bbox.bottom
         // In this case, add a little padding to avoid breaking fitBounds
         if (left == right) {
-            left  = +left - 0.1;
-            right = +right + 0.1;
+            left  = left - 0.1;
+            right = right + 0.1;
         }
         if (top == bottom) {
-            top    = +top - 0.1;
-            bottom = +bottom + 0.1;
+            top    = top - 0.1;
+            bottom = bottom + 0.1;
         }
 
         map.fitBounds([
