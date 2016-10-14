@@ -1,8 +1,10 @@
 var render = require('./render');
+var changesetMap;
 
 if (location.hash !== '') {
     document.getElementById('formContainer').style.display = 'none';
-    render(location.hash, {});
+    var id = location.hash.split('/')[0].replace('#', '');
+    changesetMap = render(id, {});
 }
 
 document.getElementById('changesetForm').addEventListener('submit', function(e) {
@@ -10,5 +12,5 @@ document.getElementById('changesetForm').addEventListener('submit', function(e) 
     document.getElementById('formContainer').style.display = 'none';
     var changesetID = document.getElementById('changesetInput').value;
     location.hash = changesetID;
-    render(location.hash, {});
+    changesetMap = render(changesetID, {});
 });

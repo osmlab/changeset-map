@@ -3,9 +3,10 @@ var overpass = require('./overpass');
 var propsDiff = require('./propsDiff');
 var config = require('./config');
 var moment = require('moment');
+var events = require('events');
 
-function render(hash, options) {
-    var changesetId = hash.split('/')[0].replace('#', '');
+function render(id, options) {
+    var changesetId = id;
 
     document.getElementById('loading').style.display = 'block';
     options = options || {};
@@ -301,7 +302,7 @@ function render(hash, options) {
             }
         });
 
-        var [, geometryType, featureId] = hash.split('/');
+        var [, geometryType, featureId] = window.location.hash.split('/');
 
         if (geometryType && featureId) {
             selectFeature(featureMap[featureId][0], featureMap);
@@ -447,6 +448,9 @@ function render(hash, options) {
       clearDiff();
       clearHash();
     }
+
+    var e = new events();
+    return e;
 }
 
 
