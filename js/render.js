@@ -233,9 +233,23 @@ function render(hash, options) {
             }
         });
 
+        // Special case: If a single node was changed, then
+        //    bbox.left == bbox.right, and
+        //    bbox.top == bbox.bottom
+        // In this case, add a little padding to avoid breaking fitBounds
+        var {left, right, top, bottom} = bbox
+        // left, right, top and bottom are strings, use +var to coerce to number
+        if (left == right) {
+            left  = +left - 0.1;
+            right = +right + 0.1;
+        }
+        if (top == bottom) {
+            top    = +top - 0.1;
+            bottom = +bottom + 0.1;
+        }
         var bounds = [
-            [bbox.left, bbox.top],
-            [bbox.right, bbox.bottom]
+            [ left, top ],
+            [ right, bottom ]
         ];
         map.fitBounds(bounds);
 
