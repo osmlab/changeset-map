@@ -667,11 +667,29 @@ function render(hash, options) {
             }
         });
 
-        var bounds = [
-            [bbox.left, bbox.top],
-            [bbox.right, bbox.bottom]
-        ];
-        map.fitBounds(bounds);
+        // bbox.* are strings, use +var to coerce to number
+        var left   = +bbox.left,
+            right  = +bbox.right,
+            top    = +bbox.top,
+            bottom = +bbox.bottom;
+
+        // Special case: If a single node was changed, then
+        //    bbox.left == bbox.right, and
+        //    bbox.top == bbox.bottom
+        // In this case, add a little padding to avoid breaking fitBounds
+        if (left == right) {
+            left  = left - 0.1;
+            right = right + 0.1;
+        }
+        if (top == bottom) {
+            top    = top - 0.1;
+            bottom = bottom + 0.1;
+        }
+
+        map.fitBounds([
+            [ left, top ],
+            [ right, bottom ]
+        ]);
 
         var layersKey = {
             'added': [
