@@ -233,15 +233,16 @@ function render(hash, options) {
             }
         });
 
+        // bbox.* are strings, use +var to coerce to number
+        var left   = +bbox.left,
+            right  = +bbox.right,
+            top    = +bbox.top,
+            bottom = +bbox.bottom;
+
         // Special case: If a single node was changed, then
         //    bbox.left == bbox.right, and
         //    bbox.top == bbox.bottom
         // In this case, add a little padding to avoid breaking fitBounds
-        var left   = bbox.left,
-            right  = bbox.right,
-            top    = bbox.top,
-            bottom = bbox.bottom;
-        // left, right, top and bottom are strings, use +var to coerce to number
         if (left == right) {
             left  = +left - 0.1;
             right = +right + 0.1;
@@ -250,11 +251,11 @@ function render(hash, options) {
             top    = +top - 0.1;
             bottom = +bottom + 0.1;
         }
-        var bounds = [
+
+        map.fitBounds([
             [ left, top ],
             [ right, bottom ]
-        ];
-        map.fitBounds(bounds);
+        ]);
 
         var layersKey = {
             'added': [
