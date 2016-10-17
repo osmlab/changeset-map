@@ -5,7 +5,7 @@ if (location.hash !== '') {
     document.getElementById('formContainer').style.display = 'none';
     var id = location.hash.split('/')[0].replace('#', '');
     var [, geometryType, featureId] = location.hash.split('/');
-    changesetMap = render(id, {});
+    changesetMap = render(document.getElementById('container'), id, {});
     changesetMap.on('load', function () {
         changesetMap.emit('selectFeature', geometryType, featureId);
     });
@@ -16,7 +16,7 @@ document.getElementById('changesetForm').addEventListener('submit', function(e) 
     document.getElementById('formContainer').style.display = 'none';
     var changesetID = document.getElementById('changesetInput').value;
     location.hash = changesetID;
-    changesetMap = render(changesetID, {hash: location.hash});
+    changesetMap = render(document.getElementById('container'), changesetID, {hash: location.hash});
 });
 
 changesetMap.on('featureChange', function (geometryType, featureId) {

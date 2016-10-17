@@ -5,17 +5,19 @@ var config = require('./config');
 var moment = require('moment');
 var events = require('events').EventEmitter;
 
-function render(id, options) {
+function render(container, id, options) {
     var changesetId = id;
     var cmap = new events();
 
-    document.getElementById('loading').style.display = 'block';
+    renderHTML(container);
+
+    document.querySelector('.cmap-loading').style.display = 'block';
     options = options || {};
     var container = options.container || 'map';
     mapboxgl.accessToken = config.mapboxAccessToken;
 
     var map = new mapboxgl.Map({
-        container: container,
+        container: document.querySelector('.cmap-map'),
         style: 'mapbox://styles/planemad/cijcefp3q00elbskq4cgvcivf',
         center: [0, 0],
         zoom: 3
@@ -32,15 +34,15 @@ function render(id, options) {
             }
             return;
         }
-        document.getElementById('loading').style.display = 'none';
-        document.getElementById('layerSelector').style.display = 'block';
-        document.getElementById('changeset').text = changesetId;
-        document.getElementById('user').text = result.changeset.user;
+        document.querySelector('.cmap-loading').style.display = 'none';
+        document.querySelector('.cmap-layer-selector').style.display = 'block';
+        document.querySelector('.cmap-sidebar-changeset').text = changesetId;
+        document.querySelector('.cmap-sidebar-user').text = result.changeset.user;
         var time = result.changeset.to ? result.changeset.to : result.changeset.from;
-        document.getElementById('time').textContent = moment(time).format('MMMM Do YYYY, h:mm a');
-        document.getElementById('user').href = "https://openstreetmap.org/user/" + result.changeset.user;
-        document.getElementById('changeset').href = "https://openstreetmap.org/changeset/" + changesetId;
-        document.getElementById('sidebar').style.display = 'block';
+        document.querySelector('.cmap-sidebar-time').textContent = moment(time).format('MMMM Do YYYY, h:mm a');
+        document.querySelector('.cmap-sidebar-user').href = "https://openstreetmap.org/user/" + result.changeset.user;
+        document.querySelector('.cmap-sidebar-changeset').href = "https://openstreetmap.org/changeset/" + changesetId;
+        document.querySelector('.cmap-sidebar').style.display = 'block';
         var bbox = result.changeset.bbox;
         var featureMap = result.featureMap;
         map.addSource('changeset', {
@@ -285,7 +287,7 @@ function render(id, options) {
             'deleted-line',
             'deleted-point'
         ];
-        var layerSelector = document.getElementById('layerSelector');
+        var layerSelector = document.querySelector('.cmap-layer-selector');
         layerSelector.addEventListener('change', function(e) {
             var key = e.target.value;
             if (e.target.checked) {
@@ -325,19 +327,19 @@ function render(id, options) {
         var diff = propsDiff(propsArray);
         var diffHTML = getDiffHTML(diff);
 
-        document.getElementById('diff').innerHTML = '';
-        document.getElementById('diff').appendChild(diffHTML);
-        document.getElementById('diff').style.display = 'block';
+        document.querySelector('.cmap-diff').innerHTML = '';
+        document.querySelector('.cmap-diff').appendChild(diffHTML);
+        document.querySelector('.cmap-diff').style.display = 'block';
     }
 
     function clearDiff() {
-        document.getElementById('diff').innerHTML = '';
-        document.getElementById('diff').style.display = 'none';
+        document.querySelector('.cmap-diff').innerHTML = '';
+        document.querySelector('.cmap-diff').style.display = 'none';
     }
 
     function getDiffHTML(diff) {
         var root = document.createElement('table');
-        root.classList.add('diff-table');
+        root.classList.add('cmap-diff-table');
 
         var types = ['added', 'unchanged', 'deleted', 'modifiedOld', 'modifiedNew'];
         for (var prop in diff) {
@@ -419,5 +421,77 @@ function render(id, options) {
     return cmap;
 }
 
+function elt(name, attributes) {
+  var node = document.createElement(name);
+  if (attributes) {
+    for (var attr in attributes)
+      if (attributes.hasOwnProperty(attr))
+        node.setAttribute(attr, attributes[attr]);
+  }
+  for (var i = 2; i < arguments.length; i++) {
+    var child = arguments[i];
+    if (typeof child == "string")
+      child = document.createTextNode(child);
+    node.appendChild(child);
+  }
+  return node;
+}
+
+function renderHTML(container) {
+  container.classList.add('cmap-container');
+
+  var loader = elt('div', { class: 'cmap-loading', style: 'display: none;' });
+  loader.appendChild(
+    elt('img', { src: 'img/loading.gif' })
+  );
+  container.appendChild(loader);
+
+  var mapContainer = elt('div', { class: 'cmap-map' });
+  container.appendChild(mapContainer);
+
+  var diff = elt('div', { class: 'cmap-diff', style: 'display: none' });
+  container.appendChild(diff);
+
+  var sidebar = elt('div', { class: 'cmap-sidebar pad1x', style: 'display: none'});
+  sidebar.appendChild(
+    elt('div', { class: 'fill-grey cmap-info'},
+      elt('a', { class: 'cmap-sidebar-changeset icon bolt'}),
+      elt('br'),
+      elt('a', { class: 'cmap-sidebar-user icon account' }),
+      elt('br'),
+      elt('span', { class: 'cmap-sidebar-time icon time'})
+    )
+  );
+  sidebar.appendChild(
+    elt('div', { class: 'cmap-layer-selector cmap-info fill-grey'},
+      elt('ul', {},
+        elt('li', {},
+          elt('input', { type: 'checkbox', value: 'added', checked: true }),
+          'Added features',
+          elt('span', { class: 'fr'},
+            elt('span', { class: 'cmap-color-box added'}))
+        ),
+
+        elt('li', {},
+          elt('input', { type: 'checkbox', value: 'modified', checked: true }),
+          'Modified features',
+          elt('span', { class: 'fr'},
+            elt('span', { class: 'cmap-color-box modified-old'}),
+            '→',
+            elt('span', { class: 'cmap-color-box modified-new'})
+          )
+        ),
+
+        elt('li', {},
+          elt('input', { type: 'checkbox', value: 'deleted', checked: true }),
+          'Deleted features',
+          elt('span', { class: 'fr'},
+            elt('span', { class: 'cmap-color-box deleted'}))
+        )
+      )
+    )
+  );
+  container.appendChild(sidebar);
+}
 
 window.changesetMap = module.exports = render;

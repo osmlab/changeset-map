@@ -6,9 +6,16 @@ Heavily inspired by the ACHAVI Changeset Viewer: http://wiki.openstreetmap.org/w
 
 ### Use as a module
 
+Create a container div to hold the UI.
+
+```html
+<div id='container'></div>
+```
+
 ```js
 var changesetMap = require('changeset-map');
-var changesetMapControl = changesetMap(changesetID);
+var container = document.getElementById('container');
+var changesetMapControl = changesetMap(container, changesetID);
 
 // binding events
 changesetMapControl.on('load', function () {

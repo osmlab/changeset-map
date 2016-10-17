@@ -7,49 +7,33 @@
         <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.18.0/mapbox-gl.css' rel='stylesheet' />
         <link href='https://www.mapbox.com/base/latest/base.css' rel='stylesheet' />
         <link href='css/style.css' rel='stylesheet' />
+        <style>
+          #formContainer {
+              position:absolute;
+              z-index: 10;
+              top: 50%;
+              left: 50%;
+              -ms-transform: translateX(-50%) translateY(-50%);
+              -webkit-transform: translateX(-50%) translateY(-50%);
+              transform: translateX(-50%) translateY(-50%);
+              text-align: center;
+          }
+
+          #submitChangeset {
+              display: block;
+              margin-left: auto;
+              margin-right: auto;
+              margin-top: 8px;
+          }
+        </style>
     </head>
     <body>
-        <div id="loading" style="display:none;">
-            <img src="img/loading.gif" />
-        </div>
+        <div id="container"></div>
         <div id="formContainer">
             <form id="changesetForm">
                 <input id="changesetInput" value="" placeholder="Changeset ID" />
                 <button id="submitChangeset" class="button">Submit</button>
             </form>
-        </div>
-        <div id="map"></div>
-        <div id="diff" style="display:none;"></div>
-        <div id="sidebar" class="pad1" style="display:none">
-            <div class="fill-grey info">
-                <a id="changeset" class="icon bolt" href=""></a><br>
-                <a id="user" class="icon account" href=""></a><br>
-                <span id="time" class="icon time"></span>
-            </div>
-            <div id="layerSelector" class="info fill-grey">
-                <ul>
-                    <li>
-                      <input type="checkbox" value="added" checked>Added features</input>
-                      <span class="fr">
-                        <span class="color-box added"></span>
-                      </span>
-                    </li>
-                    <li>
-                      <input type="checkbox" value="modified" checked>Modified features</input>
-                      <span class="fr">
-                        <span class="color-box modified-old"></span>
-                        &rarr;
-                        <span class="color-box modified-new"></span>
-                      </span>
-                    </li>
-                    <li>
-                      <input type="checkbox" value="deleted" checked>Deleted features</input>
-                      <span class="fr">
-                        <span class="color-box deleted"></span>
-                      </span>
-                    </li>
-                </ul>
-            </div>
         </div>
         <script src="dist/bundle.js"></script>
     </body>

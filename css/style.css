@@ -1,17 +1,17 @@
-body {
+.cmap-container {
     margin:0;
     padding:0;
     font: 13px 'Open Sans', sans-serif;
 }
 
-#map {
+.cmap-map {
     position:absolute;
     top:0;
     bottom:0;
     width:100%;
 }
 
-#loading {
+.cmap-loading {
     position:fixed;
     top:0;
     bottom:0;
@@ -20,7 +20,7 @@ body {
     background: rgba(255,255,255,0.9);
 }
 
-#loading img {
+.cmap-loading img {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -29,18 +29,7 @@ body {
     transform: translateX(-50%) translateY(-50%);
 }
 
-#formContainer {
-    position:absolute;
-    z-index: 10;
-    top: 50%;
-    left: 50%;
-    -ms-transform: translateX(-50%) translateY(-50%);
-    -webkit-transform: translateX(-50%) translateY(-50%);
-    transform: translateX(-50%) translateY(-50%);
-    text-align: center;
-}
-
-#diff {
+.cmap-diff {
     position: absolute;
     z-index: 1;
     top: 10px;
@@ -52,18 +41,18 @@ body {
     overflow-y: scroll;
 }
 
-.info {
+.cmap-info {
     z-index: 1;
     padding: 20px;
     width: 250px;
 }
 
-#sidebar {
+.cmap-sidebar {
     position: absolute;
     top: 0;
 }
 
-#layerSelector ul {
+.cmap-layer-selector ul {
     margin: 0px;
     padding: 0px;
     list-style: none;
@@ -71,60 +60,53 @@ body {
     border-width: 0 0 1px 1px;
 }
 
-#layerSelector li {
+.cmap-layer-selector li {
     border: 0 solid #c1dad7;
     border-width: 1px 1px 0 0;
     padding: 6px 12px;
 }
 
-#submitChangeset {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 8px;
-}
-
-.diff-table {
+.cmap-diff-table {
     border-collapse: collapse;
 }
 
-.diff-table,
-.diff-table th,
-.diff-table td {
+.cmap-diff-table,
+.cmap-diff-table th,
+.cmap-diff-table td {
     border: 1px solid #c1dad7;
     padding: 6px 12px;
 }
 
-.diff-table tr:nth-of-type(even) {
+.cmap-diff-table tr:nth-of-type(even) {
     background: #fff;
 }
-.diff-table tr:nth-of-type(odd) {
+.cmap-diff-table tr:nth-of-type(odd) {
     background: #f5fafa;
 }
 
-.diff-table tr:hover {
+.cmap-diff-table tr:hover {
     background: #e5f3f3;
 }
 
-.color-box {
+.cmap-color-box {
     display: inline-block;
     width: 10px;
     height: 10px;
     margin-top: 4px;
 }
 
-.color-box.added {
+.cmap-color-box.added {
     background: #859900;
 }
 
-.color-box.deleted {
+.cmap-color-box.deleted {
     background: #dc322f;
 }
 
-.color-box.modified-old {
+.cmap-color-box.modified-old {
     background: #fff;
 }
 
-.color-box.modified-new {
+.cmap-color-box.modified-new {
     background: #b58900;
 }
