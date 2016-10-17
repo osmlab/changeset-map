@@ -14,7 +14,7 @@ function render(id, options) {
     var container = options.container || 'map';
     mapboxgl.accessToken = config.mapboxAccessToken;
 
-    window.map = new mapboxgl.Map({
+    var map = new mapboxgl.Map({
         container: container,
         style: 'mapbox://styles/planemad/cijcefp3q00elbskq4cgvcivf',
         center: [0, 0],
@@ -445,4 +445,4 @@ function render(id, options) {
 }
 
 
-module.exports = render;
+window.changesetMap = module.exports = render;
