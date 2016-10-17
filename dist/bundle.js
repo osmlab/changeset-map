@@ -901,7 +901,7 @@ function render(id, options) {
     function clearFeature() {
       clearHighlight();
       clearDiff();
-      cmap.emit('hashchange', '', '');
+      cmap.emit('hashchange', null, null);
     }
 
     return cmap;
