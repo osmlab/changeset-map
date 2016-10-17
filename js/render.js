@@ -3,11 +3,11 @@ var overpass = require('./overpass');
 var propsDiff = require('./propsDiff');
 var config = require('./config');
 var moment = require('moment');
-var events = require('events');
+var events = require('events').EventEmitter;
 
 function render(id, options) {
     var changesetId = id;
-    var e = new events();
+    var cmap = new events();
 
     document.getElementById('loading').style.display = 'block';
     options = options || {};
@@ -292,7 +292,7 @@ function render(id, options) {
                 selectedLayers = selectedLayers.concat(layersKey[key]);
                 layersKey[key].forEach(function(layer) {
                     map.setLayoutProperty(layer, 'visibility', 'visible');
-                })
+                });
             } else {
                 selectedLayers = selectedLayers.filter(function(layer) {
                     return !layer in layersKey[key];
@@ -303,15 +303,19 @@ function render(id, options) {
             }
         });
 
-        // var [, geometryType, featureId] = options.hash.split('/');
-
-        // if (geometryType && featureId) {
-        //     selectFeature(featureMap[featureId][0], featureMap);
-        // }
-        e.on('selectFeature', function () {
-            console.log('triggered selectFeature');
-            // selectFeature(featureMap[featureId][0], featureMap);
+        cmap.on('selectFeature', function (geometryType, featureId) {
+            if (geometryType && featureId) {
+                console.log('triggered selectFeature');
+                selectFeature(featureMap[featureId][0], featureMap);
+            }
         });
+
+        cmap.on('clearFeature', function () {
+            console.log('triggered clearFeature');
+            clearFeature();
+        });
+
+        cmap.emit('load');
     });
 
     function displayDiff(id, featureMap) {
@@ -424,37 +428,22 @@ function render(id, options) {
         ]);
     }
 
-    function updateHash(osmType, featureId) {
-      clearHash();
-
-      location.hash += '/' + osmType;
-      location.hash += '/' + featureId;
-    }
-
-    function clearHash() {
-      var changesetId = location.hash
-        .split('/')[0]
-        .replace('#', '');
-
-      location.hash = changesetId;
-    }
-
     function selectFeature(feature, featureMap) {
       var featureId = feature.properties.id;
       var osmType = feature.properties.type;
 
       highlightFeature(featureId);
       displayDiff(featureId, featureMap);
-      updateHash(osmType, featureId);
+      cmap.emit('hashchange', osmType, featureId);
     }
 
     function clearFeature() {
       clearHighlight();
       clearDiff();
-      clearHash();
+      cmap.emit('hashchange', '', '');
     }
 
-    return e;
+    return cmap;
 }
 
 
