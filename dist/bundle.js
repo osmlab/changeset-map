@@ -112,10 +112,8 @@ if (location.hash !== '') {
     var id = location.hash.split('/')[0].replace('#', '');
     var [, geometryType, featureId] = location.hash.split('/');
     changesetMap = render(id, {});
-    console.log(changesetMap);
     changesetMap.on('load', function () {
         changesetMap.emit('selectFeature', geometryType, featureId);
-        // changesetMap.emit('clearFeature');
     });
 }
 
