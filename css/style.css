@@ -40,17 +40,6 @@ body {
     text-align: center;
 }
 
-#menu {
-    background: #fff;
-    position: absolute;
-    z-index: 1;
-    top: 10px;
-    right: 10px;
-    border-radius: 3px;
-    width: 120px;
-    border: 1px solid rgba(0,0,0,0.4);
-}
-
 #diff {
     position: absolute;
     z-index: 1;
