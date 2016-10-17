@@ -19,7 +19,7 @@ document.getElementById('changesetForm').addEventListener('submit', function(e) 
     changesetMap = render(changesetID, {hash: location.hash});
 });
 
-changesetMap.on('hashchange', function (geometryType, featureId) {
+changesetMap.on('featureChange', function (geometryType, featureId) {
     clearHash();
     if (geometryType && featureId) {
         updateHash(geometryType, featureId);

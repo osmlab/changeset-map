@@ -432,13 +432,13 @@ function render(id, options) {
 
       highlightFeature(featureId);
       displayDiff(featureId, featureMap);
-      cmap.emit('hashchange', osmType, featureId);
+      cmap.emit('featureChange', osmType, featureId);
     }
 
     function clearFeature() {
       clearHighlight();
       clearDiff();
-      cmap.emit('hashchange', null, null);
+      cmap.emit('featureChange', null, null);
     }
 
     return cmap;
