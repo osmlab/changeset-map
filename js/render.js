@@ -305,13 +305,11 @@ function render(id, options) {
 
         cmap.on('selectFeature', function (geometryType, featureId) {
             if (geometryType && featureId) {
-                console.log('triggered selectFeature');
                 selectFeature(featureMap[featureId][0], featureMap);
             }
         });
 
         cmap.on('clearFeature', function () {
-            console.log('triggered clearFeature');
             clearFeature();
         });
 
