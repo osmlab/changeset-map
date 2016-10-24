@@ -15,7 +15,7 @@ Create a container div to hold the UI.
 ```js
 var changesetMap = require('changeset-map');
 var container = document.getElementById('container');
-var changesetMapControl = changesetMap(container, changesetID);
+var changesetMapControl = changesetMap(container, changesetID, { width: '1000px', height: '1000px' });
 
 // binding events
 changesetMapControl.on('load', function () {
