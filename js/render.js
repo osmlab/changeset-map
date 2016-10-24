@@ -3,17 +3,22 @@ var overpass = require('./overpass');
 var propsDiff = require('./propsDiff');
 var config = require('./config');
 var moment = require('moment');
+var events = require('events').EventEmitter;
 
-function render(hash, options) {
-    var changesetId = hash.split('/')[0].replace('#', '');
+function render(container, id, options) {
+    var changesetId = id;
+    var cmap = new events();
 
-    document.getElementById('loading').style.display = 'block';
+    container.style.width = options.width || '1000px';
+    container.style.height = options.height || '500px';
+    renderHTML(container);
+
+    document.querySelector('.cmap-loading').style.display = 'block';
     options = options || {};
-    var container = options.container || 'map';
     mapboxgl.accessToken = config.mapboxAccessToken;
 
-    window.map = new mapboxgl.Map({
-        container: container,
+    var map = new mapboxgl.Map({
+        container: document.querySelector('.cmap-map'),
         style: 'mapbox://styles/planemad/cijcefp3q00elbskq4cgvcivf',
         center: [0, 0],
         zoom: 3
@@ -30,15 +35,15 @@ function render(hash, options) {
             }
             return;
         }
-        document.getElementById('loading').style.display = 'none';
-        document.getElementById('layerSelector').style.display = 'block';
-        document.getElementById('changeset').text = changesetId;
-        document.getElementById('user').text = result.changeset.user;
+        document.querySelector('.cmap-loading').style.display = 'none';
+        document.querySelector('.cmap-layer-selector').style.display = 'block';
+        document.querySelector('.cmap-sidebar-changeset').text = 'Changeset - ' + changesetId;
+        document.querySelector('.cmap-sidebar-user').text = 'User - ' + result.changeset.user;
         var time = result.changeset.to ? result.changeset.to : result.changeset.from;
-        document.getElementById('time').textContent = moment(time).format('MMMM Do YYYY, h:mm a');
-        document.getElementById('user').href = "https://openstreetmap.org/user/" + result.changeset.user;
-        document.getElementById('changeset').href = "https://openstreetmap.org/changeset/" + changesetId;
-        document.getElementById('sidebar').style.display = 'block';
+        document.querySelector('.cmap-sidebar-time').textContent = moment(time).format('MMMM Do YYYY, h:mm a');
+        document.querySelector('.cmap-sidebar-user').href = "https://openstreetmap.org/user/" + result.changeset.user;
+        document.querySelector('.cmap-sidebar-changeset').href = "https://openstreetmap.org/changeset/" + changesetId;
+        document.querySelector('.cmap-sidebar').style.display = 'block';
         var bbox = result.changeset.bbox;
         var featureMap = result.featureMap;
         map.addSource('changeset', {
@@ -283,14 +288,14 @@ function render(hash, options) {
             'deleted-line',
             'deleted-point'
         ];
-        var layerSelector = document.getElementById('layerSelector');
+        var layerSelector = document.querySelector('.cmap-layer-selector');
         layerSelector.addEventListener('change', function(e) {
             var key = e.target.value;
             if (e.target.checked) {
                 selectedLayers = selectedLayers.concat(layersKey[key]);
                 layersKey[key].forEach(function(layer) {
                     map.setLayoutProperty(layer, 'visibility', 'visible');
-                })
+                });
             } else {
                 selectedLayers = selectedLayers.filter(function(layer) {
                     return !layer in layersKey[key];
@@ -301,11 +306,17 @@ function render(hash, options) {
             }
         });
 
-        var [, geometryType, featureId] = hash.split('/');
+        cmap.on('selectFeature', function (geometryType, featureId) {
+            if (geometryType && featureId) {
+                selectFeature(featureMap[featureId][0], featureMap);
+            }
+        });
 
-        if (geometryType && featureId) {
-            selectFeature(featureMap[featureId][0], featureMap);
-        }
+        cmap.on('clearFeature', function () {
+            clearFeature();
+        });
+
+        cmap.emit('load');
     });
 
     function displayDiff(id, featureMap) {
@@ -317,19 +328,19 @@ function render(hash, options) {
         var diff = propsDiff(propsArray);
         var diffHTML = getDiffHTML(diff);
 
-        document.getElementById('diff').innerHTML = '';
-        document.getElementById('diff').appendChild(diffHTML);
-        document.getElementById('diff').style.display = 'block';
+        document.querySelector('.cmap-diff').innerHTML = '';
+        document.querySelector('.cmap-diff').appendChild(diffHTML);
+        document.querySelector('.cmap-diff').style.display = 'block';
     }
 
     function clearDiff() {
-        document.getElementById('diff').innerHTML = '';
-        document.getElementById('diff').style.display = 'none';
+        document.querySelector('.cmap-diff').innerHTML = '';
+        document.querySelector('.cmap-diff').style.display = 'none';
     }
 
     function getDiffHTML(diff) {
         var root = document.createElement('table');
-        root.classList.add('diff-table');
+        root.classList.add('cmap-diff-table');
 
         var types = ['added', 'unchanged', 'deleted', 'modifiedOld', 'modifiedNew'];
         for (var prop in diff) {
@@ -375,31 +386,6 @@ function render(hash, options) {
         return root;
     }
 
-    function addLayer(name, id) {
-        var link = document.createElement('a');
-        link.href = '#';
-        link.className = 'active';
-        link.textContent = name;
-
-        link.onclick = function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            var visibility = map.getLayoutProperty(id, 'visibility');
-
-            if (visibility === 'visible') {
-                map.setLayoutProperty(id, 'visibility', 'none');
-                this.className = '';
-            } else {
-                this.className = 'active';
-                map.setLayoutProperty(id, 'visibility', 'visible');
-            }
-        };
-
-        var layers = document.getElementById('menu');
-        layers.appendChild(link);
-    }
-
     function highlightFeature(featureId) {
         map.setFilter('changeset-line', [
             '==', 'id', featureId
@@ -418,36 +404,95 @@ function render(hash, options) {
         ]);
     }
 
-    function updateHash(osmType, featureId) {
-      clearHash();
-
-      location.hash += '/' + osmType;
-      location.hash += '/' + featureId;
-    }
-
-    function clearHash() {
-      var changesetId = location.hash
-        .split('/')[0]
-        .replace('#', '');
-
-      location.hash = changesetId;
-    }
-
     function selectFeature(feature, featureMap) {
       var featureId = feature.properties.id;
       var osmType = feature.properties.type;
 
       highlightFeature(featureId);
       displayDiff(featureId, featureMap);
-      updateHash(osmType, featureId);
+      cmap.emit('featureChange', osmType, featureId);
     }
 
     function clearFeature() {
       clearHighlight();
       clearDiff();
-      clearHash();
+      cmap.emit('featureChange', null, null);
     }
+
+    return cmap;
 }
 
+function elt(name, attributes) {
+  var node = document.createElement(name);
+  if (attributes) {
+    for (var attr in attributes)
+      if (attributes.hasOwnProperty(attr))
+        node.setAttribute(attr, attributes[attr]);
+  }
+  for (var i = 2; i < arguments.length; i++) {
+    var child = arguments[i];
+    if (typeof child == "string")
+      child = document.createTextNode(child);
+    node.appendChild(child);
+  }
+  return node;
+}
 
-module.exports = render;
+function renderHTML(container) {
+  container.classList.add('cmap-container');
+
+  var loader = elt('div', { class: 'cmap-loading', style: 'display: none;' });
+  loader.appendChild(
+    elt('img', { src: 'img/loading.gif' })
+  );
+  container.appendChild(loader);
+
+  var mapContainer = elt('div', { class: 'cmap-map' });
+  container.appendChild(mapContainer);
+
+  var diff = elt('div', { class: 'cmap-diff', style: 'display: none' });
+  container.appendChild(diff);
+
+  var sidebar = elt('div', { class: 'cmap-sidebar cmap-pad1', style: 'display: none'});
+  sidebar.appendChild(
+    elt('div', { class: 'cmap-fill-grey cmap-info'},
+      elt('a', { class: 'cmap-sidebar-changeset' }),
+      elt('br'),
+      elt('a', { class: 'cmap-sidebar-user icon account' }),
+      elt('br'),
+      elt('span', { class: 'cmap-sidebar-time icon time'})
+    )
+  );
+  sidebar.appendChild(
+    elt('div', { class: 'cmap-layer-selector cmap-info cmap-fill-grey'},
+      elt('ul', {},
+        elt('li', {},
+          elt('input', { type: 'checkbox', value: 'added', checked: true }),
+          'Added features',
+          elt('span', { class: 'cmap-fr'},
+            elt('span', { class: 'cmap-color-box added'}))
+        ),
+
+        elt('li', {},
+          elt('input', { type: 'checkbox', value: 'modified', checked: true }),
+          'Modified features',
+          elt('span', { class: 'cmap-fr'},
+            elt('span', { class: 'cmap-color-box modified-old'}),
+            '→',
+            elt('span', { class: 'cmap-color-box modified-new'})
+          )
+        ),
+
+        elt('li', {},
+          elt('input', { type: 'checkbox', value: 'deleted', checked: true }),
+          'Deleted features',
+          elt('span', { class: 'cmap-fr'},
+            elt('span', { class: 'cmap-color-box deleted'}))
+        )
+      )
+    )
+  );
+  container.appendChild(sidebar);
+}
+
+window.changesetMap = module.exports = render;

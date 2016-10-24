@@ -4,6 +4,29 @@ Very experimental work in progress. The idea being that you can pass a changeset
 
 Heavily inspired by the ACHAVI Changeset Viewer: http://wiki.openstreetmap.org/wiki/Achavi
 
+### Use as a module
+
+Create a container div to hold the UI.
+
+```html
+<div id='container'></div>
+```
+
+```js
+var changesetMap = require('changeset-map');
+var container = document.getElementById('container');
+var changesetMapControl = changesetMap(container, changesetID, { width: '1000px', height: '1000px' });
+
+// binding events
+changesetMapControl.on('load', function () {
+    changesetMapControl.emit('selectFeature', 'node|way', featureId);
+    changesetMapControl.emit('clearFeature');
+    changesetMapControl.on('hashchange', function(geometryType, featureId) {
+        // update hash.
+    });
+})
+```
+
 ### Setup
 
  Install dependencies using `npm install`.
