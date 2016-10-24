@@ -9,11 +9,13 @@ function render(container, id, options) {
     var changesetId = id;
     var cmap = new events();
 
+    // var container = options.container || 'map';
+    container.style.width = options.width || '1000px';
+    container.style.height = options.height || '500px';
     renderHTML(container);
 
     document.querySelector('.cmap-loading').style.display = 'block';
     options = options || {};
-    var container = options.container || 'map';
     mapboxgl.accessToken = config.mapboxAccessToken;
 
     var map = new mapboxgl.Map({
@@ -36,8 +38,8 @@ function render(container, id, options) {
         }
         document.querySelector('.cmap-loading').style.display = 'none';
         document.querySelector('.cmap-layer-selector').style.display = 'block';
-        document.querySelector('.cmap-sidebar-changeset').text = changesetId;
-        document.querySelector('.cmap-sidebar-user').text = result.changeset.user;
+        document.querySelector('.cmap-sidebar-changeset').text = 'Changeset - ' + changesetId;
+        document.querySelector('.cmap-sidebar-user').text = 'User - ' + result.changeset.user;
         var time = result.changeset.to ? result.changeset.to : result.changeset.from;
         document.querySelector('.cmap-sidebar-time').textContent = moment(time).format('MMMM Do YYYY, h:mm a');
         document.querySelector('.cmap-sidebar-user').href = "https://openstreetmap.org/user/" + result.changeset.user;
@@ -452,10 +454,10 @@ function renderHTML(container) {
   var diff = elt('div', { class: 'cmap-diff', style: 'display: none' });
   container.appendChild(diff);
 
-  var sidebar = elt('div', { class: 'cmap-sidebar pad1x', style: 'display: none'});
+  var sidebar = elt('div', { class: 'cmap-sidebar cmap-pad1', style: 'display: none'});
   sidebar.appendChild(
-    elt('div', { class: 'fill-grey cmap-info'},
-      elt('a', { class: 'cmap-sidebar-changeset icon bolt'}),
+    elt('div', { class: 'cmap-fill-grey cmap-info'},
+      elt('a', { class: 'cmap-sidebar-changeset' }),
       elt('br'),
       elt('a', { class: 'cmap-sidebar-user icon account' }),
       elt('br'),
@@ -463,19 +465,19 @@ function renderHTML(container) {
     )
   );
   sidebar.appendChild(
-    elt('div', { class: 'cmap-layer-selector cmap-info fill-grey'},
+    elt('div', { class: 'cmap-layer-selector cmap-info cmap-fill-grey'},
       elt('ul', {},
         elt('li', {},
           elt('input', { type: 'checkbox', value: 'added', checked: true }),
           'Added features',
-          elt('span', { class: 'fr'},
+          elt('span', { class: 'cmap-fr'},
             elt('span', { class: 'cmap-color-box added'}))
         ),
 
         elt('li', {},
           elt('input', { type: 'checkbox', value: 'modified', checked: true }),
           'Modified features',
-          elt('span', { class: 'fr'},
+          elt('span', { class: 'cmap-fr'},
             elt('span', { class: 'cmap-color-box modified-old'}),
             '→',
             elt('span', { class: 'cmap-color-box modified-new'})
@@ -485,7 +487,7 @@ function renderHTML(container) {
         elt('li', {},
           elt('input', { type: 'checkbox', value: 'deleted', checked: true }),
           'Deleted features',
-          elt('span', { class: 'fr'},
+          elt('span', { class: 'cmap-fr'},
             elt('span', { class: 'cmap-color-box deleted'}))
         )
       )

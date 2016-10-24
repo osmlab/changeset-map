@@ -5,7 +5,7 @@ if (location.hash !== '') {
     document.getElementById('formContainer').style.display = 'none';
     var id = location.hash.split('/')[0].replace('#', '');
     var [, geometryType, featureId] = location.hash.split('/');
-    changesetMap = render(document.getElementById('container'), id, {});
+    changesetMap = render(document.getElementById('container'), id, {width: window.innerWidth + 'px', height: window.innerHeight + 'px'});
     changesetMap.on('load', function () {
         changesetMap.emit('selectFeature', geometryType, featureId);
     });
