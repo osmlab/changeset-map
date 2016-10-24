@@ -9,7 +9,6 @@ function render(container, id, options) {
     var changesetId = id;
     var cmap = new events();
 
-    // var container = options.container || 'map';
     container.style.width = options.width || '1000px';
     container.style.height = options.height || '500px';
     renderHTML(container);
