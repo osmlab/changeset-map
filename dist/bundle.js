@@ -860,12 +860,6 @@ function elt(name, attributes) {
 function renderHTML(container) {
   container.classList.add('cmap-container');
 
-  // var loader = elt('div', { class: 'cmap-loading', style: 'display: none;' });
-  // loader.appendChild(
-  //   elt('img', { src: 'images/loading.gif' })
-  // );
-  // container.appendChild(loader);
-
   var mapContainer = elt('div', { class: 'cmap-map' });
   container.appendChild(mapContainer);
 
