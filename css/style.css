@@ -12,24 +12,6 @@
     width:100%;
 }
 
-.cmap-loading {
-    position: absolute;
-    top:0;
-    bottom:0;
-    width:100%;
-    z-index: 100;
-    background: rgba(255,255,255,0.9);
-}
-
-.cmap-loading img {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    -ms-transform: translateX(-50%) translateY(-50%);
-    -webkit-transform: translateX(-50%) translateY(-50%);
-    transform: translateX(-50%) translateY(-50%);
-}
-
 .cmap-diff {
     position: absolute;
     z-index: 1;
@@ -130,7 +112,7 @@
 .cmap-loading:before {
   content:'';
   display:block;
-  position:absolute;
+  position: absolute;
   z-index:10;
   }
 .cmap-loading:before {
@@ -157,7 +139,7 @@
 
 .cmap-spinner:after {
   content:'';
-  position:absolute;
+  position: absolute;
   right:5px;
   top:50%;
   border-radius:50%;
