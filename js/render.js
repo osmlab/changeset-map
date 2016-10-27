@@ -13,7 +13,6 @@ function render(container, id, options) {
     container.style.height = options.height || '500px';
     renderHTML(container);
 
-    document.querySelector('.cmap-loading').style.display = 'block';
     options = options || {};
     mapboxgl.accessToken = config.mapboxAccessToken;
 
@@ -24,7 +23,9 @@ function render(container, id, options) {
         zoom: 3
     });
 
+    container.classList.add('cmap-loading');
     overpass.query(changesetId, function(err, result) {
+        container.classList.remove('cmap-loading');
         if (err) {
             if (err.msg) {
                 alert(err.msg);
@@ -35,7 +36,7 @@ function render(container, id, options) {
             }
             return;
         }
-        document.querySelector('.cmap-loading').style.display = 'none';
+
         document.querySelector('.cmap-layer-selector').style.display = 'block';
         document.querySelector('.cmap-sidebar-changeset').text = 'Changeset - ' + changesetId;
         document.querySelector('.cmap-sidebar-user').text = 'User - ' + result.changeset.user;
@@ -441,11 +442,11 @@ function elt(name, attributes) {
 function renderHTML(container) {
   container.classList.add('cmap-container');
 
-  var loader = elt('div', { class: 'cmap-loading', style: 'display: none;' });
-  loader.appendChild(
-    elt('img', { src: 'img/loading.gif' })
-  );
-  container.appendChild(loader);
+  // var loader = elt('div', { class: 'cmap-loading', style: 'display: none;' });
+  // loader.appendChild(
+  //   elt('img', { src: 'images/loading.gif' })
+  // );
+  // container.appendChild(loader);
 
   var mapContainer = elt('div', { class: 'cmap-map' });
   container.appendChild(mapContainer);

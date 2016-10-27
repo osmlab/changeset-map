@@ -5,8 +5,8 @@
   "main": "js/index.js",
   "scripts": {
     "start": "npm run serve & npm run watch",
-    "watch": "watchify --debug js/index.js -o dist/bundle.js",
-    "build": "browserify js/index.js -o dist/bundle.js",
+    "watch": "watchify --debug js/render.js -o dist/bundle.js",
+    "build": "browserify js/render.js -o dist/bundle.js",
     "serve": "http-server ."
   },
   "author": "Mapbox",
