@@ -446,10 +446,10 @@ function render(container, id, options) {
         container.classList.remove('cmap-loading');
         if (err) {
             if (err.msg) {
-                alert(err.msg);
+                errorMessage(err.msg);
                 console.log(err.error);
             } else {
-                alert("An unexpected error occured");
+                errorMessage("An unexpected error occured");
                 console.log(err);
             }
             return;
@@ -737,6 +737,14 @@ function render(container, id, options) {
 
         cmap.emit('load');
     });
+
+    function errorMessage(message) {
+        document.querySelector('.cmap-info').innerHTML = '';
+        document.querySelector('.cmap-info').innerHTML = message;
+        document.querySelector('.cmap-sidebar').style.display = 'block';
+        document.querySelector('.cmap-layer-selector').style.display = 'none';
+
+    }
 
     function displayDiff(id, featureMap) {
         var featuresWithId = featureMap[id];
