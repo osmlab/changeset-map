@@ -26,16 +26,7 @@ function render(container, id, options) {
     container.classList.add('cmap-loading');
     overpass.query(changesetId, function(err, result) {
         container.classList.remove('cmap-loading');
-        if (err) {
-            if (err.msg) {
-                errorMessage(err.msg);
-                console.log(err.error);
-            } else {
-                errorMessage("An unexpected error occured");
-                console.log(err);
-            }
-            return;
-        }
+        if (err) return errorMessage(err.msg);
 
         document.querySelector('.cmap-layer-selector').style.display = 'block';
         document.querySelector('.cmap-sidebar-changeset').text = 'Changeset - ' + changesetId;
@@ -321,7 +312,7 @@ function render(container, id, options) {
     });
 
     function errorMessage(message) {
-        document.querySelector('.cmap-info').innerHTML = '';
+        message = message || 'An unexpected error occured';
         document.querySelector('.cmap-info').innerHTML = message;
         document.querySelector('.cmap-sidebar').style.display = 'block';
         document.querySelector('.cmap-layer-selector').style.display = 'none';
