@@ -26,16 +26,7 @@ function render(container, id, options) {
     container.classList.add('cmap-loading');
     overpass.query(changesetId, function(err, result) {
         container.classList.remove('cmap-loading');
-        if (err) {
-            if (err.msg) {
-                alert(err.msg);
-                console.log(err.error);
-            } else {
-                alert("An unexpected error occured");
-                console.log(err);
-            }
-            return;
-        }
+        if (err) return errorMessage(err.msg);
 
         document.querySelector('.cmap-layer-selector').style.display = 'block';
         document.querySelector('.cmap-sidebar-changeset').text = 'Changeset - ' + changesetId;
@@ -319,6 +310,14 @@ function render(container, id, options) {
 
         cmap.emit('load');
     });
+
+    function errorMessage(message) {
+        message = message || 'An unexpected error occured';
+        document.querySelector('.cmap-info').innerHTML = message;
+        document.querySelector('.cmap-sidebar').style.display = 'block';
+        document.querySelector('.cmap-layer-selector').style.display = 'none';
+
+    }
 
     function displayDiff(id, featureMap) {
         var featuresWithId = featureMap[id];
