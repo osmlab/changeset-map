@@ -14,6 +14,7 @@ function render(container, id, options) {
     renderHTML(container);
 
     options = options || {};
+    options.overpassBase = options.overpassBase || config.overpassBase;
     mapboxgl.accessToken = config.mapboxAccessToken;
 
     var map = new mapboxgl.Map({
@@ -24,7 +25,7 @@ function render(container, id, options) {
     });
 
     container.classList.add('cmap-loading');
-    overpass.query(changesetId, function(err, result) {
+    overpass.query(changesetId, options.overpassBase, function(err, result) {
         container.classList.remove('cmap-loading');
         if (err) return errorMessage(err.msg);
 

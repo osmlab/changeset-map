@@ -1,6 +1,5 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var config = {
-    //'overpassBase': 'https://overpass-cfn-production.tilestream.net/api/interpreter',
     'overpassBase': 'https://overpass-api.de/api/interpreter',
     'osmBase': 'https://www.openstreetmap.org/api/0.6/',
     // 'mapboxAccessToken': 'pk.eyJ1Ijoic2FuamF5YiIsImEiOiI3NjVvMFY0In0.byn_eCZGAwR1yaPeC-SVKw'
@@ -150,12 +149,11 @@ module.exports = {
 };
 },{"./config":1,"moment":189,"xhr":190}],4:[function(require,module,exports){
 var xhr = require('xhr');
-var config = require('./config');
 var osm = require('./osm');
 var overpassToGeoJSON = require('./overpassToGeoJSON');
 var geojsonChanges = require('./geojsonChanges');
 
-var query = function(changesetID, callback) {
+var query = function(changesetID, overpassBase, callback) {
     osm.query(changesetID, function(err, changeset) {
         if (err) {
             callback({
@@ -165,7 +163,7 @@ var query = function(changesetID, callback) {
         }
         var data = getDataParam(changeset);
         var bbox = getBboxParam(changeset.bbox);
-        var url = config.overpassBase + '?data=' + data + '&bbox=' + bbox;
+        var url = overpassBase + '?data=' + data + '&bbox=' + bbox;
         var xhrOptions = {
             'responseType': 'json'
         };
@@ -201,7 +199,8 @@ function getBboxParam(bbox) {
 module.exports = {
     'query': query
 };
-},{"./config":1,"./geojsonChanges":2,"./osm":3,"./overpassToGeoJSON":5,"xhr":190}],5:[function(require,module,exports){
+
+},{"./geojsonChanges":2,"./osm":3,"./overpassToGeoJSON":5,"xhr":190}],5:[function(require,module,exports){
 function overpassToGeoJSON(overpassElements) {
     var NODES = getNodesById(overpassElements);
 
@@ -432,6 +431,7 @@ function render(container, id, options) {
     renderHTML(container);
 
     options = options || {};
+    options.overpassBase = options.overpassBase || config.overpassBase;
     mapboxgl.accessToken = config.mapboxAccessToken;
 
     var map = new mapboxgl.Map({
@@ -442,7 +442,7 @@ function render(container, id, options) {
     });
 
     container.classList.add('cmap-loading');
-    overpass.query(changesetId, function(err, result) {
+    overpass.query(changesetId, options.overpassBase, function(err, result) {
         container.classList.remove('cmap-loading');
         if (err) return errorMessage(err.msg);
 
