@@ -27,6 +27,8 @@ changesetMapControl.on('load', function () {
 })
 ```
 
+For a custom overpass instance, set a `overpassBase` key in the options object. Default instance is https://overpass-api.de/api/interpreter.
+
 ### Setup
 
  Install dependencies using `npm install`.

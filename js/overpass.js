@@ -1,10 +1,9 @@
 var xhr = require('xhr');
-var config = require('./config');
 var osm = require('./osm');
 var overpassToGeoJSON = require('./overpassToGeoJSON');
 var geojsonChanges = require('./geojsonChanges');
 
-var query = function(changesetID, callback) {
+var query = function(changesetID, overpassBase, callback) {
     osm.query(changesetID, function(err, changeset) {
         if (err) {
             callback({
@@ -14,7 +13,7 @@ var query = function(changesetID, callback) {
         }
         var data = getDataParam(changeset);
         var bbox = getBboxParam(changeset.bbox);
-        var url = config.overpassBase + '?data=' + data + '&bbox=' + bbox;
+        var url = overpassBase + '?data=' + data + '&bbox=' + bbox;
         var xhrOptions = {
             'responseType': 'json'
         };
