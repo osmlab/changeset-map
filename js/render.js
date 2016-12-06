@@ -44,7 +44,23 @@ function render(container, id, options) {
             'data': result.geojson
         });
         map.addLayer({
-            'id': 'changeset-line',
+            'id': 'highlight-point',
+            'source': 'changeset',
+            'type': 'circle',
+            'layout': {
+                'visibility': 'visible'
+            },
+            'paint': {
+                'circle-radius': 8,
+                'circle-color': '#268bd2',
+                'circle-opacity': 1
+            },
+            'filter': [
+                '==', 'id', ''
+            ]
+        });
+        map.addLayer({
+            'id': 'highlight-line',
             'source': 'changeset',
             'type': 'line',
             'layout': {
@@ -53,23 +69,9 @@ function render(container, id, options) {
                 'visibility': 'visible'
             },
             'paint': {
-                'line-color': '#fff',
-                'line-width': 3
-            },
-            'filter': [
-                '==', 'id', ''
-            ]
-        });
-        map.addLayer({
-            'id': 'changeset-point',
-            'source': 'changeset',
-            'type': 'circle',
-            'layout': {
-                'visibility': 'visible'
-            },
-            'paint': {
-                'circle-radius': 4,
-                'circle-color': '#fff'
+                'line-color': '#268bd2',
+                'line-width': 8,
+                'line-opacity': 1
             },
             'filter': [
                 '==', 'id', ''
@@ -151,7 +153,8 @@ function render(container, id, options) {
             },
             'paint': {
                 'line-color': '#b58900',
-                'line-width': 2
+                'line-width': 6,
+                'line-opacity': 0.5
             },
             'filter': [
                 '==', 'changeType', 'modifiedNew'
@@ -388,19 +391,19 @@ function render(container, id, options) {
     }
 
     function highlightFeature(featureId) {
-        map.setFilter('changeset-line', [
+        map.setFilter('highlight-line', [
             '==', 'id', featureId
         ]);
-        map.setFilter('changeset-point', [
+        map.setFilter('highlight-point', [
             '==', 'id', featureId
         ]);
     }
 
     function clearHighlight() {
-        map.setFilter('changeset-line', [
+        map.setFilter('highlight-line', [
             '==', 'id', ''
         ]);
-        map.setFilter('changeset-point', [
+        map.setFilter('highlight-point', [
             '==', 'id', ''
         ]);
     }
