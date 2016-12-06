@@ -1,7 +1,8 @@
 {
-  "name": "gl-changesets",
+  "name": "changeset-map",
   "version": "0.0.1",
   "description": "Visualize OSM changesets on a GL map (WIP)",
+  "private": true,
   "main": "js/index.js",
   "scripts": {
     "start": "npm run serve & npm run watch",
