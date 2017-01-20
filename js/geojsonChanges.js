@@ -38,17 +38,13 @@ function getChangeType(feature, features, changeset) {
     var hasPrev = hasPreviousVersion(version, feature, features);
     if (hasPrev) {
         return 'modifiedNew';
+    } else if (props.changeset === parseInt(changeset.id)) {
+        return 'added';
     }
-    if (version === 1) {
-        if (props.uid === parseInt(changeset.uid) && props.changeset === parseInt(changeset.id)) {
-            return 'added';
-        } else {
-            return 'deleted';
-        }
+    else {
+        return 'deleted';
     }
-    return 'deleted'; //this is possibly wrong.
 }
-
 function hasNextVersion(version, feature, features) {
     var id = feature.properties.id;
     for (var i = 0; i < features[id].length; i++) {
