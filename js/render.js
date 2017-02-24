@@ -313,9 +313,20 @@ function renderHTML(container) {
           elt('span', { class: 'cmap-fr'},
             elt('span', { class: 'cmap-color-box deleted'}))
         )
+        )
       )
-    )
-  );
+    );
+
+  sidebar.appendChild(
+    elt('div', { class: 'cmap-info cmap-baselayer-selector cmap-fill-grey'},
+        elt('form', {},
+          elt('input', { type: 'radio', value: 'default', checked: true, name: 'baselayer' }), 'Default',
+          elt('input', { type: 'radio', value: 'streets', name: 'baselayer' }), 'Mapbox Streets',
+          elt('input', { type: 'radio', value: 'satellite', name: 'baselayer'}),  'Mapbox Satellite'
+          )
+        )
+    );
+
   container.appendChild(sidebar);
 }
 
