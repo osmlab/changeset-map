@@ -23,296 +23,122 @@ function render(container, id, options) {
         center: [0, 0],
         zoom: 3
     });
-
     container.classList.add('cmap-loading');
-    overpass.query(changesetId, options.overpassBase, function(err, result) {
-        container.classList.remove('cmap-loading');
-        if (err) return errorMessage(err.msg);
+    map.on('load', function () {
+        overpass.query(changesetId, options.overpassBase, function(err, result) {
+            container.classList.remove('cmap-loading');
+            if (err) return errorMessage(err.msg);
 
-        document.querySelector('.cmap-layer-selector').style.display = 'block';
-        document.querySelector('.cmap-sidebar-changeset').text = 'Changeset - ' + changesetId;
-        document.querySelector('.cmap-sidebar-user').text = 'User - ' + result.changeset.user;
-        var time = result.changeset.to ? result.changeset.to : result.changeset.from;
-        document.querySelector('.cmap-sidebar-time').textContent = moment(time).format('MMMM Do YYYY, h:mm a');
-        document.querySelector('.cmap-sidebar-user').href = "https://openstreetmap.org/user/" + result.changeset.user;
-        document.querySelector('.cmap-sidebar-changeset').href = "https://openstreetmap.org/changeset/" + changesetId;
-        document.querySelector('.cmap-sidebar').style.display = 'block';
-        var bbox = result.changeset.bbox;
-        var featureMap = result.featureMap;
-        map.addSource('changeset', {
-            'type': 'geojson',
-            'data': result.geojson
-        });
-        map.addLayer({
-            'id': 'highlight-point',
-            'source': 'changeset',
-            'type': 'circle',
-            'layout': {
-                'visibility': 'visible'
-            },
-            'paint': {
-                'circle-radius': 8,
-                'circle-color': '#268bd2',
-                'circle-opacity': 1
-            },
-            'filter': [
-                '==', 'id', ''
-            ]
-        });
-        map.addLayer({
-            'id': 'highlight-line',
-            'source': 'changeset',
-            'type': 'line',
-            'layout': {
-                'line-join': 'round',
-                'line-cap': 'round',
-                'visibility': 'visible'
-            },
-            'paint': {
-                'line-color': '#268bd2',
-                'line-width': 8,
-                'line-opacity': 1
-            },
-            'filter': [
-                '==', 'id', ''
-            ]
-        });
-        map.addLayer({
-            'id': 'added-line',
-            'source': 'changeset',
-            'type': 'line',
-            'interactive': true,
-            'layout': {
-                'visibility': 'visible'
-            },
-            'paint': {
-                'line-color': '#859900',
-                'line-width': 2
-            },
-            'filter': [
-                '==', 'changeType', 'added'
-            ]
-        });
-        map.addLayer({
-            'id': 'added-point',
-            'source': 'changeset',
-            'type': 'circle',
-            'interactive': true,
-            'layout': {
-                'visibility': 'visible'
-            },
-            'paint': {
-                'circle-color': '#859900',
-                'circle-radius': 3,
-                'circle-blur': 1
-            },
-            'filter': [
-                '==', 'changeType', 'added'
-            ]
-        });
-        map.addLayer({
-            'id': 'modified-old-line',
-            'source': 'changeset',
-            'type': 'line',
-            'interactive': true,
-            'layout': {
-                'visibility': 'visible'
-            },
-            'paint': {
-                'line-color': '#fdf6e3',
-                'line-width': 2
-            },
-            'filter': [
-                '==', 'changeType', 'modifiedOld'
-            ]
-        });
-        map.addLayer({
-            'id': 'modified-old-point',
-            'source': 'changeset',
-            'type': 'circle',
-            'interactive': true,
-            'layout': {
-                'visibility': 'visible'
-            },
-            'paint': {
-                'circle-color': '#fdf6e3',
-                'circle-radius': 3,
-                'circle-blur': 1
-            },
-            'filter': [
-                '==', 'changeType', 'modifiedOld'
-            ]
-        });
-        map.addLayer({
-            'id': 'modified-new-line',
-            'source': 'changeset',
-            'type': 'line',
-            'interactive': true,
-            'layout': {
-                'visibility': 'visible'
-            },
-            'paint': {
-                'line-color': '#b58900',
-                'line-width': 6,
-                'line-opacity': 0.5
-            },
-            'filter': [
-                '==', 'changeType', 'modifiedNew'
-            ]
-        });
-        map.addLayer({
-            'id': 'modified-new-point',
-            'source': 'changeset',
-            'type': 'circle',
-            'interactive': true,
-            'layout': {
-                'visibility': 'visible'
-            },
-            'paint': {
-                'circle-color': '#b58900',
-                'circle-radius': 3,
-                'circle-blur': 1
-            },
-            'filter': [
-                '==', 'changeType', 'modifiedNew'
-            ]
-        });
-        map.addLayer({
-            'id': 'deleted-line',
-            'source': 'changeset',
-            'type': 'line',
-            'interactive': true,
-            'layout': {
-                'visibility': 'visible'
-            },
-            'paint': {
-                'line-color': '#dc322f',
-                'line-width': 2
-            },
-            'filter': [
-                '==', 'changeType', 'deleted'
-            ]
-        });
-        map.addLayer({
-            'id': 'deleted-point',
-            'source': 'changeset',
-            'type': 'circle',
-            'interactive': true,
-            'layout': {
-                'visibility': 'visible'
-            },
-            'paint': {
-                'circle-color': '#dc322f',
-                'circle-radius': 3,
-                'circle-blur': 1
-            },
-            'filter': [
-                '==', 'changeType', 'deleted'
-            ]
-        });
+            document.querySelector('.cmap-layer-selector').style.display = 'block';
+            document.querySelector('.cmap-sidebar-changeset').text = 'Changeset - ' + changesetId;
+            document.querySelector('.cmap-sidebar-user').text = 'User - ' + result.changeset.user;
+            var time = result.changeset.to ? result.changeset.to : result.changeset.from;
+            document.querySelector('.cmap-sidebar-time').textContent = moment(time).format('MMMM Do YYYY, h:mm a');
+            document.querySelector('.cmap-sidebar-user').href = "https://openstreetmap.org/user/" + result.changeset.user;
+            document.querySelector('.cmap-sidebar-changeset').href = "https://openstreetmap.org/changeset/" + changesetId;
+            document.querySelector('.cmap-sidebar').style.display = 'block';
+            var bbox = result.changeset.bbox;
+            var featureMap = result.featureMap;
 
-        map.on('click', function(e) {
-            var x1y1 = [e.point.x - 5, e.point.y - 5];
-            var x2y2 = [e.point.x + 5, e.point.y + 5];
-            var features = map.queryRenderedFeatures([x1y1, x2y2], {
-                'layers': [
+                console.log('loaded');
+                map.addSource('changeset', {
+                    'type': 'geojson',
+                    'data': result.geojson
+                });
+
+
+            // bbox.* are strings, use +var to coerce to number
+            var left   = +bbox.left,
+                right  = +bbox.right,
+                top    = +bbox.top,
+                bottom = +bbox.bottom;
+
+            // Special case: If a single node was changed, then
+            //    bbox.left == bbox.right, and
+            //    bbox.top == bbox.bottom
+            // In this case, add a little padding to avoid breaking fitBounds
+            
+            // w,s,e,n
+            // left, bottom, right, top
+
+            // s, w, n, e
+            // bottom, left, top, right
+            // if (left == right) {
+            //     left  = left - 0.1;
+            //     right = right + 0.1;
+            // }
+            // if (top == bottom) {
+            //     top    = top - 0.1;
+            //     bottom = bottom + 0.1;
+            // }
+
+            console.log([
+                [ bottom, left ],
+                [ top, right ]
+            ]);
+
+            window.bbox = bbox;
+            map.fitBounds([
+                [ left, bottom ],
+                [ right, top ]
+            ]);
+
+            var layersKey = {
+                'added': [
                     'added-line',
-                    'added-point',
+                    'added-point'
+                ],
+                'modified': [
                     'modified-old-line',
                     'modified-old-point',
                     'modified-new-line',
-                    'modified-new-point',
+                    'modified-new-point'
+                ],
+                'deleted': [
                     'deleted-line',
                     'deleted-point'
                 ]
-            });
-
-            if (features.length) {
-                selectFeature(features[0], featureMap);
-            } else {
-                clearFeature();
-            }
-        });
-
-        // bbox.* are strings, use +var to coerce to number
-        var left   = +bbox.left,
-            right  = +bbox.right,
-            top    = +bbox.top,
-            bottom = +bbox.bottom;
-
-        // Special case: If a single node was changed, then
-        //    bbox.left == bbox.right, and
-        //    bbox.top == bbox.bottom
-        // In this case, add a little padding to avoid breaking fitBounds
-        if (left == right) {
-            left  = left - 0.1;
-            right = right + 0.1;
-        }
-        if (top == bottom) {
-            top    = top - 0.1;
-            bottom = bottom + 0.1;
-        }
-
-        map.fitBounds([
-            [ left, top ],
-            [ right, bottom ]
-        ]);
-
-        var layersKey = {
-            'added': [
+            };
+            var selectedLayers = [
                 'added-line',
-                'added-point'
-            ],
-            'modified': [
+                'added-point',
                 'modified-old-line',
                 'modified-old-point',
                 'modified-new-line',
-                'modified-new-point'
-            ],
-            'deleted': [
+                'modified-new-point',
                 'deleted-line',
                 'deleted-point'
-            ]
-        };
-        var selectedLayers = [
-            'added-line',
-            'added-point',
-            'modified-old-line',
-            'modified-old-point',
-            'modified-new-line',
-            'modified-new-point',
-            'deleted-line',
-            'deleted-point'
-        ];
-        var layerSelector = document.querySelector('.cmap-layer-selector');
-        layerSelector.addEventListener('change', function(e) {
-            var key = e.target.value;
-            if (e.target.checked) {
-                selectedLayers = selectedLayers.concat(layersKey[key]);
-                layersKey[key].forEach(function(layer) {
-                    map.setLayoutProperty(layer, 'visibility', 'visible');
-                });
-            } else {
-                selectedLayers = selectedLayers.filter(function(layer) {
-                    return !layer in layersKey[key];
-                });
-                layersKey[key].forEach(function(layer) {
-                    map.setLayoutProperty(layer, 'visibility', 'none');
-                });
-            }
-        });
+            ];
+            var layerSelector = document.querySelector('.cmap-layer-selector');
+            layerSelector.addEventListener('change', function(e) {
+                var key = e.target.value;
+                if (e.target.checked) {
+                    selectedLayers = selectedLayers.concat(layersKey[key]);
+                    layersKey[key].forEach(function(layer) {
+                        map.setLayoutProperty(layer, 'visibility', 'visible');
+                    });
+                } else {
+                    selectedLayers = selectedLayers.filter(function(layer) {
+                        return !layer in layersKey[key];
+                    });
+                    layersKey[key].forEach(function(layer) {
+                        map.setLayoutProperty(layer, 'visibility', 'none');
+                    });
+                }
+            });
 
-        cmap.on('selectFeature', function (geometryType, featureId) {
-            if (geometryType && featureId) {
-                selectFeature(featureMap[featureId][0], featureMap);
-            }
-        });
+            cmap.on('selectFeature', function (geometryType, featureId) {
+                if (geometryType && featureId) {
+                    selectFeature(featureMap[featureId][0], featureMap);
+                }
+            });
 
-        cmap.on('clearFeature', function () {
-            clearFeature();
-        });
+            cmap.on('clearFeature', function () {
+                clearFeature();
+            });
 
-        cmap.emit('load');
+            cmap.emit('load');
+        });
     });
 
     function errorMessage(message) {
@@ -491,6 +317,204 @@ function renderHTML(container) {
     )
   );
   container.appendChild(sidebar);
+}
+
+function addMapLayers(map, baseLayer) {
+
+    if (baseLayer) {
+        map.setStyle(baseLayer, {'diff': true});
+    }
+
+    map.addLayer({
+        'id': 'highlight-point',
+        'source': 'changeset',
+        'type': 'circle',
+        'layout': {
+            'visibility': 'visible'
+        },
+        'paint': {
+            'circle-radius': 8,
+            'circle-color': '#268bd2',
+            'circle-opacity': 1
+        },
+        'filter': [
+        '==', 'id', ''
+        ]
+    });
+    map.addLayer({
+        'id': 'highlight-line',
+        'source': 'changeset',
+        'type': 'line',
+        'layout': {
+            'line-join': 'round',
+            'line-cap': 'round',
+            'visibility': 'visible'
+        },
+        'paint': {
+            'line-color': '#268bd2',
+            'line-width': 8,
+            'line-opacity': 1
+        },
+        'filter': [
+        '==', 'id', ''
+        ]
+    });
+    map.addLayer({
+        'id': 'added-line',
+        'source': 'changeset',
+        'type': 'line',
+        'interactive': true,
+        'layout': {
+            'visibility': 'visible'
+        },
+        'paint': {
+            'line-color': '#859900',
+            'line-width': 2
+        },
+        'filter': [
+        '==', 'changeType', 'added'
+        ]
+    });
+    map.addLayer({
+        'id': 'added-point',
+        'source': 'changeset',
+        'type': 'circle',
+        'interactive': true,
+        'layout': {
+            'visibility': 'visible'
+        },
+        'paint': {
+            'circle-color': '#859900',
+            'circle-radius': 3,
+            'circle-blur': 1
+        },
+        'filter': [
+        '==', 'changeType', 'added'
+        ]
+    });
+    map.addLayer({
+        'id': 'modified-old-line',
+        'source': 'changeset',
+        'type': 'line',
+        'interactive': true,
+        'layout': {
+            'visibility': 'visible'
+        },
+        'paint': {
+            'line-color': '#fdf6e3',
+            'line-width': 2
+        },
+        'filter': [
+        '==', 'changeType', 'modifiedOld'
+        ]
+    });
+    map.addLayer({
+        'id': 'modified-old-point',
+        'source': 'changeset',
+        'type': 'circle',
+        'interactive': true,
+        'layout': {
+            'visibility': 'visible'
+        },
+        'paint': {
+            'circle-color': '#fdf6e3',
+            'circle-radius': 3,
+            'circle-blur': 1
+        },
+        'filter': [
+        '==', 'changeType', 'modifiedOld'
+        ]
+    });
+    map.addLayer({
+        'id': 'modified-new-line',
+        'source': 'changeset',
+        'type': 'line',
+        'interactive': true,
+        'layout': {
+            'visibility': 'visible'
+        },
+        'paint': {
+            'line-color': '#b58900',
+            'line-width': 6,
+            'line-opacity': 0.5
+        },
+        'filter': [
+        '==', 'changeType', 'modifiedNew'
+        ]
+    });
+    map.addLayer({
+        'id': 'modified-new-point',
+        'source': 'changeset',
+        'type': 'circle',
+        'interactive': true,
+        'layout': {
+            'visibility': 'visible'
+        },
+        'paint': {
+            'circle-color': '#b58900',
+            'circle-radius': 3,
+            'circle-blur': 1
+        },
+        'filter': [
+        '==', 'changeType', 'modifiedNew'
+        ]
+    });
+    map.addLayer({
+        'id': 'deleted-line',
+        'source': 'changeset',
+        'type': 'line',
+        'interactive': true,
+        'layout': {
+            'visibility': 'visible'
+        },
+        'paint': {
+            'line-color': '#dc322f',
+            'line-width': 2
+        },
+        'filter': [
+        '==', 'changeType', 'deleted'
+        ]
+    });
+    map.addLayer({
+        'id': 'deleted-point',
+        'source': 'changeset',
+        'type': 'circle',
+        'interactive': true,
+        'layout': {
+            'visibility': 'visible'
+        },
+        'paint': {
+            'circle-color': '#dc322f',
+            'circle-radius': 3,
+            'circle-blur': 1
+        },
+        'filter': [
+        '==', 'changeType', 'deleted'
+        ]
+    });
+
+    map.on('click', function(e) {
+        var x1y1 = [e.point.x - 5, e.point.y - 5];
+        var x2y2 = [e.point.x + 5, e.point.y + 5];
+        var features = map.queryRenderedFeatures([x1y1, x2y2], {
+            'layers': [
+            'added-line',
+            'added-point',
+            'modified-old-line',
+            'modified-old-point',
+            'modified-new-line',
+            'modified-new-point',
+            'deleted-line',
+            'deleted-point'
+            ]
+        });
+
+        if (features.length) {
+            selectFeature(features[0], featureMap);
+        } else {
+            clearFeature();
+        }
+    }); 
 }
 
 window.changesetMap = module.exports = render;
