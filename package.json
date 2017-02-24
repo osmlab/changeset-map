@@ -13,7 +13,7 @@
   "author": "Mapbox",
   "license": "ISC",
   "dependencies": {
-    "mapbox-gl": "^0.18.0",
+    "mapbox-gl": "^0.32.1",
     "moment": "^2.11.2",
     "turf-buffer": "^3.0.5",
     "xhr": "^2.2.0"
