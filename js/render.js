@@ -85,11 +85,11 @@ function render(container, id, options) {
         baseLayerSelector.addEventListener('change', function(e) {
             var layer = e.target.value;
             if (layer === 'default') {
-                renderMap('mapbox://styles/planemad/cijcefp3q00elbskq4cgvcivf', result);
+                renderMap('mapbox://styles/mapbox/satellite-streets-v9', result);
             }
 
-            if (layer === 'satellite') {
-                renderMap('mapbox://styles/mapbox/satellite-streets-v9', result);
+            if (layer === 'dark') {
+                renderMap('mapbox://styles/planemad/cijcefp3q00elbskq4cgvcivf', result);
             }
 
             if (layer === 'streets') {
@@ -179,9 +179,9 @@ function renderHTML(container) {
   sidebar.appendChild(
     elt('div', { class: 'cmap-info cmap-baselayer-selector cmap-fill-grey'},
         elt('form', {},
-          elt('input', { type: 'radio', value: 'default', checked: true, name: 'baselayer' }), 'Default',
-          elt('input', { type: 'radio', value: 'streets', name: 'baselayer' }), 'Mapbox Streets',
-          elt('input', { type: 'radio', value: 'satellite', name: 'baselayer'}),  'Mapbox Satellite'
+          elt('input', { type: 'radio', value: 'satellite', checked: true, name: 'baselayer' }), 'Satellite',
+          elt('input', { type: 'radio', value: 'streets', name: 'baselayer' }), 'Streets',
+          elt('input', { type: 'radio', value: 'dark', name: 'baselayer'}),  'Dark'
           )
         )
     );
@@ -519,7 +519,7 @@ function renderMap(baseLayer, result) {
 
     map = new mapboxgl.Map({
         container: document.querySelector('.cmap-map'),
-        style: baseLayer || 'mapbox://styles/planemad/cijcefp3q00elbskq4cgvcivf',
+        style: baseLayer || 'mapbox://styles/mapbox/satellite-streets-v9',
     });
 
     map.fitBounds([
