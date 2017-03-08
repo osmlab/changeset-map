@@ -26,6 +26,9 @@ var query = function(changesetID, overpassBase, callback) {
             }
             var elements = response.body.elements;
             var geojson = overpassToGeoJSON(elements);
+            geojson.features = geojson.features.filter(function(feature) {
+              return feature.properties.changeset == changesetID;
+            });
             var changes = geojsonChanges(geojson, changeset);
 
             var ret = {
