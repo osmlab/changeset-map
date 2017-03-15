@@ -1,6 +1,7 @@
 var xhr = require('xhr');
 var osm = require('./osm');
-var overpassToGeoJSON = require('./overpassToGeoJSON');
+var adiffParser = require('osm-adiff-parser-saxjs');
+var jsonParser = require('real-changesets-parser');
 var geojsonChanges = require('./geojsonChanges');
 
 var query = function(changesetID, overpassBase, callback) {
@@ -15,7 +16,7 @@ var query = function(changesetID, overpassBase, callback) {
         var bbox = getBboxParam(changeset.bbox);
         var url = overpassBase + '?data=' + data + '&bbox=' + bbox;
         var xhrOptions = {
-            'responseType': 'json'
+            'responseType': 'application/osm3s+xml'
         };
         xhr.get(url, xhrOptions, function(err, response) {
             if (err) {
@@ -24,25 +25,29 @@ var query = function(changesetID, overpassBase, callback) {
                     'error': err
                 }, null);
             }
-            var elements = response.body.elements;
-            var geojson = overpassToGeoJSON(elements);
-            geojson.features = geojson.features.filter(function(feature) {
-              return feature.properties.changeset == changesetID;
-            });
-            var changes = geojsonChanges(geojson, changeset);
+            adiffParser(response.body, [changesetID], function(err, json) {
+                if (err) {
+                    return callback({
+                        'msg': 'Failed to parser adiff xml.',
+                        'error': err
+                    }, null);
+                }
+                var geojson = jsonParser({ elements: json[changesetID] });
+                var changes = geojsonChanges(geojson, changeset);
 
-            var ret = {
-                'geojson': changes.geojson,
-                'featureMap': changes.featureMap,
-                'changeset': changeset
-            };
-            return callback(null, ret);
+                var ret = {
+                    'geojson': changes.geojson,
+                    'featureMap': changes.featureMap,
+                    'changeset': changeset
+                };
+                return callback(null, ret);
+            });
         });
     });
 };
 
 function getDataParam(c) {
-    return '[out:json][adiff:%22' + c.from.toString()  + ',%22,%22' + c.to.toString() + '%22];(node(bbox)(changed);way(bbox)(changed););out%20meta%20geom(bbox);';
+    return '[out:xml][adiff:%22' + c.from.toString()  + ',%22,%22' + c.to.toString() + '%22];(node(bbox)(changed);way(bbox)(changed););out%20meta%20geom(bbox);';
 }
 
 function getBboxParam(bbox) {
