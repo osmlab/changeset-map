@@ -1,5 +1,5 @@
 var mapboxgl = require('mapbox-gl');
-var overpass = require('./overpass');
+var getChangeset = require('./getChangeset');
 var propsDiff = require('./propsDiff');
 var config = require('./config');
 var moment = require('moment');
@@ -19,7 +19,7 @@ function render(container, id, options) {
     mapboxgl.accessToken = config.mapboxAccessToken;
 
     container.classList.add('cmap-loading');
-    overpass.query(changesetId, options.overpassBase, function(err, result) {
+    getChangeset(changesetId, options.overpassBase, function(err, result) {
         container.classList.remove('cmap-loading');
         if (err) return errorMessage(err.msg);
 
