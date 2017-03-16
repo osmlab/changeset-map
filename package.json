@@ -7,7 +7,7 @@
   "scripts": {
     "start": "npm run serve & npm run watch",
     "watch": "watchify js/render.js -o dist/bundle.js",
-    "build": "browserify js/render.js -o dist/bundle.js",
+    "build": "browserify js/render.js | uglifyjs > dist/bundle.js",
     "serve": "http-server ."
   },
   "author": "Mapbox",
@@ -23,6 +23,7 @@
   "devDependencies": {
     "browserify": "^13.0.0",
     "http-server": "^0.9.0",
+    "uglifyjs": "^2.4.10",
     "watchify": "^3.7.0"
   }
 }
