@@ -399,7 +399,9 @@ function errorMessage(message) {
 function displayDiff(id, featureMap) {
     var featuresWithId = featureMap[id];
     var propsArray = featuresWithId.map(function(f) {
-        return f.properties;
+        var props = Object.assign({}, f.properties, f.properties.tags);
+        delete props.tags;
+        return props;
     });
 
     var diff = propsDiff(propsArray);
