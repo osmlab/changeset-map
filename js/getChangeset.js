@@ -4,7 +4,7 @@ var adiffParser = require('osm-adiff-parser-saxjs');
 var jsonParser = require('real-changesets-parser');
 var geojsonChanges = require('./geojsonChanges');
 
-var S3_URL = 'http://s3.amazonaws.com/mapbox/real-changesets/production/';
+var S3_URL = '//s3.amazonaws.com/mapbox/real-changesets/production/';
 
 var getChangeset = function(changesetID, overpassBase, callback) {
     osm.query(changesetID, function(err, changeset) {
