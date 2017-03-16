@@ -84,7 +84,7 @@ function render(container, id, options) {
         var baseLayerSelector = document.querySelector('.cmap-baselayer-selector');
         baseLayerSelector.addEventListener('change', function(e) {
             var layer = e.target.value;
-            if (layer === 'default') {
+            if (layer === 'satellite') {
                 renderMap('mapbox://styles/mapbox/satellite-streets-v9', result);
             }
 
