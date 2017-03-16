@@ -401,6 +401,7 @@ function displayDiff(id, featureMap) {
     var propsArray = featuresWithId.map(function(f) {
         var props = Object.assign({}, f.properties, f.properties.tags);
         delete props.tags;
+        delete props.relations;
         return props;
     });
 
