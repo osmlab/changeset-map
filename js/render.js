@@ -343,7 +343,7 @@ function addMapLayers(baseLayer, result) {
             'line-width': 2
         },
         'filter': [
-        '==', 'changeType', 'deleted'
+        '==', 'changeType', 'deletedNew'
         ]
     });
     map.addLayer({
@@ -360,7 +360,7 @@ function addMapLayers(baseLayer, result) {
             'circle-blur': 1
         },
         'filter': [
-        '==', 'changeType', 'deleted'
+        '==', 'changeType', 'deletedNew'
         ]
     });
 

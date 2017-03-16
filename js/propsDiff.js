@@ -4,15 +4,13 @@ function propsDiff(propsArray) {
         var changeType = propsArray[0].changeType;
         if (changeType === 'added') {
             return getAdded(propsArray[0]);
-        } else if (changeType === 'deleted') {
-            return getDeleted(propsArray[0]);
         } else {
             throw new Error("only 1 element but neither added nor deleted");
         }
     } else {
-        var modifiedOld = getOld(propsArray);
-        var modifiedNew = getNew(propsArray);
-        return getDiff(modifiedOld, modifiedNew);
+        var oldProps = getOld(propsArray);
+        var newProps = getNew(propsArray);
+        return getDiff(oldProps, newProps);
     }
 }
 
@@ -65,7 +63,8 @@ function getDeleted(props) {
 
 function getOld(propsArray) {
     for (var i = 0; i < propsArray.length; i++) {
-        if (propsArray[i].changeType === 'modifiedOld') {
+        var changeType = propsArray[i].changeType;
+        if (changeType === 'modifiedOld' || changeType === 'deletedOld') {
             return propsArray[i];
         }
     }
@@ -73,7 +72,8 @@ function getOld(propsArray) {
 
 function getNew(propsArray) {
     for (var i = 0; i < propsArray.length; i++) {
-        if (propsArray[i].changeType === 'modifiedNew') {
+        var changeType = propsArray[i].changeType;
+        if (changeType === 'modifiedNew' || changeType === 'deletedNew') {
             return propsArray[i];
         }
     }

@@ -35,12 +35,15 @@ function getChangeType(feature, features, changeset) {
         case 'create':
             return 'added';
         case 'delete':
-            return 'deleted';
+            if (hasPreviousVersion(version, feature, features))
+                return 'deletedNew';
+            if (hasNextVersion(version, feature, features))
+                return 'deletedOld';
         case 'modify':
             if (hasPreviousVersion(version, feature, features))
-                return 'modifiedOld';
-            if (hasNextVersion(version, feature, features))
                 return 'modifiedNew';
+            if (hasNextVersion(version, feature, features))
+                return 'modifiedOld';
     }
 }
 
