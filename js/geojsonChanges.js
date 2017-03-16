@@ -30,36 +30,29 @@ function getChanges(geojson, changeset) {
 
 function getChangeType(feature, features, changeset) {
     var props = feature.properties;
-    var version = parseInt(props.version);
-    var hasNext = hasNextVersion(version, feature, features);
-    if (hasNext) {
-        return 'modifiedOld';
-    }
-    var hasPrev = hasPreviousVersion(version, feature, features);
-    if (hasPrev) {
-        return 'modifiedNew';
-    } else if (props.changeset === parseInt(changeset.id)) {
-        return 'added';
-    }
-    else {
-        return 'deleted';
+    var version = parseInt(feature.properties.version);
+    switch(props.action) {
+        case 'create':
+            return 'added';
+        case 'delete':
+            if (hasPreviousVersion(version, feature, features))
+                return 'deletedNew';
+            if (hasNextVersion(version, feature, features))
+                return 'deletedOld';
+        case 'modify':
+            if (hasPreviousVersion(version, feature, features))
+                return 'modifiedNew';
+            if (hasNextVersion(version, feature, features))
+                return 'modifiedOld';
     }
 }
+
 function hasNextVersion(version, feature, features) {
     var id = feature.properties.id;
     for (var i = 0; i < features[id].length; i++) {
         var f = features[id][i];
-        if (f.properties.version === (version +1)) {
+        if (parseInt(f.properties.version) === (version + 1)) {
             return f;
-        }
-    }
-    for (var i = 0; i < features[id].length; i++) {
-        var f = features[id][i];
-        for (var nodeId in f.properties._nodeVersions) {
-          var currentVersion = feature.properties._nodeVersions[nodeId];
-          if (currentVersion < f.properties._nodeVersions[nodeId]) {
-            return f;
-          }
         }
     }
     return false;
@@ -69,17 +62,8 @@ function hasPreviousVersion(version, feature, features) {
     var id = feature.properties.id;
     for (var i = 0; i < features[id].length; i++) {
         var f = features[id][i];
-        if (f.properties.version === (version - 1)) {
+        if (parseInt(f.properties.version) === (version - 1)) {
             return f;
-        }
-    }
-    for (var i = 0; i < features[id].length; i++) {
-        var f = features[id][i];
-        for (var nodeId in f.properties._nodeVersions) {
-          var currentVersion = feature.properties._nodeVersions[nodeId];
-          if (currentVersion > f.properties._nodeVersions[nodeId]) {
-            return f;
-          }
         }
     }
     return false;

@@ -1,5 +1,5 @@
 var mapboxgl = require('mapbox-gl');
-var overpass = require('./overpass');
+var getChangeset = require('./getChangeset');
 var propsDiff = require('./propsDiff');
 var config = require('./config');
 var moment = require('moment');
@@ -19,7 +19,7 @@ function render(container, id, options) {
     mapboxgl.accessToken = config.mapboxAccessToken;
 
     container.classList.add('cmap-loading');
-    overpass.query(changesetId, options.overpassBase, function(err, result) {
+    getChangeset(changesetId, options.overpassBase, function(err, result) {
         container.classList.remove('cmap-loading');
         if (err) return errorMessage(err.msg);
 
@@ -84,7 +84,7 @@ function render(container, id, options) {
         var baseLayerSelector = document.querySelector('.cmap-baselayer-selector');
         baseLayerSelector.addEventListener('change', function(e) {
             var layer = e.target.value;
-            if (layer === 'default') {
+            if (layer === 'satellite') {
                 renderMap('mapbox://styles/mapbox/satellite-streets-v9', result);
             }
 
@@ -343,7 +343,7 @@ function addMapLayers(baseLayer, result) {
             'line-width': 2
         },
         'filter': [
-        '==', 'changeType', 'deleted'
+        '==', 'changeType', 'deletedNew'
         ]
     });
     map.addLayer({
@@ -360,7 +360,7 @@ function addMapLayers(baseLayer, result) {
             'circle-blur': 1
         },
         'filter': [
-        '==', 'changeType', 'deleted'
+        '==', 'changeType', 'deletedNew'
         ]
     });
 
@@ -399,7 +399,9 @@ function errorMessage(message) {
 function displayDiff(id, featureMap) {
     var featuresWithId = featureMap[id];
     var propsArray = featuresWithId.map(function(f) {
-        return f.properties;
+        var props = Object.assign({}, f.properties, f.properties.tags);
+        delete props.tags;
+        return props;
     });
 
     var diff = propsDiff(propsArray);
