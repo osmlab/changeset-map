@@ -32,7 +32,7 @@ var getChangeset = function(changesetID, overpassBase, callback) {
                             'error': err
                         }, null);
                     }
-                    adiffParser(response.body, [changesetID], function(err, json) {
+                    adiffParser(response.body, null, function(err, json) {
                         if (err) {
                             return callback({
                                 'msg': 'Failed to parser adiff xml.',
