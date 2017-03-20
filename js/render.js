@@ -523,6 +523,8 @@ function renderMap(baseLayer, result) {
     map = new mapboxgl.Map({
         container: document.querySelector('.cmap-map'),
         style: baseLayer || 'mapbox://styles/mapbox/satellite-streets-v9',
+        dragRotate: false,
+        touchZoomRotate: false,
     });
 
     map.fitBounds([
