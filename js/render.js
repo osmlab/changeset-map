@@ -510,29 +510,22 @@ function renderMap(baseLayer, result) {
         top = +bbox.top,
         bottom = +bbox.bottom;
 
-    // if (left == right) {
-    //     left = left - 0.1;
-    //     right = right + 0.1;
-    // }
-
-    // if (top == bottom) {
-    //     top = top - 0.1;
-    //     bottom = bottom + 0.1;
-    // }
+    var bounds = new mapboxgl.LngLatBounds(
+        new mapboxgl.LngLat(left, bottom),
+        new mapboxgl.LngLat(right, top)
+    );
 
     map = new mapboxgl.Map({
         container: document.querySelector('.cmap-map'),
         style: baseLayer || 'mapbox://styles/mapbox/satellite-streets-v9',
+        center: bounds.getCenter(),
+        zoom: 14,
         dragRotate: false,
         touchZoomRotate: false,
     });
 
-    map.fitBounds([
-        [ left, bottom ],
-        [ right, top ]
-    ], {'linear': true});
-
     map.on('load', function() {
+        map.fitBounds(bounds, {'linear': true});
         addMapLayers(map, result);
         cmap.emit('load');
     });
