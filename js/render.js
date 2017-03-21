@@ -4,6 +4,8 @@ var propsDiff = require('./propsDiff');
 var config = require('./config');
 var moment = require('moment');
 var events = require('events').EventEmitter;
+var turfBboxPolygon = require('@turf/bbox-polygon');
+var featureCollection = require('@turf/helpers').featureCollection;
 var cmap, map;
 
 function render(container, id, options) {
@@ -198,11 +200,27 @@ function renderHTML(container) {
   container.appendChild(sidebar);
 }
 
-function addMapLayers(baseLayer, result) {
+function addMapLayers(baseLayer, result, bounds) {
 
     map.addSource('changeset', {
         'type': 'geojson',
         'data': result.geojson
+    });
+
+    map.addSource('bbox', {
+      'type': 'geojson',
+      'data': getBoundingBox(bounds)
+    });
+
+    map.addLayer({
+      id: 'bbox-line',
+      type: 'line',
+      source: 'bbox',
+      paint: {
+        'line-width': 2,
+        'line-color': 'HSL(247, 60%, 50%)',
+        'line-opacity': 0.75,
+      },
     });
 
     map.addLayer({
@@ -513,16 +531,7 @@ function renderMap(baseLayer, result) {
         map.remove();
     }
 
-    var bbox = result.changeset.bbox;
-    var left = +bbox.left,
-        right = +bbox.right,
-        top = +bbox.top,
-        bottom = +bbox.bottom;
-
-    var bounds = new mapboxgl.LngLatBounds(
-        new mapboxgl.LngLat(left, bottom),
-        new mapboxgl.LngLat(right, top)
-    );
+    var bounds = getBounds(result.changeset.bbox);
 
     map = new mapboxgl.Map({
         container: document.querySelector('.cmap-map'),
@@ -534,9 +543,41 @@ function renderMap(baseLayer, result) {
     });
 
     map.on('load', function() {
-        map.fitBounds(bounds, {'linear': true});
-        addMapLayers(map, result);
+        map.fitBounds(bounds, {'linear': true, padding: 200});
+        addMapLayers(map, result, bounds);
         cmap.emit('load');
     });
 }
+
+function getBounds(bbox) {
+  var left = +bbox.left,
+      right = +bbox.right,
+      top = +bbox.top,
+      bottom = +bbox.bottom;
+
+  return new mapboxgl.LngLatBounds(
+      new mapboxgl.LngLat(left, bottom),
+      new mapboxgl.LngLat(right, top)
+  );
+}
+
+function getBoundingBox(bounds) {
+  var left = bounds.getWest(),
+      right = bounds.getEast(),
+      top = bounds.getNorth(),
+      bottom = bounds.getSouth();
+
+  var padX = Math.max((right - left) / 5, 0.0001);
+  var padY = Math.max((top - bottom) / 5, 0.0001);
+
+  var bboxPolygon = turfBboxPolygon([
+    left - padX,
+    bottom - padY,
+    right + padX,
+    top + padY
+  ]);
+
+  return featureCollection([bboxPolygon]);
+}
+
 window.changesetMap = module.exports = render;
