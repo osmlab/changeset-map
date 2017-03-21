@@ -12,6 +12,8 @@
   "author": "Mapbox",
   "license": "ISC",
   "dependencies": {
+    "@turf/bbox-polygon": "^3.13.0",
+    "@turf/helpers": "^3.13.0",
     "mapbox-gl": "^0.32.1",
     "moment": "^2.11.2",
     "osm-adiff-parser-saxjs": "^1.0.0",
