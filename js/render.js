@@ -179,9 +179,12 @@ function renderHTML(container) {
   sidebar.appendChild(
     elt('div', { class: 'cmap-info cmap-baselayer-selector cmap-fill-grey'},
         elt('form', {},
-          elt('input', { type: 'radio', value: 'satellite', checked: true, name: 'baselayer' }), 'Satellite',
-          elt('input', { type: 'radio', value: 'streets', name: 'baselayer' }), 'Streets',
-          elt('input', { type: 'radio', value: 'dark', name: 'baselayer'}),  'Dark'
+          elt('input', { type: 'radio', value: 'satellite', checked: true, name: 'baselayer', id: 'cmap-baselayer-satellite' }),
+          elt('label', { for: 'cmap-baselayer-satellite'}, 'Satellite'),
+          elt('input', { type: 'radio', value: 'streets', name: 'baselayer', id: 'cmap-baselayer-streets' }),
+          elt('label', { for: 'cmap-baselayer-streets'}, 'Streets'),
+          elt('input', { type: 'radio', value: 'dark', name: 'baselayer', id: 'cmap-baselayer-dark' }),
+          elt('label', { for: 'cmap-baselayer-dark' }, 'Dark')
           )
         )
     );
