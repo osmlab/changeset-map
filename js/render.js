@@ -180,11 +180,11 @@ function renderHTML(container) {
     elt('div', { class: 'cmap-info cmap-baselayer-selector cmap-fill-grey'},
         elt('form', {},
           elt('input', { type: 'radio', value: 'satellite', checked: true, name: 'baselayer', id: 'cmap-baselayer-satellite' }),
-          elt('label', { for: 'cmap-baselayer-satellite'}, 'Satellite'),
+          elt('label', { for: 'cmap-baselayer-satellite', class: 'cmap-noselect cmap-pointer' }, 'Satellite'),
           elt('input', { type: 'radio', value: 'streets', name: 'baselayer', id: 'cmap-baselayer-streets' }),
-          elt('label', { for: 'cmap-baselayer-streets'}, 'Streets'),
+          elt('label', { for: 'cmap-baselayer-streets', class: 'cmap-noselect cmap-pointer' }, 'Streets'),
           elt('input', { type: 'radio', value: 'dark', name: 'baselayer', id: 'cmap-baselayer-dark' }),
-          elt('label', { for: 'cmap-baselayer-dark' }, 'Dark')
+          elt('label', { for: 'cmap-baselayer-dark', class: 'cmap-noselect cmap-pointer' }, 'Dark')
           )
         )
     );

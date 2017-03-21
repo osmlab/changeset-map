@@ -106,6 +106,17 @@
     float:right;
 }
 
+/* Utility
+------------------------------------------------------- */
+.cmap-noselect {
+    user-select: none;
+}
+
+.cmap-pointer {
+    cursor: pointer;
+}
+
+
 /* Loading overlay
 ------------------------------------------------------- */
 .cmap-loading:after,
