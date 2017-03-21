@@ -150,27 +150,33 @@ function renderHTML(container) {
     elt('div', { class: 'cmap-layer-selector cmap-info cmap-fill-grey'},
       elt('ul', {},
         elt('li', {},
-          elt('input', { type: 'checkbox', value: 'added', checked: true, id: 'cmap-layer-selector-added' }),
-          elt('label', { for: 'cmap-layer-selector-added', class: 'cmap-noselect cmap-pointer' }, 'Added features'),
-          elt('span', { class: 'cmap-fr'},
-            elt('span', { class: 'cmap-color-box added'}))
-          ),
-
-        elt('li', {},
-          elt('input', { type: 'checkbox', value: 'modified', checked: true, id: 'cmap-layer-selector-modified' }),
-          elt('label', { for: 'cmap-layer-selector-modified', class: 'cmap-noselect cmap-pointer' }, 'Modified features'),
-          elt('span', { class: 'cmap-fr'},
-            elt('span', { class: 'cmap-color-box modified-old'}),
-            '→',
-            elt('span', { class: 'cmap-color-box modified-new'})
+          elt('label', { for: 'cmap-layer-selector-added', class: 'cmap-noselect cmap-pointer' },
+            elt('input', { type: 'checkbox', value: 'added', checked: true, id: 'cmap-layer-selector-added' }),
+            'Added features',
+            elt('span', { class: 'cmap-fr'},
+              elt('span', { class: 'cmap-color-box added'}))
             )
           ),
 
         elt('li', {},
-          elt('input', { type: 'checkbox', value: 'deleted', checked: true, id: 'cmap-layer-selector-deleted' }),
-          elt('label', { for: 'cmap-layer-selector-deleted', class: 'cmap-noselect cmap-pointer' } ,'Deleted features'),
-          elt('span', { class: 'cmap-fr'},
-            elt('span', { class: 'cmap-color-box deleted'}))
+          elt('label', { for: 'cmap-layer-selector-modified', class: 'cmap-noselect cmap-pointer' },
+            elt('input', { type: 'checkbox', value: 'modified', checked: true, id: 'cmap-layer-selector-modified' }),
+            'Modified features',
+            elt('span', { class: 'cmap-fr'},
+              elt('span', { class: 'cmap-color-box modified-old'}),
+              '→',
+              elt('span', { class: 'cmap-color-box modified-new'})
+              )
+            )
+          ),
+
+        elt('li', {},
+          elt('label', { for: 'cmap-layer-selector-deleted', class: 'cmap-noselect cmap-pointer' },
+            elt('input', { type: 'checkbox', value: 'deleted', checked: true, id: 'cmap-layer-selector-deleted' }),
+            'Deleted features',
+            elt('span', { class: 'cmap-fr'},
+              elt('span', { class: 'cmap-color-box deleted'}))
+            )
           )
         )
       )

@@ -46,7 +46,15 @@
 .cmap-layer-selector li {
     border: 0 solid #c1dad7;
     border-width: 1px 1px 0 0;
+}
+
+.cmap-layer-selector label {
+    display: block;
     padding: 6px 12px;
+}
+
+.cmap-layer-selector label:hover {
+    background: rgba(0,0,0,0.05);
 }
 
 .cmap-diff-table {
