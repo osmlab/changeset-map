@@ -150,27 +150,33 @@ function renderHTML(container) {
     elt('div', { class: 'cmap-layer-selector cmap-info cmap-fill-grey'},
       elt('ul', {},
         elt('li', {},
-          elt('input', { type: 'checkbox', value: 'added', checked: true }),
-          'Added features',
-          elt('span', { class: 'cmap-fr'},
-            elt('span', { class: 'cmap-color-box added'}))
-          ),
-
-        elt('li', {},
-          elt('input', { type: 'checkbox', value: 'modified', checked: true }),
-          'Modified features',
-          elt('span', { class: 'cmap-fr'},
-            elt('span', { class: 'cmap-color-box modified-old'}),
-            '→',
-            elt('span', { class: 'cmap-color-box modified-new'})
+          elt('label', { for: 'cmap-layer-selector-added', class: 'cmap-noselect cmap-pointer' },
+            elt('input', { type: 'checkbox', value: 'added', checked: true, id: 'cmap-layer-selector-added' }),
+            'Added features',
+            elt('span', { class: 'cmap-fr'},
+              elt('span', { class: 'cmap-color-box added'}))
             )
           ),
 
         elt('li', {},
-          elt('input', { type: 'checkbox', value: 'deleted', checked: true }),
-          'Deleted features',
-          elt('span', { class: 'cmap-fr'},
-            elt('span', { class: 'cmap-color-box deleted'}))
+          elt('label', { for: 'cmap-layer-selector-modified', class: 'cmap-noselect cmap-pointer' },
+            elt('input', { type: 'checkbox', value: 'modified', checked: true, id: 'cmap-layer-selector-modified' }),
+            'Modified features',
+            elt('span', { class: 'cmap-fr'},
+              elt('span', { class: 'cmap-color-box modified-old'}),
+              '→',
+              elt('span', { class: 'cmap-color-box modified-new'})
+              )
+            )
+          ),
+
+        elt('li', {},
+          elt('label', { for: 'cmap-layer-selector-deleted', class: 'cmap-noselect cmap-pointer' },
+            elt('input', { type: 'checkbox', value: 'deleted', checked: true, id: 'cmap-layer-selector-deleted' }),
+            'Deleted features',
+            elt('span', { class: 'cmap-fr'},
+              elt('span', { class: 'cmap-color-box deleted'}))
+            )
           )
         )
       )
@@ -179,9 +185,12 @@ function renderHTML(container) {
   sidebar.appendChild(
     elt('div', { class: 'cmap-info cmap-baselayer-selector cmap-fill-grey'},
         elt('form', {},
-          elt('input', { type: 'radio', value: 'satellite', checked: true, name: 'baselayer' }), 'Satellite',
-          elt('input', { type: 'radio', value: 'streets', name: 'baselayer' }), 'Streets',
-          elt('input', { type: 'radio', value: 'dark', name: 'baselayer'}),  'Dark'
+          elt('input', { type: 'radio', value: 'satellite', checked: true, name: 'baselayer', id: 'cmap-baselayer-satellite' }),
+          elt('label', { for: 'cmap-baselayer-satellite', class: 'cmap-noselect cmap-pointer' }, 'Satellite'),
+          elt('input', { type: 'radio', value: 'streets', name: 'baselayer', id: 'cmap-baselayer-streets' }),
+          elt('label', { for: 'cmap-baselayer-streets', class: 'cmap-noselect cmap-pointer' }, 'Streets'),
+          elt('input', { type: 'radio', value: 'dark', name: 'baselayer', id: 'cmap-baselayer-dark' }),
+          elt('label', { for: 'cmap-baselayer-dark', class: 'cmap-noselect cmap-pointer' }, 'Dark')
           )
         )
     );
