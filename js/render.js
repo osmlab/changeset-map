@@ -85,11 +85,11 @@ function render(container, id, options) {
         baseLayerSelector.addEventListener('change', function(e) {
             var layer = e.target.value;
             if (layer === 'satellite') {
-                renderMap('mapbox://styles/mapbox/satellite-streets-v9', result);
+                renderMap('mapbox://styles/rasagy/cizp6lsah00ct2snu6gi3p16q', result);
             }
 
             if (layer === 'dark') {
-                renderMap('mapbox://styles/planemad/cijcefp3q00elbskq4cgvcivf', result);
+                renderMap('mapbox://styles/mapbox/dark-v9', result);
             }
 
             if (layer === 'streets') {
@@ -526,7 +526,7 @@ function renderMap(baseLayer, result) {
 
     map = new mapboxgl.Map({
         container: document.querySelector('.cmap-map'),
-        style: baseLayer || 'mapbox://styles/mapbox/satellite-streets-v9',
+        style: baseLayer || 'mapbox://styles/rasagy/cizp6lsah00ct2snu6gi3p16q',
         center: bounds.getCenter(),
         zoom: 14,
         dragRotate: false,
