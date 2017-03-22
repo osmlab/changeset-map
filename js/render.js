@@ -567,8 +567,12 @@ function getBoundingBox(bounds) {
       top = bounds.getNorth(),
       bottom = bounds.getSouth();
 
-  var padX = Math.max((right - left) / 5, 0.0001);
-  var padY = Math.max((top - bottom) / 5, 0.0001);
+  var padX = 0;
+  var padY = 0;
+  if (! (left === -180 && right === 180 && top === 90 && bottom === -90)) {
+      padX = Math.max((right - left) / 5, 0.0001);
+      padY = Math.max((top - bottom) / 5, 0.0001);
+  }
 
   var bboxPolygon = turfBboxPolygon([
     left - padX,
