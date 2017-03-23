@@ -17,7 +17,7 @@
     "mapbox-gl": "^0.32.1",
     "moment": "^2.11.2",
     "osm-adiff-parser-saxjs": "^1.0.0",
-    "real-changesets-parser": "^1.0.4",
+    "real-changesets-parser": "^1.2.0",
     "turf-buffer": "^3.0.5",
     "xhr": "^2.2.0"
   },
