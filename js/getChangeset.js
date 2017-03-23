@@ -2,7 +2,6 @@ var xhr = require('xhr');
 var osm = require('./osm');
 var adiffParser = require('osm-adiff-parser-saxjs');
 var jsonParser = require('real-changesets-parser');
-var geojsonChanges = require('./geojsonChanges');
 
 var S3_URL = '//s3.amazonaws.com/mapbox/real-changesets/production/';
 
@@ -40,11 +39,11 @@ var getChangeset = function(changesetID, overpassBase, callback) {
                             }, null);
                         }
                         var geojson = jsonParser({ elements: json[changesetID] });
-                        var changes = geojsonChanges(geojson, changeset);
+                        var featureMap = getFeatureMap(geojson, changeset);
 
                         var ret = {
-                            'geojson': changes.geojson,
-                            'featureMap': changes.featureMap,
+                            'geojson': geojson,
+                            'featureMap': featureMap,
                             'changeset': changeset
                         };
                         return callback(null, ret);
@@ -52,11 +51,11 @@ var getChangeset = function(changesetID, overpassBase, callback) {
                 });
             } else {
                 var geojson = jsonParser(JSON.parse(response.body));
-                var changes = geojsonChanges(geojson, changeset);
+                var featureMap = getFeatureMap(geojson, changeset);
 
                 var ret = {
-                    'geojson': changes.geojson,
-                    'featureMap': changes.featureMap,
+                    'geojson': geojson,
+                    'featureMap': featureMap,
                     'changeset': changeset
                 };
                 return callback(null, ret);
@@ -71,6 +70,19 @@ function getDataParam(c) {
 
 function getBboxParam(bbox) {
     return [bbox.left, bbox.bottom, bbox.right, bbox.top].join(',');
+}
+
+function getFeatureMap(geojson, changeset) {
+    var features = geojson.features;
+    var featureMap = {};
+
+    for (var i = 0, len = features.length; i < len; i++) {
+        var id = features[i].properties.id;
+        featureMap[id] = featureMap[id] || [];
+        featureMap[id].push(features[i]);
+    }
+
+    return featureMap;
 }
 
 module.exports = getChangeset;
