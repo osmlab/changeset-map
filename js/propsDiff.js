@@ -1,6 +1,8 @@
 
 function propsDiff(propsArray) {
-    if (propsArray.length === 1) {
+    // Edge case: features may be duplicated. See issue #122.
+    // If the changeType is `added` ignore the second feature.
+    if (propsArray.length === 1 || propsArray[0].changeType === 'added') {
         var changeType = propsArray[0].changeType;
         if (changeType === 'added') {
             return getAdded(propsArray[0]);
