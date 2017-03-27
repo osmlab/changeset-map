@@ -71,6 +71,13 @@
     text-align: left;
 }
 
+.cmap-diff-table th {
+    width: 80px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
 .cmap-diff-table tr:nth-of-type(even) {
     background: #fff;
 }

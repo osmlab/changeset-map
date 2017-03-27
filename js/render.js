@@ -446,8 +446,13 @@ function clearDiff() {
 }
 
 function getDiffHTML(diff) {
+    var isAddedFeature = diff['changeType'].added === 'added';
+
     var root = document.createElement('table');
     root.classList.add('cmap-diff-table');
+    if (isAddedFeature) {
+        root.style.width = '300px';
+    }
 
     var types = ['added', 'unchanged', 'deleted', 'modifiedOld', 'modifiedNew'];
     for (var prop in diff) {
@@ -455,11 +460,12 @@ function getDiffHTML(diff) {
 
         var th = document.createElement('th');
         th.textContent = prop;
+        th.setAttribute('title', prop);
         tr.appendChild(th);
 
         types.forEach(function(type) {
             if (diff[prop].hasOwnProperty(type)) {
-                if (type == "added") {
+                if (type == "added" && !isAddedFeature) {
                   var empty = document.createElement('td');
                   empty.classList.add('diff-property');
                   empty.classList.add('cmap-scroll-styled');
