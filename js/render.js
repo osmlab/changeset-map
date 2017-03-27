@@ -135,7 +135,7 @@ function renderHTML(container) {
   var mapContainer = elt('div', { class: 'cmap-map' });
   container.appendChild(mapContainer);
 
-  var diff = elt('div', { class: 'cmap-diff', style: 'display: none' });
+  var diff = elt('div', { class: 'cmap-diff cmap-scroll-styled', style: 'display: none' });
   container.appendChild(diff);
 
   var sidebar = elt('div', { class: 'cmap-sidebar cmap-pad1', style: 'display: none'});

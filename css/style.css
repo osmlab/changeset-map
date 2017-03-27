@@ -20,8 +20,8 @@
     padding: 20px;
     background: #f5f5f5;
     border-radius: 5px;
-    max-height: 90%;
-    overflow-y: scroll;
+    max-height: 50vh;
+    max-width: 80vw;
 }
 
 .cmap-info {
@@ -123,6 +123,29 @@
 .cmap-pointer {
     cursor: pointer;
 }
+
+/* Scroll bar
+------------------------------------------------------- */
+
+.cmap-scroll-styled {
+  overflow:auto;
+  }
+.cmap-scroll-styled::-webkit-scrollbar {
+  width:8px;
+  height:8px;
+  border-left:0;
+  background:rgba(0,0,0,0.1);
+  }
+.cmap-scroll-styled::-webkit-scrollbar:hover {
+  background:rgba(0,0,0,0.15);
+  }
+.cmap-scroll-styled::-webkit-scrollbar-track {
+  background:none;
+  }
+.cmap-scroll-styled::-webkit-scrollbar-thumb {
+  background:rgba(0,0,0,0.1);
+  border-radius:0;
+  }
 
 
 /* Loading overlay
