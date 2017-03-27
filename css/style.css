@@ -17,10 +17,15 @@
     z-index: 1;
     top: 10px;
     right: 10px;
+}
+
+.cmap-diff-metadata,
+.cmap-diff-tags {
     padding: 20px;
+    margin-bottom: 10px;
     background: #f5f5f5;
     border-radius: 5px;
-    max-height: 50vh;
+    max-height: 40vh;
     max-width: 450px;
 }
 
