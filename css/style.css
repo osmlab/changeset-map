@@ -21,7 +21,7 @@
     background: #f5f5f5;
     border-radius: 5px;
     max-height: 50vh;
-    max-width: 80vw;
+    max-width: 450px;
 }
 
 .cmap-info {
@@ -58,6 +58,8 @@
 }
 
 .cmap-diff-table {
+    table-layout: fixed;
+    width: 450px;
     border-collapse: collapse;
 }
 
@@ -66,6 +68,7 @@
 .cmap-diff-table td {
     border: 1px solid #c1dad7;
     padding: 6px 12px;
+    text-align: left;
 }
 
 .cmap-diff-table tr:nth-of-type(even) {
@@ -77,6 +80,11 @@
 
 .cmap-diff-table tr:hover {
     background: #e5f3f3;
+}
+
+.cmap-diff-table td {
+    width: 150px;
+    overflow-x: auto;
 }
 
 .cmap-color-box {
