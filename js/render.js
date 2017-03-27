@@ -135,7 +135,7 @@ function renderHTML(container) {
   var mapContainer = elt('div', { class: 'cmap-map' });
   container.appendChild(mapContainer);
 
-  var diff = elt('div', { class: 'cmap-diff', style: 'display: none' });
+  var diff = elt('div', { class: 'cmap-diff cmap-scroll-styled', style: 'display: none' });
   container.appendChild(diff);
 
   var sidebar = elt('div', { class: 'cmap-sidebar cmap-pad1', style: 'display: none'});
@@ -462,6 +462,7 @@ function getDiffHTML(diff) {
                 if (type == "added") {
                   var empty = document.createElement('td');
                   empty.classList.add('diff-property');
+                  empty.classList.add('cmap-scroll-styled');
                   empty.classList.add(type);
 
                   tr.appendChild(empty);
@@ -469,6 +470,7 @@ function getDiffHTML(diff) {
 
               var td = document.createElement('td');
               td.classList.add('diff-property');
+              td.classList.add('cmap-scroll-styled');
               td.classList.add(type);
 
               td.textContent = diff[prop][type];
@@ -477,6 +479,7 @@ function getDiffHTML(diff) {
               if (type == "deleted") {
                   var empty = document.createElement('td');
                   empty.classList.add('diff-property');
+                  empty.classList.add('cmap-scroll-styled');
                   empty.classList.add(type);
 
                   tr.appendChild(empty);
