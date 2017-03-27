@@ -460,6 +460,7 @@ function getDiffHTML(diff) {
 
         var th = document.createElement('th');
         th.textContent = prop;
+        th.setAttribute('title', prop);
         tr.appendChild(th);
 
         types.forEach(function(type) {
