@@ -227,10 +227,14 @@ function addMapLayers(baseLayer, result, bounds) {
         'id': 'bg-line',
         'source': 'changeset',
         'type': 'line',
+        'layout': {
+            'line-cap': 'round',
+            'line-join': 'round'
+        },
         'paint': {
             'line-color': 'hsl(0, 0%, 10%)',
             'line-width': 12,
-            'line-opacity': 0.25
+            'line-opacity': 0.5
         }
     });
 
@@ -240,18 +244,46 @@ function addMapLayers(baseLayer, result, bounds) {
         'type': 'circle',
         'paint': {
             'circle-color': 'hsl(0, 0%, 10%)',
-            'circle-opacity': 0.25,
-            'circle-radius': 10
+            'circle-opacity': {
+                'base': 1,
+                'stops': [
+                    [
+                        8,
+                        0.6
+                    ],
+                    [
+                        16,
+                        0.25
+                    ]
+                ]
+            },
+           'circle-radius': {
+                'base': 1.5,
+                'stops': [
+                    [
+                        10,
+                        8
+                    ],
+                    [
+                        16,
+                        17
+                    ]
+                ]
+            },
         }
-    })
+    });
 
     map.addLayer({
         'id': 'highlight-line',
         'source': 'changeset',
         'type': 'line',
+        'layout': {
+            'line-join': 'round',
+            'line-cap': 'round'
+        },
         'paint': {
-            'line-color': 'hsl(0, 0%, 60%)',
-            'line-opacity': 0.9,
+            'line-color': 'hsl(0, 0%, 90%)',
+            'line-opacity': 0.8,
             'line-width': 12
         },
         'filter': [
@@ -264,9 +296,21 @@ function addMapLayers(baseLayer, result, bounds) {
         'source': 'changeset',
         'type': 'circle',
         'paint': {
-            'circle-color': 'hsl(0, 0%, 60%)',
-            'circle-radius': 12,
-            'circle-opacity': 0.9
+            'circle-color': 'hsl(0, 0%, 90%)',
+            'circle-radius': {
+                'base': 1.5,
+                'stops': [
+                    [
+                        10,
+                        8
+                    ],
+                    [
+                        16,
+                        16
+                    ]
+                ]
+            },
+            'circle-opacity': 0.8
         },
         'filter': [
             '==', 'id', ''
@@ -279,11 +323,24 @@ function addMapLayers(baseLayer, result, bounds) {
         'type': 'line',
         'paint': {
             'line-color': '#CC2C47',
+            'line-width': {
+                "base": 1,
+                "stops": [
+                    [
+                        8,
+                        4
+                    ],
+                    [
+                        12,
+                        8
+                    ]
+                ]
+            },
             'line-dasharray': [
                 0.1,
                 0.1
             ],
-            'line-width': 8
+            'line-opacity': 0.8
         },
         'filter': [
             '==', 'changeType', 'deletedNew'
@@ -294,10 +351,39 @@ function addMapLayers(baseLayer, result, bounds) {
         'id': 'modified-old-line',
         'source': 'changeset',
         'type': 'line',
+        'layout': {
+            'line-join': 'round',
+            'line-cap': 'round'
+        },
         'paint': {
             'line-color': '#DB950A',
-            'line-width': 8,
-            'line-blur': 2
+            'line-width': {
+                'base': 1,
+                'stops': [
+                    [
+                        8,
+                        4
+                    ],
+                    [
+                        12,
+                        8
+                    ]
+                ]
+            },
+            'line-blur': {
+                'base': 1,
+                'stops': [
+                    [
+                        8,
+                        0.25
+                    ],
+                    [
+                        12,
+                        0.5
+                    ]
+                ]
+            },
+            'line-opacity': 0.8
         },
         'filter': [
             '==', 'changeType', 'modifiedOld'
@@ -308,9 +394,26 @@ function addMapLayers(baseLayer, result, bounds) {
         'id': 'modified-new-line',
         'source': 'changeset',
         'type': 'line',
+        'layout': {
+            'line-join': 'round',
+            'line-cap': 'round'
+        },
         'paint': {
             'line-color': '#E8E845',
-            'line-width': 2
+            'line-width': {
+                'base': 1,
+                'stops': [
+                    [
+                        8,
+                        1
+                    ],
+                    [
+                        12,
+                        3
+                    ]
+                ]
+            },
+            'line-opacity': 0.8
         },
         'filter': [
             '==', 'changeType', 'modifiedNew'
@@ -322,9 +425,26 @@ function addMapLayers(baseLayer, result, bounds) {
         'source': 'changeset',
         'type': 'line',
         'interactive': true,
+        'layout': {
+            'line-join': 'round',
+            'line-cap': 'round'
+        },
         'paint': {
-          'line-color': '#39DBC0',
-          'line-width': 2
+            'line-color': '#39DBC0',
+            'line-width': {
+                'base': 1,
+                'stops': [
+                    [
+                        8,
+                        1
+                    ],
+                    [
+                        12,
+                        2
+                    ]
+                ]
+            },
+            'line-opacity': 0.8
         },
         'filter': [
             '==', 'changeType', 'added'
@@ -337,21 +457,36 @@ function addMapLayers(baseLayer, result, bounds) {
         'type': 'circle',
         'paint': {
             'circle-color': '#CC2C47',
-            'circle-blur': 0.25,
-            'circle-opacity': {
-                'base': 1,
+            'circle-radius': {
+                'base': 1.5,
                 'stops': [
                     [
                         10,
-                        0.5
+                        4
                     ],
                     [
-                        14,
-                        0.75
+                        16,
+                        14
                     ]
                 ]
             },
-            'circle-radius': 10
+            'circle-opacity': {
+                'base': 1.5,
+                'stops': [
+                    [
+                        10,
+                        0.25
+                    ],
+                    [
+                        14,
+                        0.5
+                    ]
+                ]
+            },
+            'circle-blur': 0,
+            'circle-stroke-width': 1,
+            'circle-stroke-opacity': 0.75,
+            'circle-stroke-color': '#CC2C47'
         },
         'filter': [
             '==', 'changeType', 'deletedNew'
@@ -365,7 +500,7 @@ function addMapLayers(baseLayer, result, bounds) {
         'paint': {
             'circle-color': '#DB950A',
             'circle-opacity': {
-                'base': 1,
+                'base': 1.5,
                 'stops': [
                     [
                         10,
@@ -378,7 +513,19 @@ function addMapLayers(baseLayer, result, bounds) {
                 ]
             },
             'circle-blur': 0.25,
-            'circle-radius': 8
+            'circle-radius': {
+                'base': 1.5,
+                'stops': [
+                    [
+                        10,
+                        3.5
+                    ],
+                    [
+                        16,
+                        13
+                    ]
+                ]
+            },
         },
         'filter': [
             '==', 'changeType', 'modifiedOld'
@@ -392,11 +539,11 @@ function addMapLayers(baseLayer, result, bounds) {
         'paint': {
             'circle-color': '#E8E845',
             'circle-opacity': {
-                'base': 1,
+                'base': 1.5,
                 'stops': [
                     [
                         10,
-                        0.5
+                        0.25
                     ],
                     [
                         14,
@@ -404,7 +551,22 @@ function addMapLayers(baseLayer, result, bounds) {
                     ]
                 ]
             },
-            'circle-radius': 5
+            'circle-radius': {
+                'base': 1.5,
+                'stops': [
+                    [
+                        10,
+                        2
+                    ],
+                    [
+                        16,
+                        7
+                    ]
+                ]
+            },
+            'circle-stroke-width': 1,
+            'circle-stroke-opacity': 0.9,
+            'circle-stroke-color': '#E8E845'
         },
         'filter': [
             '==', 'changeType', 'modifiedNew'
@@ -418,11 +580,11 @@ function addMapLayers(baseLayer, result, bounds) {
         'paint': {
             'circle-color': '#39DBC0',
             'circle-opacity': {
-                'base': 1,
+                'base': 1.5,
                 'stops': [
                     [
                         10,
-                        0.5
+                        0.3
                     ],
                     [
                         14,
@@ -430,12 +592,28 @@ function addMapLayers(baseLayer, result, bounds) {
                     ]
                 ]
             },
-            'circle-radius': 6
+            'circle-radius': {
+                'base': 1.5,
+                'stops': [
+                    [
+                        10,
+                        1
+                    ],
+                    [
+                        16,
+                        5
+                    ]
+                ]
+            },
+            'circle-stroke-width': 1,
+            'circle-stroke-opacity': 0.9,
+            'circle-stroke-color': '#39DBC0'
         },
         'filter': [
             '==', 'changeType', 'added'
         ]
     });
+
 
     map.on('click', function(e) {
         var x1y1 = [e.point.x - 5, e.point.y - 5];
