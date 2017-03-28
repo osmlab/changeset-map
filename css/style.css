@@ -117,22 +117,23 @@
     width: 10px;
     height: 10px;
     margin-top: 4px;
+    border: 1px solid #555;
 }
 
 .cmap-color-box.added {
-    background: #859900;
+    background: #39DBC0;
 }
 
 .cmap-color-box.deleted {
-    background: #dc322f;
+    background: #CC2C47;
 }
 
 .cmap-color-box.modified-old {
-    background: #fff;
+    background: #DB950A;
 }
 
 .cmap-color-box.modified-new {
-    background: #b58900;
+    background: #E8E845;
 }
 
 .cmap-fill-grey {

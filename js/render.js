@@ -31,8 +31,8 @@ function render(container, id, options) {
         document.querySelector('.cmap-sidebar-user').text = 'User - ' + result.changeset.user;
         var time = result.changeset.to ? result.changeset.to : result.changeset.from;
         document.querySelector('.cmap-sidebar-time').textContent = moment(time).format('MMMM Do YYYY, h:mm a');
-        document.querySelector('.cmap-sidebar-user').href = "https://openstreetmap.org/user/" + result.changeset.user;
-        document.querySelector('.cmap-sidebar-changeset').href = "https://openstreetmap.org/changeset/" + changesetId;
+        document.querySelector('.cmap-sidebar-user').href = 'https://openstreetmap.org/user/' + result.changeset.user;
+        document.querySelector('.cmap-sidebar-changeset').href = 'https://openstreetmap.org/changeset/' + changesetId;
         document.querySelector('.cmap-sidebar').style.display = 'block';
         var bbox = result.changeset.bbox;
         var featureMap = result.featureMap;
@@ -122,7 +122,7 @@ function elt(name, attributes) {
 }
 for (var i = 2; i < arguments.length; i++) {
     var child = arguments[i];
-    if (typeof child == "string")
+    if (typeof child == 'string')
       child = document.createTextNode(child);
   node.appendChild(child);
 }
@@ -210,202 +210,426 @@ function addMapLayers(baseLayer, result, bounds) {
     });
 
     map.addSource('bbox', {
-      'type': 'geojson',
-      'data': getBoundingBox(bounds)
+        'type': 'geojson',
+        'data': getBoundingBox(bounds)
     });
 
     map.addLayer({
-      id: 'bbox-line',
-      type: 'line',
-      source: 'bbox',
-      paint: {
-        'line-width': 2,
-        'line-color': 'HSL(247, 60%, 50%)',
-        'line-opacity': 0.75,
-      },
+        'id': 'bbox-line',
+        'type': 'line',
+        'source': 'bbox',
+        'paint': {
+            'line-color': '#A58CF2',
+            'line-opacity': 0.75,
+            'line-width': 2
+        }
     });
 
     map.addLayer({
-        'id': 'highlight-point',
+        'id': 'bg-line',
         'source': 'changeset',
-        'type': 'circle',
+        'type': 'line',
         'layout': {
-            'visibility': 'visible'
+            'line-cap': 'round',
+            'line-join': 'round'
         },
         'paint': {
-            'circle-radius': 8,
-            'circle-color': '#268bd2',
-            'circle-opacity': 1
-        },
-        'filter': [
-        '==', 'id', ''
-        ]
+            'line-color': 'hsl(0, 0%, 10%)',
+            'line-width': 12,
+            'line-opacity': 0.5
+        }
     });
+
+    map.addLayer({
+        'id': 'bg-point',
+        'source': 'changeset',
+        'type': 'circle',
+        'paint': {
+            'circle-color': 'hsl(0, 0%, 10%)',
+            'circle-opacity': {
+                'base': 1,
+                'stops': [
+                    [
+                        8,
+                        0.6
+                    ],
+                    [
+                        16,
+                        0.25
+                    ]
+                ]
+            },
+           'circle-radius': {
+                'base': 1.5,
+                'stops': [
+                    [
+                        10,
+                        8
+                    ],
+                    [
+                        16,
+                        17
+                    ]
+                ]
+            },
+        }
+    });
+
     map.addLayer({
         'id': 'highlight-line',
         'source': 'changeset',
         'type': 'line',
         'layout': {
             'line-join': 'round',
-            'line-cap': 'round',
-            'visibility': 'visible'
+            'line-cap': 'round'
         },
         'paint': {
-            'line-color': '#268bd2',
-            'line-width': 8,
-            'line-opacity': 1
+            'line-color': 'hsl(0, 0%, 90%)',
+            'line-opacity': 0.8,
+            'line-width': 12
         },
         'filter': [
-        '==', 'id', ''
+            '==', 'id', ''
         ]
     });
+
+    map.addLayer({
+        'id': 'highlight-point',
+        'source': 'changeset',
+        'type': 'circle',
+        'paint': {
+            'circle-color': 'hsl(0, 0%, 90%)',
+            'circle-radius': {
+                'base': 1.5,
+                'stops': [
+                    [
+                        10,
+                        8
+                    ],
+                    [
+                        16,
+                        16
+                    ]
+                ]
+            },
+            'circle-opacity': 0.8
+        },
+        'filter': [
+            '==', 'id', ''
+        ]
+    });
+
+    map.addLayer({
+        'id': 'deleted-line',
+        'source': 'changeset',
+        'type': 'line',
+        'paint': {
+            'line-color': '#CC2C47',
+            'line-width': {
+                "base": 1,
+                "stops": [
+                    [
+                        8,
+                        4
+                    ],
+                    [
+                        12,
+                        8
+                    ]
+                ]
+            },
+            'line-dasharray': [
+                0.1,
+                0.1
+            ],
+            'line-opacity': 0.8
+        },
+        'filter': [
+            '==', 'changeType', 'deletedNew'
+        ]
+    });
+
+    map.addLayer({
+        'id': 'modified-old-line',
+        'source': 'changeset',
+        'type': 'line',
+        'layout': {
+            'line-join': 'round',
+            'line-cap': 'round'
+        },
+        'paint': {
+            'line-color': '#DB950A',
+            'line-width': {
+                'base': 1,
+                'stops': [
+                    [
+                        8,
+                        4
+                    ],
+                    [
+                        12,
+                        8
+                    ]
+                ]
+            },
+            'line-blur': {
+                'base': 1,
+                'stops': [
+                    [
+                        8,
+                        0.25
+                    ],
+                    [
+                        12,
+                        0.5
+                    ]
+                ]
+            },
+            'line-opacity': 0.8
+        },
+        'filter': [
+            '==', 'changeType', 'modifiedOld'
+        ]
+    });
+
+    map.addLayer({
+        'id': 'modified-new-line',
+        'source': 'changeset',
+        'type': 'line',
+        'layout': {
+            'line-join': 'round',
+            'line-cap': 'round'
+        },
+        'paint': {
+            'line-color': '#E8E845',
+            'line-width': {
+                'base': 1,
+                'stops': [
+                    [
+                        8,
+                        1
+                    ],
+                    [
+                        12,
+                        3
+                    ]
+                ]
+            },
+            'line-opacity': 0.8
+        },
+        'filter': [
+            '==', 'changeType', 'modifiedNew'
+        ]
+    });
+
     map.addLayer({
         'id': 'added-line',
         'source': 'changeset',
         'type': 'line',
         'interactive': true,
         'layout': {
-            'visibility': 'visible'
+            'line-join': 'round',
+            'line-cap': 'round'
         },
         'paint': {
-            'line-color': '#859900',
-            'line-width': 2
+            'line-color': '#39DBC0',
+            'line-width': {
+                'base': 1,
+                'stops': [
+                    [
+                        8,
+                        1
+                    ],
+                    [
+                        12,
+                        2
+                    ]
+                ]
+            },
+            'line-opacity': 0.8
         },
         'filter': [
-        '==', 'changeType', 'added'
+            '==', 'changeType', 'added'
         ]
     });
-    map.addLayer({
-        'id': 'added-point',
-        'source': 'changeset',
-        'type': 'circle',
-        'interactive': true,
-        'layout': {
-            'visibility': 'visible'
-        },
-        'paint': {
-            'circle-color': '#859900',
-            'circle-radius': 3,
-            'circle-blur': 1
-        },
-        'filter': [
-        '==', 'changeType', 'added'
-        ]
-    });
-    map.addLayer({
-        'id': 'modified-old-line',
-        'source': 'changeset',
-        'type': 'line',
-        'interactive': true,
-        'layout': {
-            'visibility': 'visible'
-        },
-        'paint': {
-            'line-color': '#fdf6e3',
-            'line-width': 2
-        },
-        'filter': [
-        '==', 'changeType', 'modifiedOld'
-        ]
-    });
-    map.addLayer({
-        'id': 'modified-old-point',
-        'source': 'changeset',
-        'type': 'circle',
-        'interactive': true,
-        'layout': {
-            'visibility': 'visible'
-        },
-        'paint': {
-            'circle-color': '#fdf6e3',
-            'circle-radius': 3,
-            'circle-blur': 1
-        },
-        'filter': [
-        '==', 'changeType', 'modifiedOld'
-        ]
-    });
-    map.addLayer({
-        'id': 'modified-new-line',
-        'source': 'changeset',
-        'type': 'line',
-        'interactive': true,
-        'layout': {
-            'visibility': 'visible'
-        },
-        'paint': {
-            'line-color': '#b58900',
-            'line-width': 6,
-            'line-opacity': 0.5
-        },
-        'filter': [
-        '==', 'changeType', 'modifiedNew'
-        ]
-    });
-    map.addLayer({
-        'id': 'modified-new-point',
-        'source': 'changeset',
-        'type': 'circle',
-        'interactive': true,
-        'layout': {
-            'visibility': 'visible'
-        },
-        'paint': {
-            'circle-color': '#b58900',
-            'circle-radius': 3,
-            'circle-blur': 1
-        },
-        'filter': [
-        '==', 'changeType', 'modifiedNew'
-        ]
-    });
-    map.addLayer({
-        'id': 'deleted-line',
-        'source': 'changeset',
-        'type': 'line',
-        'interactive': true,
-        'layout': {
-            'visibility': 'visible'
-        },
-        'paint': {
-            'line-color': '#dc322f',
-            'line-width': 2
-        },
-        'filter': [
-        '==', 'changeType', 'deletedNew'
-        ]
-    });
+
     map.addLayer({
         'id': 'deleted-point',
         'source': 'changeset',
         'type': 'circle',
-        'interactive': true,
-        'layout': {
-            'visibility': 'visible'
-        },
         'paint': {
-            'circle-color': '#dc322f',
-            'circle-radius': 3,
-            'circle-blur': 1
+            'circle-color': '#CC2C47',
+            'circle-radius': {
+                'base': 1.5,
+                'stops': [
+                    [
+                        10,
+                        4
+                    ],
+                    [
+                        16,
+                        14
+                    ]
+                ]
+            },
+            'circle-opacity': {
+                'base': 1.5,
+                'stops': [
+                    [
+                        10,
+                        0.25
+                    ],
+                    [
+                        14,
+                        0.5
+                    ]
+                ]
+            },
+            'circle-blur': 0,
+            'circle-stroke-width': 1,
+            'circle-stroke-opacity': 0.75,
+            'circle-stroke-color': '#CC2C47'
         },
         'filter': [
-        '==', 'changeType', 'deletedNew'
+            '==', 'changeType', 'deletedNew'
         ]
     });
+
+    map.addLayer({
+        'id': 'modified-old-point',
+        'source': 'changeset',
+        'type': 'circle',
+        'paint': {
+            'circle-color': '#DB950A',
+            'circle-opacity': {
+                'base': 1.5,
+                'stops': [
+                    [
+                        10,
+                        0.5
+                    ],
+                    [
+                        14,
+                        0.75
+                    ]
+                ]
+            },
+            'circle-blur': 0.25,
+            'circle-radius': {
+                'base': 1.5,
+                'stops': [
+                    [
+                        10,
+                        3.5
+                    ],
+                    [
+                        16,
+                        13
+                    ]
+                ]
+            },
+        },
+        'filter': [
+            '==', 'changeType', 'modifiedOld'
+        ]
+    });
+
+    map.addLayer({
+        'id': 'modified-new-point',
+        'source': 'changeset',
+        'type': 'circle',
+        'paint': {
+            'circle-color': '#E8E845',
+            'circle-opacity': {
+                'base': 1.5,
+                'stops': [
+                    [
+                        10,
+                        0.25
+                    ],
+                    [
+                        14,
+                        0.75
+                    ]
+                ]
+            },
+            'circle-radius': {
+                'base': 1.5,
+                'stops': [
+                    [
+                        10,
+                        2
+                    ],
+                    [
+                        16,
+                        7
+                    ]
+                ]
+            },
+            'circle-stroke-width': 1,
+            'circle-stroke-opacity': 0.9,
+            'circle-stroke-color': '#E8E845'
+        },
+        'filter': [
+            '==', 'changeType', 'modifiedNew'
+        ]
+    });
+
+    map.addLayer({
+        'id': 'added-point',
+        'source': 'changeset',
+        'type': 'circle',
+        'paint': {
+            'circle-color': '#39DBC0',
+            'circle-opacity': {
+                'base': 1.5,
+                'stops': [
+                    [
+                        10,
+                        0.3
+                    ],
+                    [
+                        14,
+                        0.75
+                    ]
+                ]
+            },
+            'circle-radius': {
+                'base': 1.5,
+                'stops': [
+                    [
+                        10,
+                        1
+                    ],
+                    [
+                        16,
+                        5
+                    ]
+                ]
+            },
+            'circle-stroke-width': 1,
+            'circle-stroke-opacity': 0.9,
+            'circle-stroke-color': '#39DBC0'
+        },
+        'filter': [
+            '==', 'changeType', 'added'
+        ]
+    });
+
 
     map.on('click', function(e) {
         var x1y1 = [e.point.x - 5, e.point.y - 5];
         var x2y2 = [e.point.x + 5, e.point.y + 5];
         var features = map.queryRenderedFeatures([x1y1, x2y2], {
             'layers': [
-            'added-line',
-            'added-point',
-            'modified-old-line',
-            'modified-old-point',
-            'modified-new-line',
-            'modified-new-point',
-            'deleted-line',
-            'deleted-point'
+                'added-line',
+                'added-point',
+                'modified-old-line',
+                'modified-old-point',
+                'modified-new-line',
+                'modified-new-point',
+                'deleted-line',
+                'deleted-point'
             ]
         });
 
@@ -501,7 +725,7 @@ function getDiffHTML(diff) {
               td.textContent = diff[prop][type];
               tr.appendChild(td);
 
-              if (type == "deleted") {
+              if (type == 'deleted') {
                   var empty = document.createElement('td');
                   empty.classList.add('diff-property');
                   empty.classList.add('cmap-scroll-styled');
@@ -510,7 +734,7 @@ function getDiffHTML(diff) {
                   tr.appendChild(empty);
               }
 
-              if (type == "unchanged") {
+              if (type == 'unchanged') {
                 tr.appendChild(td.cloneNode(true));
             }
         }
