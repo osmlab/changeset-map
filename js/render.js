@@ -667,7 +667,7 @@ function displayDiff(id, featureMap) {
     });
 
     var type = featuresWithId[0].properties.type;
-    var metadataHeader = elt('a', { href: '//www.openstreetmap.org/' + type + '/' + id + '/history', about: '_blank' }, capitalize(type) + ': ' + id);
+    var metadataHeader = elt('a', { href: '//www.openstreetmap.org/' + type + '/' + id + '/history', target: '_blank' }, capitalize(type) + ': ' + id);
     var metadataHTML = getDiffHTML(propsDiff(metadataProps), metadataHeader);
     var tagHeader = elt('span', {}, 'Tag details');
     var tagHTML = getDiffHTML(propsDiff(tagProps), tagHeader);
