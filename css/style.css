@@ -76,7 +76,7 @@
     background: #fff;
     }
 
-.cmap-table-head {
+.cmap-diff-table td.cmap-table-head {
     padding: 0px;
     }
 
@@ -266,4 +266,4 @@ a:after {
 a:hover:after{
     opacity: 1;
     }
-*/    
+*/
