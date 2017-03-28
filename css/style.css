@@ -17,10 +17,15 @@
     z-index: 1;
     top: 10px;
     right: 10px;
+}
+
+.cmap-diff-metadata,
+.cmap-diff-tags {
     padding: 20px;
+    margin-bottom: 10px;
     background: #f5f5f5;
     border-radius: 5px;
-    max-height: 50vh;
+    max-height: 40vh;
     max-width: 450px;
 }
 
@@ -92,6 +97,19 @@
 .cmap-diff-table td {
     width: 150px;
     overflow-x: auto;
+}
+
+.cmap-diff-tags .props-diff-added {
+    background: rgba(57, 219, 192, 0.3);
+}
+.cmap-diff-tags .props-diff-modifiedOld {
+    background: rgba(219, 149, 10, 0.3);
+}
+.cmap-diff-tags .props-diff-modifiedNew {
+    background: rgba(232, 232, 69, 0.3);
+}
+.cmap-diff-tags .props-diff-deleted {
+    background: rgba(204, 44, 71, 0.3);
 }
 
 .cmap-color-box {

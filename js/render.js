@@ -135,7 +135,9 @@ function renderHTML(container) {
   var mapContainer = elt('div', { class: 'cmap-map' });
   container.appendChild(mapContainer);
 
-  var diff = elt('div', { class: 'cmap-diff cmap-scroll-styled', style: 'display: none' });
+  var diffMetadata = elt('div', { class: 'cmap-diff-metadata cmap-scroll-styled', style: 'display: none'});
+  var diffTags = elt('div', { class: 'cmap-diff-tags cmap-scroll-styled', style: 'display: none' });
+  var diff = elt('div', { class: 'cmap-diff', style: 'display: none' }, diffMetadata, diffTags);
   container.appendChild(diff);
 
   var sidebar = elt('div', { class: 'cmap-sidebar cmap-pad1', style: 'display: none'});
@@ -425,24 +427,41 @@ function errorMessage(message) {
 
 function displayDiff(id, featureMap) {
     var featuresWithId = featureMap[id];
-    var propsArray = featuresWithId.map(function(f) {
-        var props = Object.assign({}, f.properties, f.properties.tags);
+    var metadataProps = featuresWithId.map(function(f) {
+        var props = Object.assign({}, f.properties);
         delete props.tags;
         delete props.relations;
+        delete props.action;
+        return props;
+    });
+    var tagProps = featuresWithId.map(function(f) {
+        var props = Object.assign({}, f.properties.tags);
+        props.changeType = f.properties.changeType;
         return props;
     });
 
-    var diff = propsDiff(propsArray);
-    var diffHTML = getDiffHTML(diff);
+    var metadataDiff = propsDiff(metadataProps);
+    var tagDiff = propsDiff(tagProps);
 
-    document.querySelector('.cmap-diff').innerHTML = '';
-    document.querySelector('.cmap-diff').appendChild(diffHTML);
     document.querySelector('.cmap-diff').style.display = 'block';
+
+    document.querySelector('.cmap-diff-metadata').innerHTML = '';
+    document.querySelector('.cmap-diff-metadata').appendChild(getDiffHTML(metadataDiff));
+    document.querySelector('.cmap-diff-metadata').style.display = 'block';
+
+    document.querySelector('.cmap-diff-tags').innerHTML = '';
+    document.querySelector('.cmap-diff-tags').appendChild(getDiffHTML(tagDiff));
+    document.querySelector('.cmap-diff-tags').style.display = 'block';
 }
 
 function clearDiff() {
-    document.querySelector('.cmap-diff').innerHTML = '';
     document.querySelector('.cmap-diff').style.display = 'none';
+
+    document.querySelector('.cmap-diff-metadata').innerHTML = '';
+    document.querySelector('.cmap-diff-metadata').style.display = 'none';
+
+    document.querySelector('.cmap-diff-tags').innerHTML = '';
+    document.querySelector('.cmap-diff-tags').style.display = 'none';
 }
 
 function getDiffHTML(diff) {
@@ -469,7 +488,7 @@ function getDiffHTML(diff) {
                   var empty = document.createElement('td');
                   empty.classList.add('diff-property');
                   empty.classList.add('cmap-scroll-styled');
-                  empty.classList.add(type);
+                  empty.classList.add('props-diff-' + type);
 
                   tr.appendChild(empty);
               }
@@ -477,7 +496,7 @@ function getDiffHTML(diff) {
               var td = document.createElement('td');
               td.classList.add('diff-property');
               td.classList.add('cmap-scroll-styled');
-              td.classList.add(type);
+              td.classList.add('props-diff-' + type);
 
               td.textContent = diff[prop][type];
               tr.appendChild(td);
@@ -486,7 +505,7 @@ function getDiffHTML(diff) {
                   var empty = document.createElement('td');
                   empty.classList.add('diff-property');
                   empty.classList.add('cmap-scroll-styled');
-                  empty.classList.add(type);
+                  empty.classList.add('props-diff-' + type);
 
                   tr.appendChild(empty);
               }
