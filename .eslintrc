@@ -1,0 +1,6 @@
+{
+  "extends": "mourner",
+  "rules": {
+    "space-before-function-paren": 0
+  }
+}
