@@ -1,3 +1,5 @@
+'use strict';
+
 var xhr = require('xhr');
 var osm = require('./osm');
 var adiffParser = require('osm-adiff-parser-saxjs');
@@ -8,7 +10,7 @@ var S3_URL = '//s3.amazonaws.com/mapbox/real-changesets/production/';
 var getChangeset = function(changesetID, overpassBase, callback) {
     osm.query(changesetID, function(err, changeset) {
         if (err) {
-            callback({
+            return callback({
                 'msg': 'OSM Query failed. Are you sure you entered a valid changeset id?',
                 'error': err
             }, null);
@@ -17,7 +19,7 @@ var getChangeset = function(changesetID, overpassBase, callback) {
         var url = S3_URL + changesetID + '.json';
         xhr.get(url, function(err, response) {
             if (err || response.statusCode === 403) {
-                // Fallback to overpass
+              // Fallback to overpass
                 var data = getDataParam(changeset);
                 var bbox = getBboxParam(changeset.bbox);
                 var url = overpassBase + '?data=' + data + '&bbox=' + bbox;
@@ -38,8 +40,8 @@ var getChangeset = function(changesetID, overpassBase, callback) {
                                 'error': err
                             }, null);
                         }
-                        var geojson = jsonParser({ elements: json[changesetID] });
-                        var featureMap = getFeatureMap(geojson, changeset);
+                        var geojson = jsonParser({elements: json[changesetID]});
+                        var featureMap = getFeatureMap(geojson);
 
                         var ret = {
                             'geojson': geojson,
@@ -51,7 +53,7 @@ var getChangeset = function(changesetID, overpassBase, callback) {
                 });
             } else {
                 var geojson = jsonParser(JSON.parse(response.body));
-                var featureMap = getFeatureMap(geojson, changeset);
+                var featureMap = getFeatureMap(geojson);
 
                 var ret = {
                     'geojson': geojson,
@@ -72,7 +74,7 @@ function getBboxParam(bbox) {
     return [bbox.left, bbox.bottom, bbox.right, bbox.top].join(',');
 }
 
-function getFeatureMap(geojson, changeset) {
+function getFeatureMap(geojson) {
     var features = geojson.features;
     var featureMap = {};
 

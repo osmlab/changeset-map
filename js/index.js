@@ -1,3 +1,5 @@
+'use strict';
+
 var cMap;
 
 var containerWidth = window.innerWidth + 'px';
@@ -7,7 +9,7 @@ if (location.hash !== '') {
     document.getElementById('formContainer').style.display = 'none';
     var id = location.hash.split('/')[0].replace('#', '');
     var [, geometryType, featureId] = location.hash.split('/');
-    cMap = window.changesetMap(document.getElementById('container'), id, {width: containerWidth, height: containerHeight });
+    cMap = window.changesetMap(document.getElementById('container'), id, {width: containerWidth, height: containerHeight});
     cMap.on('load', function () {
         cMap.emit('selectFeature', geometryType, featureId);
     });
@@ -29,16 +31,16 @@ cMap.on('featureChange', function (geometryType, featureId) {
 });
 
 function updateHash(osmType, featureId) {
-  clearHash();
+    clearHash();
 
-  location.hash += '/' + osmType;
-  location.hash += '/' + featureId;
+    location.hash += '/' + osmType;
+    location.hash += '/' + featureId;
 }
 
 function clearHash() {
-  var changesetId = location.hash
+    var changesetId = location.hash
     .split('/')[0]
     .replace('#', '');
 
-  location.hash = changesetId;
+    location.hash = changesetId;
 }

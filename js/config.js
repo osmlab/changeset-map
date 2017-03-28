@@ -1,3 +1,5 @@
+'use strict';
+
 var config = {
     'overpassBase': '//overpass-cfn-production.tilestream.net/api/interpreter',
     'osmBase': '//www.openstreetmap.org/api/0.6/',

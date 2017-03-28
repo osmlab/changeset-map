@@ -1,3 +1,5 @@
+'use strict';
+
 var xhr = require('xhr');
 var moment = require('moment');
 var config = require('./config');
@@ -35,7 +37,7 @@ var query = function(changesetID, callback) {
                 'top': top
             }
         };
-        callback(null, changeset);
+        return callback(null, changeset);
     });
 };
 

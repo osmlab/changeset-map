@@ -1,3 +1,5 @@
+'use strict';
+
 var mapboxgl = require('mapbox-gl');
 var getChangeset = require('./getChangeset');
 var propsDiff = require('./propsDiff');
@@ -41,29 +43,29 @@ function render(container, id, options) {
 
         var layersKey = {
             'added': [
-            'added-line',
-            'added-point'
+                'added-line',
+                'added-point'
             ],
             'modified': [
-            'modified-old-line',
-            'modified-old-point',
-            'modified-new-line',
-            'modified-new-point'
+                'modified-old-line',
+                'modified-old-point',
+                'modified-new-line',
+                'modified-new-point'
             ],
             'deleted': [
-            'deleted-line',
-            'deleted-point'
+                'deleted-line',
+                'deleted-point'
             ]
         };
         var selectedLayers = [
-        'added-line',
-        'added-point',
-        'modified-old-line',
-        'modified-old-point',
-        'modified-new-line',
-        'modified-new-point',
-        'deleted-line',
-        'deleted-point'
+            'added-line',
+            'added-point',
+            'modified-old-line',
+            'modified-old-point',
+            'modified-new-line',
+            'modified-new-point',
+            'deleted-line',
+            'deleted-point'
         ];
         var layerSelector = document.querySelector('.cmap-layer-selector');
         layerSelector.addEventListener('change', function(e) {
@@ -75,7 +77,7 @@ function render(container, id, options) {
                 });
             } else {
                 selectedLayers = selectedLayers.filter(function(layer) {
-                    return !layer in layersKey[key];
+                    return !(layer in layersKey[key]);
                 });
                 layersKey[key].forEach(function(layer) {
                     map.setLayoutProperty(layer, 'visibility', 'none');
@@ -114,92 +116,92 @@ function render(container, id, options) {
 }
 
 function elt(name, attributes) {
-  var node = document.createElement(name);
-  if (attributes) {
-    for (var attr in attributes)
-      if (attributes.hasOwnProperty(attr))
-        node.setAttribute(attr, attributes[attr]);
-}
-for (var i = 2; i < arguments.length; i++) {
-    var child = arguments[i];
-    if (typeof child == 'string')
-      child = document.createTextNode(child);
-  node.appendChild(child);
-}
-return node;
+    var node = document.createElement(name);
+    if (attributes) {
+        for (var attr in attributes)
+            if (attributes.hasOwnProperty(attr))
+                node.setAttribute(attr, attributes[attr]);
+    }
+    for (var i = 2; i < arguments.length; i++) {
+        var child = arguments[i];
+        if (typeof child == 'string')
+            child = document.createTextNode(child);
+        node.appendChild(child);
+    }
+    return node;
 }
 
 function renderHTML(container) {
-  container.classList.add('cmap-container');
+    container.classList.add('cmap-container');
 
-  var mapContainer = elt('div', { class: 'cmap-map' });
-  container.appendChild(mapContainer);
+    var mapContainer = elt('div', {class: 'cmap-map'});
+    container.appendChild(mapContainer);
 
-  var diffMetadata = elt('div', { class: 'cmap-diff-metadata cmap-scroll-styled', style: 'display: none'});
-  var diffTags = elt('div', { class: 'cmap-diff-tags cmap-scroll-styled', style: 'display: none' });
-  var diff = elt('div', { class: 'cmap-diff', style: 'display: none' }, diffMetadata, diffTags);
-  container.appendChild(diff);
+    var diffMetadata = elt('div', {class: 'cmap-diff-metadata cmap-scroll-styled', style: 'display: none'});
+    var diffTags = elt('div', {class: 'cmap-diff-tags cmap-scroll-styled', style: 'display: none'});
+    var diff = elt('div', {class: 'cmap-diff', style: 'display: none'}, diffMetadata, diffTags);
+    container.appendChild(diff);
 
-  var sidebar = elt('div', { class: 'cmap-sidebar cmap-pad1', style: 'display: none'});
-  sidebar.appendChild(
-    elt('div', { class: 'cmap-fill-grey cmap-info'},
-      elt('a', { class: 'cmap-sidebar-changeset' }),
+    var sidebar = elt('div', {class: 'cmap-sidebar cmap-pad1', style: 'display: none'});
+    sidebar.appendChild(
+    elt('div', {class: 'cmap-fill-grey cmap-info'},
+      elt('a', {class: 'cmap-sidebar-changeset'}),
       elt('br'),
-      elt('a', { class: 'cmap-sidebar-user icon account' }),
+      elt('a', {class: 'cmap-sidebar-user icon account'}),
       elt('br'),
-      elt('span', { class: 'cmap-sidebar-time icon time'})
+      elt('span', {class: 'cmap-sidebar-time icon time'})
       )
     );
-  sidebar.appendChild(
-    elt('div', { class: 'cmap-layer-selector cmap-info cmap-fill-grey'},
+    sidebar.appendChild(
+    elt('div', {class: 'cmap-layer-selector cmap-info cmap-fill-grey'},
       elt('ul', {},
         elt('li', {},
-          elt('label', { for: 'cmap-layer-selector-added', class: 'cmap-noselect cmap-pointer' },
-            elt('input', { type: 'checkbox', value: 'added', checked: true, id: 'cmap-layer-selector-added' }),
+          elt('label', {for: 'cmap-layer-selector-added', class: 'cmap-noselect cmap-pointer'},
+            elt('input', {type: 'checkbox', value: 'added', checked: true, id: 'cmap-layer-selector-added'}),
             'Added features',
-            elt('span', { class: 'cmap-fr'},
-              elt('span', { class: 'cmap-color-box added'}))
+            elt('span', {class: 'cmap-fr'},
+              elt('span', {class: 'cmap-color-box added'}))
             )
           ),
 
         elt('li', {},
-          elt('label', { for: 'cmap-layer-selector-modified', class: 'cmap-noselect cmap-pointer' },
-            elt('input', { type: 'checkbox', value: 'modified', checked: true, id: 'cmap-layer-selector-modified' }),
+          elt('label', {for: 'cmap-layer-selector-modified', class: 'cmap-noselect cmap-pointer'},
+            elt('input', {type: 'checkbox', value: 'modified', checked: true, id: 'cmap-layer-selector-modified'}),
             'Modified features',
-            elt('span', { class: 'cmap-fr'},
-              elt('span', { class: 'cmap-color-box modified-old'}),
+            elt('span', {class: 'cmap-fr'},
+              elt('span', {class: 'cmap-color-box modified-old'}),
               '→',
-              elt('span', { class: 'cmap-color-box modified-new'})
+              elt('span', {class: 'cmap-color-box modified-new'})
               )
             )
           ),
 
         elt('li', {},
-          elt('label', { for: 'cmap-layer-selector-deleted', class: 'cmap-noselect cmap-pointer' },
-            elt('input', { type: 'checkbox', value: 'deleted', checked: true, id: 'cmap-layer-selector-deleted' }),
+          elt('label', {for: 'cmap-layer-selector-deleted', class: 'cmap-noselect cmap-pointer'},
+            elt('input', {type: 'checkbox', value: 'deleted', checked: true, id: 'cmap-layer-selector-deleted'}),
             'Deleted features',
-            elt('span', { class: 'cmap-fr'},
-              elt('span', { class: 'cmap-color-box deleted'}))
+            elt('span', {class: 'cmap-fr'},
+              elt('span', {class: 'cmap-color-box deleted'}))
             )
           )
         )
       )
     );
 
-  sidebar.appendChild(
-    elt('div', { class: 'cmap-info cmap-baselayer-selector cmap-fill-grey'},
+    sidebar.appendChild(
+    elt('div', {class: 'cmap-info cmap-baselayer-selector cmap-fill-grey'},
         elt('form', {},
-          elt('input', { type: 'radio', value: 'satellite', checked: true, name: 'baselayer', id: 'cmap-baselayer-satellite' }),
-          elt('label', { for: 'cmap-baselayer-satellite', class: 'cmap-noselect cmap-pointer' }, 'Satellite'),
-          elt('input', { type: 'radio', value: 'streets', name: 'baselayer', id: 'cmap-baselayer-streets' }),
-          elt('label', { for: 'cmap-baselayer-streets', class: 'cmap-noselect cmap-pointer' }, 'Streets'),
-          elt('input', { type: 'radio', value: 'dark', name: 'baselayer', id: 'cmap-baselayer-dark' }),
-          elt('label', { for: 'cmap-baselayer-dark', class: 'cmap-noselect cmap-pointer' }, 'Dark')
+          elt('input', {type: 'radio', value: 'satellite', checked: true, name: 'baselayer', id: 'cmap-baselayer-satellite'}),
+          elt('label', {for: 'cmap-baselayer-satellite', class: 'cmap-noselect cmap-pointer'}, 'Satellite'),
+          elt('input', {type: 'radio', value: 'streets', name: 'baselayer', id: 'cmap-baselayer-streets'}),
+          elt('label', {for: 'cmap-baselayer-streets', class: 'cmap-noselect cmap-pointer'}, 'Streets'),
+          elt('input', {type: 'radio', value: 'dark', name: 'baselayer', id: 'cmap-baselayer-dark'}),
+          elt('label', {for: 'cmap-baselayer-dark', class: 'cmap-noselect cmap-pointer'}, 'Dark')
           )
         )
     );
 
-  container.appendChild(sidebar);
+    container.appendChild(sidebar);
 }
 
 function addMapLayers(baseLayer, result, bounds) {
@@ -259,7 +261,7 @@ function addMapLayers(baseLayer, result, bounds) {
                     ]
                 ]
             },
-           'circle-radius': {
+            'circle-radius': {
                 'base': 1.5,
                 'stops': [
                     [
@@ -271,7 +273,7 @@ function addMapLayers(baseLayer, result, bounds) {
                         17
                     ]
                 ]
-            },
+            }
         }
     });
 
@@ -326,8 +328,8 @@ function addMapLayers(baseLayer, result, bounds) {
         'paint': {
             'line-color': '#CC2C47',
             'line-width': {
-                "base": 1,
-                "stops": [
+                'base': 1,
+                'stops': [
                     [
                         8,
                         4
@@ -527,7 +529,7 @@ function addMapLayers(baseLayer, result, bounds) {
                         13
                     ]
                 ]
-            },
+            }
         },
         'filter': [
             '==', 'changeType', 'modifiedOld'
@@ -708,37 +710,37 @@ function getDiffHTML(diff) {
 
         types.forEach(function(type) {
             if (diff[prop].hasOwnProperty(type)) {
-                if (type == "added" && !isAddedFeature) {
-                  var empty = document.createElement('td');
-                  empty.classList.add('diff-property');
-                  empty.classList.add('cmap-scroll-styled');
-                  empty.classList.add('props-diff-' + type);
+                if (type == 'added' && !isAddedFeature) {
+                    var empty = document.createElement('td');
+                    empty.classList.add('diff-property');
+                    empty.classList.add('cmap-scroll-styled');
+                    empty.classList.add('props-diff-' + type);
 
-                  tr.appendChild(empty);
-              }
+                    tr.appendChild(empty);
+                }
 
-              var td = document.createElement('td');
-              td.classList.add('diff-property');
-              td.classList.add('cmap-scroll-styled');
-              td.classList.add('props-diff-' + type);
+                var td = document.createElement('td');
+                td.classList.add('diff-property');
+                td.classList.add('cmap-scroll-styled');
+                td.classList.add('props-diff-' + type);
 
-              td.textContent = diff[prop][type];
-              tr.appendChild(td);
+                td.textContent = diff[prop][type];
+                tr.appendChild(td);
 
-              if (type == 'deleted') {
-                  var empty = document.createElement('td');
-                  empty.classList.add('diff-property');
-                  empty.classList.add('cmap-scroll-styled');
-                  empty.classList.add('props-diff-' + type);
+                if (type == 'deleted') {
+                    var empty = document.createElement('td');
+                    empty.classList.add('diff-property');
+                    empty.classList.add('cmap-scroll-styled');
+                    empty.classList.add('props-diff-' + type);
 
-                  tr.appendChild(empty);
-              }
+                    tr.appendChild(empty);
+                }
 
-              if (type == 'unchanged') {
-                tr.appendChild(td.cloneNode(true));
+                if (type == 'unchanged') {
+                    tr.appendChild(td.cloneNode(true));
+                }
             }
-        }
-    });
+        });
 
         root.appendChild(tr);
     }
@@ -748,34 +750,34 @@ function getDiffHTML(diff) {
 function highlightFeature(map, featureId) {
     map.setFilter('highlight-line', [
         '==', 'id', featureId
-        ]);
+    ]);
     map.setFilter('highlight-point', [
         '==', 'id', featureId
-        ]);
+    ]);
 }
 
 function clearHighlight(map) {
     map.setFilter('highlight-line', [
         '==', 'id', ''
-        ]);
+    ]);
     map.setFilter('highlight-point', [
         '==', 'id', ''
-        ]);
+    ]);
 }
 
 function selectFeature(map, feature, featureMap) {
-  var featureId = feature.properties.id;
-  var osmType = feature.properties.type;
+    var featureId = feature.properties.id;
+    var osmType = feature.properties.type;
 
-  highlightFeature(map, featureId);
-  displayDiff(featureId, featureMap);
-  cmap.emit('featureChange', osmType, featureId);
+    highlightFeature(map, featureId);
+    displayDiff(featureId, featureMap);
+    cmap.emit('featureChange', osmType, featureId);
 }
 
 function clearFeature(map) {
-  clearHighlight(map);
-  clearDiff();
-  cmap.emit('featureChange', null, null);
+    clearHighlight(map);
+    clearDiff();
+    cmap.emit('featureChange', null, null);
 }
 
 function renderMap(baseLayer, result) {
@@ -791,7 +793,7 @@ function renderMap(baseLayer, result) {
         center: bounds.getCenter(),
         zoom: 14,
         dragRotate: false,
-        touchZoomRotate: false,
+        touchZoomRotate: false
     });
 
     map.on('load', function() {
@@ -802,38 +804,38 @@ function renderMap(baseLayer, result) {
 }
 
 function getBounds(bbox) {
-  var left = +bbox.left,
-      right = +bbox.right,
-      top = +bbox.top,
-      bottom = +bbox.bottom;
+    var left = +bbox.left,
+        right = +bbox.right,
+        top = +bbox.top,
+        bottom = +bbox.bottom;
 
-  return new mapboxgl.LngLatBounds(
+    return new mapboxgl.LngLatBounds(
       new mapboxgl.LngLat(left, bottom),
       new mapboxgl.LngLat(right, top)
   );
 }
 
 function getBoundingBox(bounds) {
-  var left = bounds.getWest(),
-      right = bounds.getEast(),
-      top = bounds.getNorth(),
-      bottom = bounds.getSouth();
+    var left = bounds.getWest(),
+        right = bounds.getEast(),
+        top = bounds.getNorth(),
+        bottom = bounds.getSouth();
 
-  var padX = 0;
-  var padY = 0;
-  if (! (left === -180 && right === 180 && top === 90 && bottom === -90)) {
-      padX = Math.max((right - left) / 5, 0.0001);
-      padY = Math.max((top - bottom) / 5, 0.0001);
-  }
+    var padX = 0;
+    var padY = 0;
+    if (!(left === -180 && right === 180 && top === 90 && bottom === -90)) {
+        padX = Math.max((right - left) / 5, 0.0001);
+        padY = Math.max((top - bottom) / 5, 0.0001);
+    }
 
-  var bboxPolygon = turfBboxPolygon([
-    left - padX,
-    bottom - padY,
-    right + padX,
-    top + padY
-  ]);
+    var bboxPolygon = turfBboxPolygon([
+        left - padX,
+        bottom - padY,
+        right + padX,
+        top + padY
+    ]);
 
-  return featureCollection([bboxPolygon]);
+    return featureCollection([bboxPolygon]);
 }
 
 window.changesetMap = module.exports = render;
