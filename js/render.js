@@ -666,17 +666,17 @@ function displayDiff(id, featureMap) {
         return props;
     });
 
-    var metadataDiff = propsDiff(metadataProps);
-    var tagDiff = propsDiff(tagProps);
+    var metadataHTML = getDiffHTML(propsDiff(metadataProps))
+    var tagHTML = getDiffHTML(propsDiff(tagProps));
 
     document.querySelector('.cmap-diff').style.display = 'block';
 
     document.querySelector('.cmap-diff-metadata').innerHTML = '';
-    document.querySelector('.cmap-diff-metadata').appendChild(getDiffHTML(metadataDiff));
+    document.querySelector('.cmap-diff-metadata').appendChild(metadataHTML);
     document.querySelector('.cmap-diff-metadata').style.display = 'block';
 
     document.querySelector('.cmap-diff-tags').innerHTML = '';
-    document.querySelector('.cmap-diff-tags').appendChild(getDiffHTML(tagDiff));
+    document.querySelector('.cmap-diff-tags').appendChild(tagHTML);
     document.querySelector('.cmap-diff-tags').style.display = 'block';
 }
 
@@ -700,50 +700,55 @@ function getDiffHTML(diff) {
     }
 
     var types = ['added', 'unchanged', 'deleted', 'modifiedOld', 'modifiedNew'];
+    var ignoreList = ['id', 'type', 'changeType'];
+
     for (var prop in diff) {
-        var tr = document.createElement('tr');
+        if (ignoreList.indexOf(prop) === -1) {
+            var tr = document.createElement('tr');
 
-        var th = document.createElement('th');
-        th.textContent = prop;
-        th.setAttribute('title', prop);
-        tr.appendChild(th);
+            var th = document.createElement('th');
+            th.textContent = prop;
+            th.setAttribute('title', prop);
+            tr.appendChild(th);
 
-        types.forEach(function(type) {
-            if (diff[prop].hasOwnProperty(type)) {
-                if (type == 'added' && !isAddedFeature) {
-                    var empty = document.createElement('td');
-                    empty.classList.add('diff-property');
-                    empty.classList.add('cmap-scroll-styled');
-                    empty.classList.add('props-diff-' + type);
+            types.forEach(function(type) {
+                if (diff[prop].hasOwnProperty(type)) {
+                    if (type == 'added' && !isAddedFeature) {
+                        var empty = document.createElement('td');
+                        empty.classList.add('diff-property');
+                        empty.classList.add('cmap-scroll-styled');
+                        empty.classList.add('props-diff-' + type);
 
-                    tr.appendChild(empty);
+                        tr.appendChild(empty);
+                    }
+
+                    var td = document.createElement('td');
+                    td.classList.add('diff-property');
+                    td.classList.add('cmap-scroll-styled');
+                    td.classList.add('props-diff-' + type);
+
+                    td.textContent = diff[prop][type];
+                    tr.appendChild(td);
+
+                    if (type == 'deleted') {
+                        var empty = document.createElement('td');
+                        empty.classList.add('diff-property');
+                        empty.classList.add('cmap-scroll-styled');
+                        empty.classList.add('props-diff-' + type);
+
+                        tr.appendChild(empty);
+                    }
+
+                    if (type == 'unchanged') {
+                        tr.appendChild(td.cloneNode(true));
+                    }
                 }
+            });
 
-                var td = document.createElement('td');
-                td.classList.add('diff-property');
-                td.classList.add('cmap-scroll-styled');
-                td.classList.add('props-diff-' + type);
-
-                td.textContent = diff[prop][type];
-                tr.appendChild(td);
-
-                if (type == 'deleted') {
-                    var empty = document.createElement('td');
-                    empty.classList.add('diff-property');
-                    empty.classList.add('cmap-scroll-styled');
-                    empty.classList.add('props-diff-' + type);
-
-                    tr.appendChild(empty);
-                }
-
-                if (type == 'unchanged') {
-                    tr.appendChild(td.cloneNode(true));
-                }
-            }
-        });
-
-        root.appendChild(tr);
+            root.appendChild(tr);
+        }
     }
+
     return root;
 }
 
