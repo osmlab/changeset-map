@@ -666,17 +666,20 @@ function displayDiff(id, featureMap) {
         return props;
     });
 
-    var metadataDiff = propsDiff(metadataProps);
-    var tagDiff = propsDiff(tagProps);
+    var type = featuresWithId[0].properties.type;
+    var metadataHeader = elt('a', { href: '//www.openstreetmap.org/' + type + '/' + id + '/history', target: '_blank' }, capitalize(type) + ': ' + id);
+    var metadataHTML = getDiffHTML(propsDiff(metadataProps), metadataHeader);
+    var tagHeader = elt('span', {}, 'Tag details');
+    var tagHTML = getDiffHTML(propsDiff(tagProps), tagHeader);
 
     document.querySelector('.cmap-diff').style.display = 'block';
 
     document.querySelector('.cmap-diff-metadata').innerHTML = '';
-    document.querySelector('.cmap-diff-metadata').appendChild(getDiffHTML(metadataDiff));
+    document.querySelector('.cmap-diff-metadata').appendChild(metadataHTML);
     document.querySelector('.cmap-diff-metadata').style.display = 'block';
 
     document.querySelector('.cmap-diff-tags').innerHTML = '';
-    document.querySelector('.cmap-diff-tags').appendChild(getDiffHTML(tagDiff));
+    document.querySelector('.cmap-diff-tags').appendChild(tagHTML);
     document.querySelector('.cmap-diff-tags').style.display = 'block';
 }
 
@@ -690,60 +693,64 @@ function clearDiff() {
     document.querySelector('.cmap-diff-tags').style.display = 'none';
 }
 
-function getDiffHTML(diff) {
+function getDiffHTML(diff, header) {
     var isAddedFeature = diff['changeType'].added === 'added';
 
-    var root = document.createElement('table');
-    root.classList.add('cmap-diff-table');
+    var root = elt('table', { class: 'cmap-diff-table' });
     if (isAddedFeature) {
         root.style.width = '300px';
     }
 
-    var types = ['added', 'unchanged', 'deleted', 'modifiedOld', 'modifiedNew'];
-    for (var prop in diff) {
-        var tr = document.createElement('tr');
-
-        var th = document.createElement('th');
-        th.textContent = prop;
-        th.setAttribute('title', prop);
-        tr.appendChild(th);
-
-        types.forEach(function(type) {
-            if (diff[prop].hasOwnProperty(type)) {
-                if (type == 'added' && !isAddedFeature) {
-                    var empty = document.createElement('td');
-                    empty.classList.add('diff-property');
-                    empty.classList.add('cmap-scroll-styled');
-                    empty.classList.add('props-diff-' + type);
-
-                    tr.appendChild(empty);
-                }
-
-                var td = document.createElement('td');
-                td.classList.add('diff-property');
-                td.classList.add('cmap-scroll-styled');
-                td.classList.add('props-diff-' + type);
-
-                td.textContent = diff[prop][type];
-                tr.appendChild(td);
-
-                if (type == 'deleted') {
-                    var empty = document.createElement('td');
-                    empty.classList.add('diff-property');
-                    empty.classList.add('cmap-scroll-styled');
-                    empty.classList.add('props-diff-' + type);
-
-                    tr.appendChild(empty);
-                }
-
-                if (type == 'unchanged') {
-                    tr.appendChild(td.cloneNode(true));
-                }
-            }
-        });
-
-        root.appendChild(tr);
+    if (header) {
+        root.appendChild(
+            elt('thead', {},
+                elt('tr', {},
+                    elt('td', { colspan: isAddedFeature ? '2' : '3', class: 'cmap-table-head'}, header)
+                )
+            )
+        )
     }
+
+    var tbody = elt('tbody');
+
+    var types = ['added', 'unchanged', 'deleted', 'modifiedOld', 'modifiedNew'];
+    var ignoreList = ['id', 'type', 'changeType'];
+
+    for (var prop in diff) {
+        if (ignoreList.indexOf(prop) === -1) {
+            var tr = elt('tr');
+
+            var th = elt('th', { title: prop }, prop);
+            tr.appendChild(th);
+
+            types.forEach(function(type) {
+                if (diff[prop].hasOwnProperty(type)) {
+                    var propClass = 'diff-property cmap-scroll-styled props-diff-' + type;
+                    if (type == 'added' && !isAddedFeature) {
+                        var empty = elt('td', { class: propClass });
+                        tr.appendChild(empty);
+                    }
+
+                    var td = elt('td', { class: propClass }, diff[prop][type]);
+                    tr.appendChild(td);
+
+                    if (type == 'deleted') {
+                        var empty = elt('td', { class: propClass });
+                        tr.appendChild(empty);
+                    }
+
+                    if (type == 'unchanged') {
+                        tr.appendChild(td.cloneNode(true));
+                    }
+                }
+            });
+
+            tbody.appendChild(tr);
+        }
+    }
+
+    root.appendChild(tbody);
+
     return root;
 }
 
@@ -836,6 +843,10 @@ function getBoundingBox(bounds) {
     ]);
 
     return featureCollection([bboxPolygon]);
+}
+
+function capitalize(word) {
+    return word.charAt(0).toUpperCase() + word.slice(1);
 }
 
 window.changesetMap = module.exports = render;
