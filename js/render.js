@@ -488,7 +488,7 @@ function getDiffHTML(diff) {
                   var empty = document.createElement('td');
                   empty.classList.add('diff-property');
                   empty.classList.add('cmap-scroll-styled');
-                  empty.classList.add(type);
+                  empty.classList.add('props-diff-' + type);
 
                   tr.appendChild(empty);
               }
@@ -496,7 +496,7 @@ function getDiffHTML(diff) {
               var td = document.createElement('td');
               td.classList.add('diff-property');
               td.classList.add('cmap-scroll-styled');
-              td.classList.add(type);
+              td.classList.add('props-diff-' + type);
 
               td.textContent = diff[prop][type];
               tr.appendChild(td);
@@ -505,7 +505,7 @@ function getDiffHTML(diff) {
                   var empty = document.createElement('td');
                   empty.classList.add('diff-property');
                   empty.classList.add('cmap-scroll-styled');
-                  empty.classList.add(type);
+                  empty.classList.add('props-diff-' + type);
 
                   tr.appendChild(empty);
               }

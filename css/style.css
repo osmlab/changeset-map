@@ -99,6 +99,19 @@
     overflow-x: auto;
 }
 
+.cmap-diff-tags .props-diff-added {
+    background: rgba(57, 219, 192, 0.3);
+}
+.cmap-diff-tags .props-diff-modifiedOld {
+    background: rgba(219, 149, 10, 0.3);
+}
+.cmap-diff-tags .props-diff-modifiedNew {
+    background: rgba(232, 232, 69, 0.3);
+}
+.cmap-diff-tags .props-diff-deleted {
+    background: rgba(204, 44, 71, 0.3);
+}
+
 .cmap-color-box {
     display: inline-block;
     width: 10px;
