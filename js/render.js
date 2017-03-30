@@ -668,9 +668,9 @@ function displayDiff(id, featureMap) {
 
     var type = featuresWithId[0].properties.type;
     var metadataHeader = elt('a', { href: '//www.openstreetmap.org/' + type + '/' + id + '/history', target: '_blank' }, capitalize(type) + ': ' + id);
-    var metadataHTML = getDiffHTML(propsDiff(metadataProps), metadataHeader);
+    var metadataHTML = getDiffHTML(propsDiff(metadataProps), ['id', 'type', 'changeType'], metadataHeader);
     var tagHeader = elt('span', {}, 'Tag details');
-    var tagHTML = getDiffHTML(propsDiff(tagProps), tagHeader);
+    var tagHTML = getDiffHTML(propsDiff(tagProps), ['id', 'changeType'], tagHeader);
 
     document.querySelector('.cmap-diff').style.display = 'block';
 
@@ -693,7 +693,7 @@ function clearDiff() {
     document.querySelector('.cmap-diff-tags').style.display = 'none';
 }
 
-function getDiffHTML(diff, header) {
+function getDiffHTML(diff, ignoreList, header) {
     var isAddedFeature = diff['changeType'].added === 'added';
 
     var root = elt('table', { class: 'cmap-diff-table' });
@@ -714,7 +714,6 @@ function getDiffHTML(diff, header) {
     var tbody = elt('tbody');
 
     var types = ['added', 'unchanged', 'deleted', 'modifiedOld', 'modifiedNew'];
-    var ignoreList = ['id', 'type', 'changeType'];
 
     for (var prop in diff) {
         if (ignoreList.indexOf(prop) === -1) {
