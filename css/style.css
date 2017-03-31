@@ -179,7 +179,7 @@
 }
 .cmap-container .cmap-diff-table {
   table-layout: fixed;
-  width: 450px;
+  width: 380px;
   border-collapse: collapse;
 }
 .cmap-container .cmap-diff-metadata,
@@ -292,6 +292,9 @@
 }
 .cmap-container .cmap-fr {
   float: right;
+}
+.cmap-container .cmap-strong {
+  font-weight: bold;
 }
 
 /* Scroll bar
