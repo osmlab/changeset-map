@@ -27,6 +27,11 @@ function render(container, id, options) {
         container.classList.remove('cmap-loading');
         if (err) return errorMessage(err.msg);
 
+        // Add `tagsCount` to feature properties
+        result.geojson.features.forEach(function(feature) {
+            var tags = feature.properties.tags || {};
+            feature.properties.tagsCount = Object.keys(tags).length;
+        });
 
         document.querySelector('.cmap-layer-selector').style.display = 'block';
         document.querySelector('.cmap-sidebar-changeset').text = 'Changeset - ' + changesetId;
@@ -44,28 +49,36 @@ function render(container, id, options) {
         var layersKey = {
             'added': [
                 'added-line',
-                'added-point'
+                'added-point-tagged',
+                'added-point-untagged'
             ],
             'modified': [
                 'modified-old-line',
-                'modified-old-point',
+                'modified-old-point-tagged',
+                'modified-old-point-untagged',
                 'modified-new-line',
-                'modified-new-point'
+                'modified-new-point-tagged',
+                'modified-new-point-untagged'
             ],
             'deleted': [
                 'deleted-line',
-                'deleted-point'
+                'deleted-point-tagged',
+                'deleted-point-untagged'
             ]
         };
         var selectedLayers = [
             'added-line',
-            'added-point',
+            'added-point-tagged',
+            'added-point-untagged',
             'modified-old-line',
-            'modified-old-point',
+            'modified-old-point-tagged',
+            'modified-old-point-untagged',
             'modified-new-line',
-            'modified-new-point',
+            'modified-new-point-tagged',
+            'modified-new-point-untagged',
             'deleted-line',
-            'deleted-point'
+            'deleted-point-tagged',
+            'deleted-point-untagged'
         ];
         var layerSelector = document.querySelector('.cmap-layer-selector');
         layerSelector.addEventListener('change', function(e) {
@@ -239,7 +252,11 @@ function addMapLayers(baseLayer, result, bounds) {
             'line-color': 'hsl(0, 0%, 10%)',
             'line-width': 12,
             'line-opacity': 0.5
-        }
+        },
+        'filter': [
+            'all',
+            ['==', 'type', 'way']
+        ]
     });
 
     map.addLayer({
@@ -274,7 +291,11 @@ function addMapLayers(baseLayer, result, bounds) {
                     ]
                 ]
             }
-        }
+        },
+        'filter': [
+            'all',
+            ['==', 'type', 'node']
+        ]
     });
 
     map.addLayer({
@@ -347,7 +368,9 @@ function addMapLayers(baseLayer, result, bounds) {
             'line-opacity': 0.8
         },
         'filter': [
-            '==', 'changeType', 'deletedNew'
+            'all',
+            ['==', 'type', 'way'],
+            ['==', 'changeType', 'deletedNew']
         ]
     });
 
@@ -390,7 +413,9 @@ function addMapLayers(baseLayer, result, bounds) {
             'line-opacity': 0.8
         },
         'filter': [
-            '==', 'changeType', 'modifiedOld'
+            'all',
+            ['==', 'type', 'way'],
+            ['==', 'changeType', 'modifiedOld']
         ]
     });
 
@@ -420,7 +445,9 @@ function addMapLayers(baseLayer, result, bounds) {
             'line-opacity': 0.8
         },
         'filter': [
-            '==', 'changeType', 'modifiedNew'
+            'all',
+            ['==', 'type', 'way'],
+            ['==', 'changeType', 'modifiedNew']
         ]
     });
 
@@ -451,12 +478,14 @@ function addMapLayers(baseLayer, result, bounds) {
             'line-opacity': 0.8
         },
         'filter': [
-            '==', 'changeType', 'added'
+            'all',
+            ['==', 'type', 'way'],
+            ['==', 'changeType', 'added']
         ]
     });
 
     map.addLayer({
-        'id': 'deleted-point',
+        'id': 'deleted-point-untagged',
         'source': 'changeset',
         'type': 'circle',
         'paint': {
@@ -493,12 +522,15 @@ function addMapLayers(baseLayer, result, bounds) {
             'circle-stroke-color': '#CC2C47'
         },
         'filter': [
-            '==', 'changeType', 'deletedNew'
+            'all',
+            ['==', 'type', 'way'],
+            ['==', 'changeType', 'deletedNew'],
+            ['==', 'tagsCount', 0]
         ]
     });
 
     map.addLayer({
-        'id': 'modified-old-point',
+        'id': 'modified-old-point-untagged',
         'source': 'changeset',
         'type': 'circle',
         'paint': {
@@ -532,12 +564,15 @@ function addMapLayers(baseLayer, result, bounds) {
             }
         },
         'filter': [
-            '==', 'changeType', 'modifiedOld'
+            'all',
+            ['==', 'type', 'node'],
+            ['==', 'changeType', 'modifiedOld'],
+            ['==', 'tagsCount', 0]
         ]
     });
 
     map.addLayer({
-        'id': 'modified-new-point',
+        'id': 'modified-new-point-untagged',
         'source': 'changeset',
         'type': 'circle',
         'paint': {
@@ -573,12 +608,15 @@ function addMapLayers(baseLayer, result, bounds) {
             'circle-stroke-color': '#E8E845'
         },
         'filter': [
-            '==', 'changeType', 'modifiedNew'
+            'all',
+            ['==', 'type', 'node'],
+            ['==', 'changeType', 'modifiedNew'],
+            ['==', 'tagsCount', 0]
         ]
     });
 
     map.addLayer({
-        'id': 'added-point',
+        'id': 'added-point-untagged',
         'source': 'changeset',
         'type': 'circle',
         'paint': {
@@ -614,10 +652,187 @@ function addMapLayers(baseLayer, result, bounds) {
             'circle-stroke-color': '#39DBC0'
         },
         'filter': [
-            '==', 'changeType', 'added'
+            'all',
+            ['==', 'type', 'node'],
+            ['==', 'changeType', 'added'],
+            ['==', 'tagsCount', 0]
         ]
     });
 
+    map.addLayer({
+        'id': 'deleted-point-tagged',
+        'source': 'changeset',
+        'type': 'circle',
+        'paint': {
+            'circle-color': '#CC2C47',
+            'circle-radius': {
+                'base': 1.5,
+                'stops': [
+                    [
+                        10,
+                        4
+                    ],
+                    [
+                        16,
+                        14
+                    ]
+                ]
+            },
+            'circle-opacity': {
+                'base': 1.5,
+                'stops': [
+                    [
+                        10,
+                        0.25
+                    ],
+                    [
+                        14,
+                        0.5
+                    ]
+                ]
+            },
+            'circle-blur': 0,
+            'circle-stroke-width': 1,
+            'circle-stroke-opacity': 0.75,
+            'circle-stroke-color': '#CC2C47'
+        },
+        'filter': [
+            'all',
+            ['==', 'type', 'way'],
+            ['==', 'changeType', 'deletedNew'],
+            ['!=', 'tagsCount', 0]
+        ]
+    });
+
+    map.addLayer({
+        'id': 'modified-old-point-tagged',
+        'source': 'changeset',
+        'type': 'circle',
+        'paint': {
+            'circle-color': '#DB950A',
+            'circle-opacity': {
+                'base': 1.5,
+                'stops': [
+                    [
+                        10,
+                        0.5
+                    ],
+                    [
+                        14,
+                        0.75
+                    ]
+                ]
+            },
+            'circle-blur': 0.25,
+            'circle-radius': {
+                'base': 1.5,
+                'stops': [
+                    [
+                        10,
+                        3.5
+                    ],
+                    [
+                        16,
+                        13
+                    ]
+                ]
+            }
+        },
+        'filter': [
+            'all',
+            ['==', 'type', 'node'],
+            ['==', 'changeType', 'modifiedOld'],
+            ['!=', 'tagsCount', 0]
+        ]
+    });
+
+    map.addLayer({
+        'id': 'modified-new-point-tagged',
+        'source': 'changeset',
+        'type': 'circle',
+        'paint': {
+            'circle-color': '#E8E845',
+            'circle-opacity': {
+                'base': 1.5,
+                'stops': [
+                    [
+                        10,
+                        0.25
+                    ],
+                    [
+                        14,
+                        0.75
+                    ]
+                ]
+            },
+            'circle-radius': {
+                'base': 1.5,
+                'stops': [
+                    [
+                        10,
+                        2
+                    ],
+                    [
+                        16,
+                        7
+                    ]
+                ]
+            },
+            'circle-stroke-width': 1,
+            'circle-stroke-opacity': 0.9,
+            'circle-stroke-color': '#E8E845'
+        },
+        'filter': [
+            'all',
+            ['==', 'type', 'node'],
+            ['==', 'changeType', 'modifiedNew'],
+            ['!=', 'tagsCount', 0]
+        ]
+    });
+
+    map.addLayer({
+        'id': 'added-point-tagged',
+        'source': 'changeset',
+        'type': 'circle',
+        'paint': {
+            'circle-color': '#39DBC0',
+            'circle-opacity': {
+                'base': 1.5,
+                'stops': [
+                    [
+                        10,
+                        0.3
+                    ],
+                    [
+                        14,
+                        0.75
+                    ]
+                ]
+            },
+            'circle-radius': {
+                'base': 1.5,
+                'stops': [
+                    [
+                        10,
+                        1
+                    ],
+                    [
+                        16,
+                        5
+                    ]
+                ]
+            },
+            'circle-stroke-width': 1,
+            'circle-stroke-opacity': 0.9,
+            'circle-stroke-color': '#39DBC0'
+        },
+        'filter': [
+            'all',
+            ['==', 'type', 'node'],
+            ['==', 'changeType', 'added'],
+            ['!=', 'tagsCount', 0]
+        ]
+    });
 
     map.on('click', function(e) {
         var x1y1 = [e.point.x - 5, e.point.y - 5];
@@ -625,13 +840,13 @@ function addMapLayers(baseLayer, result, bounds) {
         var features = map.queryRenderedFeatures([x1y1, x2y2], {
             'layers': [
                 'added-line',
-                'added-point',
+                'added-point-tagged',
                 'modified-old-line',
-                'modified-old-point',
+                'modified-old-point-tagged',
                 'modified-new-line',
-                'modified-new-point',
+                'modified-new-point-tagged',
                 'deleted-line',
-                'deleted-point'
+                'deleted-point-tagged'
             ]
         });
 
@@ -656,6 +871,7 @@ function displayDiff(id, featureMap) {
     var metadataProps = featuresWithId.map(function(f) {
         var props = Object.assign({}, f.properties);
         delete props.tags;
+        delete props.tagsCount;
         delete props.relations;
         delete props.action;
         return props;
