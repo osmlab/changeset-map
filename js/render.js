@@ -50,7 +50,8 @@ function render(container, id, options) {
             'added': [
                 'added-line',
                 'added-point-tagged',
-                'added-point-untagged'
+                'added-point-untagged',
+                'added-relation'
             ],
             'modified': [
                 'modified-old-line',
@@ -58,12 +59,15 @@ function render(container, id, options) {
                 'modified-old-point-untagged',
                 'modified-new-line',
                 'modified-new-point-tagged',
-                'modified-new-point-untagged'
+                'modified-new-point-untagged',
+                'modified-old-relation',
+                'modified-new-relation'
             ],
             'deleted': [
                 'deleted-line',
                 'deleted-point-tagged',
-                'deleted-point-untagged'
+                'deleted-point-untagged',
+                'deleted-relation'
             ]
         };
         var selectedLayers = [
@@ -291,11 +295,7 @@ function addMapLayers(baseLayer, result, bounds) {
                     ]
                 ]
             }
-        },
-        'filter': [
-            'all',
-            ['==', 'type', 'node']
-        ]
+        }
     });
 
     map.addLayer({
@@ -342,8 +342,10 @@ function addMapLayers(baseLayer, result, bounds) {
         ]
     });
 
+// Relations
+
     map.addLayer({
-        'id': 'deleted-line',
+        'id': 'deleted-relation',
         'source': 'changeset',
         'type': 'line',
         'paint': {
@@ -353,11 +355,11 @@ function addMapLayers(baseLayer, result, bounds) {
                 'stops': [
                     [
                         8,
-                        4
+                        1.5
                     ],
                     [
                         12,
-                        8
+                        1.5
                     ]
                 ]
             },
@@ -369,10 +371,181 @@ function addMapLayers(baseLayer, result, bounds) {
         },
         'filter': [
             'all',
+            ['==', 'type', 'relation'],
+            ['==', 'changeType', 'deletedNew']
+        ]
+    });
+
+    map.addLayer({
+        'id': 'modified-old-relation',
+        'source': 'changeset',
+        'type': 'line',
+        'layout': {
+            'line-join': 'round',
+            'line-cap': 'round'
+        },
+        'paint': {
+            'line-color': '#DB950A',
+            'line-width': {
+                'base': 1,
+                'stops': [
+                    [
+                        8,
+                        1.75
+                    ],
+                    [
+                        12,
+                        1.75
+                    ]
+                ]
+            },
+            'line-blur': 0.25,
+            'line-opacity': 0.8
+        },
+        'filter': [
+            'all',
+            ['==', 'type', 'relation'],
+            ['==', 'changeType', 'modifiedOld']
+        ]
+    });
+
+    map.addLayer({
+        'id': 'modified-new-relation',
+        'source': 'changeset',
+        'type': 'line',
+        'layout': {
+            'line-join': 'round',
+            'line-cap': 'round'
+        },
+        'paint': {
+            'line-color': '#E8E845',
+            'line-width': {
+                'base': 1,
+                'stops': [
+                    [
+                        8,
+                        1.25
+                    ],
+                    [
+                        12,
+                        1.25
+                    ]
+                ]
+            },
+            'line-opacity': 0.8
+        },
+        'filter': [
+            'all',
+            ['==', 'type', 'relation'],
+            ['==', 'changeType', 'modifiedNew']
+        ]
+    });
+
+    map.addLayer({
+        'id': 'added-relation',
+        'source': 'changeset',
+        'type': 'line',
+        'interactive': true,
+        'layout': {
+            'line-join': 'round',
+            'line-cap': 'round'
+        },
+        'paint': {
+            'line-color': '#39DBC0',
+            'line-width': {
+                'base': 1,
+                'stops': [
+                    [
+                        8,
+                        1
+                    ],
+                    [
+                        12,
+                        1
+                    ]
+                ]
+            },
+            'line-opacity': 0.8
+        },
+        'filter': [
+            'all',
+            ['==', 'type', 'relation'],
+            ['==', 'changeType', 'added']
+        ]
+    });
+
+    map.addLayer({
+        'id': 'deleted-line',
+        'source': 'changeset',
+        'type': 'line',
+        'paint': {
+            'line-color': '#CC2C47',
+            'line-width': {
+                'base': 1,
+                'stops': [
+                    [
+                        8,
+                        3
+                    ],
+                    [
+                        12,
+                        5
+                    ]
+                ]
+            },
+            'line-dasharray': [
+                0.1,
+                0.25
+            ],
+            'line-opacity': 0.8
+        },
+        'filter': [
+            'all',
             ['==', 'type', 'way'],
             ['==', 'changeType', 'deletedNew']
         ]
     });
+
+    map.addLayer({
+        'id': 'modified-old-point-on-way',
+        'source': 'changeset',
+        'type': 'circle',
+        'paint': {
+            'circle-color': '#DB950A',
+            'circle-opacity': {
+                'base': 1.5,
+                'stops': [
+                    [
+                        10,
+                        0.25
+                    ],
+                    [
+                        14,
+                        0.5
+                    ]
+                ]
+            },
+            'circle-blur': 0.25,
+            'circle-radius': {
+                'base': 1.5,
+                'stops': [
+                    [
+                        10,
+                        2.5
+                    ],
+                    [
+                        16,
+                        3.5
+                    ]
+                ]
+            }
+        },
+        'filter': [
+            'all',
+            ['==', '$type', 'LineString'],
+            ['==', 'changeType', 'modifiedOld']
+        ]
+    });    
 
     map.addLayer({
         'id': 'modified-old-line',
@@ -389,11 +562,11 @@ function addMapLayers(baseLayer, result, bounds) {
                 'stops': [
                     [
                         8,
-                        4
+                        3
                     ],
                     [
                         12,
-                        8
+                        6
                     ]
                 ]
             },
@@ -410,12 +583,52 @@ function addMapLayers(baseLayer, result, bounds) {
                     ]
                 ]
             },
-            'line-opacity': 0.8
+            'line-opacity': 0.6
         },
         'filter': [
             'all',
             ['==', 'type', 'way'],
             ['==', 'changeType', 'modifiedOld']
+        ]
+    });
+
+    map.addLayer({
+        'id': 'modified-new-point-on-way',
+        'source': 'changeset',
+        'type': 'circle',
+        'paint': {
+            'circle-color': '#E8E845',
+            'circle-opacity': {
+                'base': 1.5,
+                'stops': [
+                    [
+                        10,
+                        0.25
+                    ],
+                    [
+                        14,
+                        0.25
+                    ]
+                ]
+            },
+            'circle-radius': {
+                'base': 1.5,
+                'stops': [
+                    [
+                        10,
+                        1.25
+                    ],
+                    [
+                        16,
+                        2.25
+                    ]
+                ]
+            }
+        },
+        'filter': [
+            'all',
+            ['==', '$type', 'LineString'],
+            ['==', 'changeType', 'modifiedNew']
         ]
     });
 
@@ -438,11 +651,11 @@ function addMapLayers(baseLayer, result, bounds) {
                     ],
                     [
                         12,
-                        3
+                        2
                     ]
                 ]
             },
-            'line-opacity': 0.8
+            'line-opacity': 0.6
         },
         'filter': [
             'all',
@@ -471,7 +684,7 @@ function addMapLayers(baseLayer, result, bounds) {
                     ],
                     [
                         12,
-                        2
+                        1.5
                     ]
                 ]
             },
@@ -495,11 +708,11 @@ function addMapLayers(baseLayer, result, bounds) {
                 'stops': [
                     [
                         10,
-                        4
+                        2
                     ],
                     [
                         16,
-                        14
+                        3
                     ]
                 ]
             },
@@ -515,17 +728,16 @@ function addMapLayers(baseLayer, result, bounds) {
                         0.5
                     ]
                 ]
-            },
-            'circle-blur': 0,
-            'circle-stroke-width': 1,
-            'circle-stroke-opacity': 0.75,
-            'circle-stroke-color': '#CC2C47'
+            }
         },
         'filter': [
             'all',
-            ['==', 'type', 'way'],
-            ['==', 'changeType', 'deletedNew'],
-            ['==', 'tagsCount', 0]
+            ['==', 'changeType', 'deletedOld'],
+            [
+                'any',
+                ['==', 'tagsCount', 0],
+                ['==', '$type', 'LineString']
+            ]
         ]
     });
 
@@ -540,28 +752,30 @@ function addMapLayers(baseLayer, result, bounds) {
                 'stops': [
                     [
                         10,
-                        0.5
+                        0.25
                     ],
                     [
                         14,
-                        0.75
+                        0.5
                     ]
                 ]
             },
-            'circle-blur': 0.25,
             'circle-radius': {
                 'base': 1.5,
                 'stops': [
                     [
                         10,
-                        3.5
+                        1.75
                     ],
                     [
                         16,
-                        13
+                        3
                     ]
                 ]
-            }
+            },
+            'circle-stroke-width': 1,
+            'circle-stroke-opacity': 0.9,
+            'circle-stroke-color': '#DB950A'
         },
         'filter': [
             'all',
@@ -586,7 +800,7 @@ function addMapLayers(baseLayer, result, bounds) {
                     ],
                     [
                         14,
-                        0.75
+                        0.5
                     ]
                 ]
             },
@@ -595,11 +809,11 @@ function addMapLayers(baseLayer, result, bounds) {
                 'stops': [
                     [
                         10,
-                        2
+                        0.75
                     ],
                     [
                         16,
-                        7
+                        2
                     ]
                 ]
             },
@@ -639,17 +853,14 @@ function addMapLayers(baseLayer, result, bounds) {
                 'stops': [
                     [
                         10,
-                        1
+                        1.25
                     ],
                     [
                         16,
-                        5
+                        1.9
                     ]
                 ]
-            },
-            'circle-stroke-width': 1,
-            'circle-stroke-opacity': 0.9,
-            'circle-stroke-color': '#39DBC0'
+            }
         },
         'filter': [
             'all',
@@ -691,15 +902,14 @@ function addMapLayers(baseLayer, result, bounds) {
                     ]
                 ]
             },
-            'circle-blur': 0,
             'circle-stroke-width': 1,
             'circle-stroke-opacity': 0.75,
             'circle-stroke-color': '#CC2C47'
         },
         'filter': [
             'all',
-            ['==', 'type', 'way'],
-            ['==', 'changeType', 'deletedNew'],
+            ['==', 'type', 'node'],
+            ['==', 'changeType', 'deletedOld'],
             ['!=', 'tagsCount', 0]
         ]
     });
@@ -736,7 +946,10 @@ function addMapLayers(baseLayer, result, bounds) {
                         13
                     ]
                 ]
-            }
+            },
+            'circle-stroke-width': 1,
+            'circle-stroke-opacity': 0.75,
+            'circle-stroke-color': '#DB950A'
         },
         'filter': [
             'all',
@@ -843,10 +1056,16 @@ function addMapLayers(baseLayer, result, bounds) {
                 'added-point-tagged',
                 'modified-old-line',
                 'modified-old-point-tagged',
+                'modified-old-point-untagged',
                 'modified-new-line',
                 'modified-new-point-tagged',
+                'modified-new-point-untagged',
                 'deleted-line',
-                'deleted-point-tagged'
+                'deleted-point-tagged',
+                'added-relation',
+                'modified-old-relation',
+                'modified-new-relation',
+                'deleted-relation'
             ]
         });
 
