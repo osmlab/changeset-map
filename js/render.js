@@ -545,7 +545,7 @@ function addMapLayers(baseLayer, result, bounds) {
             ['==', '$type', 'LineString'],
             ['==', 'changeType', 'modifiedOld']
         ]
-    });    
+    });
 
     map.addLayer({
         'id': 'modified-old-line',
@@ -1153,7 +1153,7 @@ function getDiffHTML(diff, ignoreList, header) {
         if (ignoreList.indexOf(prop) === -1) {
             var tr = elt('tr');
 
-            var th = elt('th', { title: prop }, prop);
+            var th = elt('th', { title: prop, class: 'cmap-strong' }, prop);
             tr.appendChild(th);
 
             types.forEach(function(type) {

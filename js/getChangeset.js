@@ -67,7 +67,7 @@ var getChangeset = function(changesetID, overpassBase, callback) {
 };
 
 function getDataParam(c) {
-    return '[out:xml][adiff:%22' + c.from.toString()  + ',%22,%22' + c.to.toString() + '%22];(node(bbox)(changed);way(bbox)(changed););out%20meta%20geom(bbox);';
+    return '[out:xml][adiff:%22' + c.from.toString()  + ',%22,%22' + c.to.toString() + '%22];(node(bbox)(changed);way(bbox)(changed);relation(bbox)(changed));out%20meta%20geom(bbox);';
 }
 
 function getBboxParam(bbox) {
