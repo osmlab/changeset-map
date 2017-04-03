@@ -284,10 +284,12 @@ function render(container, id, options) {
                 'modified-old-line',
                 'modified-old-point-tagged',
                 'modified-old-point-untagged',
+                'modified-old-point-on-way',
                 'modified-new-line',
+                'modified-old-relation',
                 'modified-new-point-tagged',
                 'modified-new-point-untagged',
-                'modified-old-relation',
+                'modified-new-point-on-way',
                 'modified-new-relation'
             ],
             'deleted': [
@@ -480,9 +482,22 @@ function addMapLayers(baseLayer, result, bounds) {
             'line-join': 'round'
         },
         'paint': {
-            'line-color': 'hsl(0, 0%, 10%)',
+            'line-color': 'hsl(0, 0%, 15%)',
             'line-width': 12,
-            'line-opacity': 0.5
+            'line-blur': 0.2,
+            'line-opacity': {
+                'base': 1.5,
+                'stops': [
+                    [
+                        12,
+                        0.5
+                    ],
+                    [
+                        18,
+                        0.2
+                    ]
+                ]
+            }
         },
         'filter': [
             'all',
@@ -495,17 +510,18 @@ function addMapLayers(baseLayer, result, bounds) {
         'source': 'changeset',
         'type': 'circle',
         'paint': {
-            'circle-color': 'hsl(0, 0%, 10%)',
+            'circle-color': 'hsl(0, 0%, 15%)',
+            'circle-blur': 0.2,
             'circle-opacity': {
-                'base': 1,
+                'base': 1.5,
                 'stops': [
                     [
-                        8,
-                        0.6
+                        12,
+                        0.5
                     ],
                     [
-                        16,
-                        0.25
+                        18,
+                        0.2
                     ]
                 ]
             },
@@ -514,15 +530,18 @@ function addMapLayers(baseLayer, result, bounds) {
                 'stops': [
                     [
                         10,
-                        8
+                        12
                     ],
                     [
                         16,
-                        17
+                        10
                     ]
                 ]
             }
-        }
+        },
+        'filter': [
+            ['==', '$type', 'Point'],
+        ]
     });
 
     map.addLayer({
@@ -534,12 +553,26 @@ function addMapLayers(baseLayer, result, bounds) {
             'line-cap': 'round'
         },
         'paint': {
-            'line-color': 'hsl(0, 0%, 90%)',
-            'line-opacity': 0.8,
-            'line-width': 12
+            'line-color': 'hsl(0, 0%, 75%)',
+            'line-width': 10,
+            'line-opacity': {
+                'base': 1.5,
+                'stops': [
+                    [
+                        12,
+                        0.75
+                    ],
+                    [
+                        18,
+                        0.75
+                    ]
+                ]
+            }
         },
         'filter': [
-            '==', 'id', ''
+            'all',
+            ['==', 'id', ''],
+            ['==', '$type', 'LineString'],
         ]
     });
 
@@ -548,24 +581,26 @@ function addMapLayers(baseLayer, result, bounds) {
         'source': 'changeset',
         'type': 'circle',
         'paint': {
-            'circle-color': 'hsl(0, 0%, 90%)',
+            'circle-color': 'hsl(0, 0%, 75%)',
             'circle-radius': {
                 'base': 1.5,
                 'stops': [
                     [
                         10,
-                        8
+                        3
                     ],
                     [
                         16,
-                        16
+                        9
                     ]
                 ]
             },
             'circle-opacity': 0.8
         },
         'filter': [
-            '==', 'id', ''
+            'all',
+            ['==', 'id', ''],
+            ['==', '$type', 'Point'],
         ]
     });
 
