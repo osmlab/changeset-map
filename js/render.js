@@ -57,10 +57,12 @@ function render(container, id, options) {
                 'modified-old-line',
                 'modified-old-point-tagged',
                 'modified-old-point-untagged',
+                'modified-old-point-on-way',
                 'modified-new-line',
+                'modified-old-relation',
                 'modified-new-point-tagged',
                 'modified-new-point-untagged',
-                'modified-old-relation',
+                'modified-new-point-on-way',
                 'modified-new-relation'
             ],
             'deleted': [
