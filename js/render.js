@@ -925,7 +925,7 @@ function addMapLayers(baseLayer, result, bounds) {
                 'stops': [
                     [
                         10,
-                        0.5
+                        0.25
                     ],
                     [
                         14,
@@ -933,22 +933,21 @@ function addMapLayers(baseLayer, result, bounds) {
                     ]
                 ]
             },
-            'circle-blur': 0.25,
             'circle-radius': {
                 'base': 1.5,
                 'stops': [
                     [
                         10,
-                        3.5
+                        2.5
                     ],
                     [
                         16,
-                        13
+                        9
                     ]
                 ]
             },
             'circle-stroke-width': 1,
-            'circle-stroke-opacity': 0.75,
+            'circle-stroke-opacity': 0.9,
             'circle-stroke-color': '#DB950A'
         },
         'filter': [
