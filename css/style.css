@@ -150,22 +150,26 @@
   padding: 20px;
   width: 250px;
 }
-.cmap-container .cmap-layer-selector ul {
+.cmap-container .cmap-layer-selector ul,
+.cmap-container .cmap-type-selector ul {
   margin: 0px;
   padding: 0px;
   list-style: none;
   border: 0 solid #c1dad7;
   border-width: 0 0 1px 1px;
 }
-.cmap-container .cmap-layer-selector li {
+.cmap-container .cmap-layer-selector li,
+.cmap-container .cmap-type-selector li {
   border: 0 solid #c1dad7;
   border-width: 1px 1px 0 0;
 }
-.cmap-container .cmap-layer-selector label {
+.cmap-container .cmap-layer-selector label,
+.cmap-container .cmap-type-selector label {
   display: block;
   padding: 6px 12px;
 }
-.cmap-container .cmap-layer-selector label:hover {
+.cmap-container .cmap-layer-selector label:hover,
+.cmap-container .cmap-type-selector label:hover {
   background: rgba(0, 0, 0, 0.05);
 }
 
