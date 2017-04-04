@@ -34,6 +34,7 @@ function render(container, id, options) {
         });
 
         document.querySelector('.cmap-layer-selector').style.display = 'block';
+        document.querySelector('.cmap-layer-selector').style.display = 'block';
         document.querySelector('.cmap-sidebar-changeset').text = 'Changeset - ' + changesetId;
         document.querySelector('.cmap-sidebar-user').text = 'User - ' + result.changeset.user;
         var time = result.changeset.to ? result.changeset.to : result.changeset.from;
@@ -46,63 +47,10 @@ function render(container, id, options) {
 
         renderMap(false, result);
 
-        var layersKey = {
-            'added': [
-                'added-line',
-                'added-point-tagged',
-                'added-point-untagged',
-                'added-relation'
-            ],
-            'modified': [
-                'modified-old-line',
-                'modified-old-point-tagged',
-                'modified-old-point-untagged',
-                'modified-old-point-on-way',
-                'modified-new-line',
-                'modified-old-relation',
-                'modified-new-point-tagged',
-                'modified-new-point-untagged',
-                'modified-new-point-on-way',
-                'modified-new-relation'
-            ],
-            'deleted': [
-                'deleted-line',
-                'deleted-point-tagged',
-                'deleted-point-untagged',
-                'deleted-relation'
-            ]
-        };
-        var selectedLayers = [
-            'added-line',
-            'added-point-tagged',
-            'added-point-untagged',
-            'modified-old-line',
-            'modified-old-point-tagged',
-            'modified-old-point-untagged',
-            'modified-new-line',
-            'modified-new-point-tagged',
-            'modified-new-point-untagged',
-            'deleted-line',
-            'deleted-point-tagged',
-            'deleted-point-untagged'
-        ];
         var layerSelector = document.querySelector('.cmap-layer-selector');
-        layerSelector.addEventListener('change', function(e) {
-            var key = e.target.value;
-            if (e.target.checked) {
-                selectedLayers = selectedLayers.concat(layersKey[key]);
-                layersKey[key].forEach(function(layer) {
-                    map.setLayoutProperty(layer, 'visibility', 'visible');
-                });
-            } else {
-                selectedLayers = selectedLayers.filter(function(layer) {
-                    return !(layer in layersKey[key]);
-                });
-                layersKey[key].forEach(function(layer) {
-                    map.setLayoutProperty(layer, 'visibility', 'none');
-                });
-            }
-        });
+        var typeSelector = document.querySelector('.cmap-type-selector');
+        layerSelector.addEventListener('change', filterLayers);
+        typeSelector.addEventListener('change', filterLayers);
 
         var baseLayerSelector = document.querySelector('.cmap-baselayer-selector');
         baseLayerSelector.addEventListener('change', function(e) {
@@ -202,6 +150,30 @@ function renderHTML(container) {
             elt('span', {class: 'cmap-fr'},
               elt('span', {class: 'cmap-color-box deleted'}))
             )
+          )
+        )
+      )
+    );
+
+    sidebar.appendChild(
+    elt('div', {class: 'cmap-type-selector cmap-info cmap-fill-grey'},
+      elt('ul', {},
+        elt('li', {},
+          elt('label', {for: 'cmap-type-selector-nodes', class: 'cmap-noselect cmap-pointer'},
+            elt('input', {type: 'checkbox', value: 'nodes', checked: true, id: 'cmap-type-selector-nodes'}),
+            'Nodes')
+          ),
+
+        elt('li', {},
+          elt('label', {for: 'cmap-type-selector-ways', class: 'cmap-noselect cmap-pointer'},
+            elt('input', {type: 'checkbox', value: 'ways', checked: true, id: 'cmap-type-selector-ways'}),
+            'Ways')
+          ),
+
+        elt('li', {},
+          elt('label', {for: 'cmap-type-selector-relations', class: 'cmap-noselect cmap-pointer'},
+            elt('input', {type: 'checkbox', value: 'relations', checked: true, id: 'cmap-type-selector-relations'}),
+            'Relations')
           )
         )
       )
@@ -313,6 +285,7 @@ function addMapLayers(baseLayer, result, bounds) {
             }
         },
         'filter': [
+            'all',
             ['==', '$type', 'Point'],
         ]
     });
@@ -1116,7 +1089,7 @@ function errorMessage(message) {
     document.querySelector('.cmap-info').innerHTML = message;
     document.querySelector('.cmap-sidebar').style.display = 'block';
     document.querySelector('.cmap-layer-selector').style.display = 'none';
-
+    document.querySelector('.cmap-type-selector').style.display = 'none';
 }
 
 function displayDiff(id, featureMap) {
@@ -1315,6 +1288,63 @@ function getBoundingBox(bounds) {
 
 function capitalize(word) {
     return word.charAt(0).toUpperCase() + word.slice(1);
+}
+
+
+function filterLayers() {
+    var layersKey = {
+        'added-line': { 'added': true, 'ways': true },
+        'added-point-tagged': { 'added': true, 'nodes': true },
+        'added-point-untagged': { 'added': true, 'nodes': true },
+        'added-relation': { 'added': true, 'relations': true },
+        'modified-old-line': { 'modified': true, 'ways': true },
+        'modified-old-point-tagged': { 'modified': true, 'nodes': true },
+        'modified-old-point-untagged': { 'modified': true, 'nodes': true },
+        'modified-old-point-on-way': { 'modified': true, 'nodes': true },
+        'modified-new-line': { 'modified': true, 'ways': true },
+        'modified-old-relation': { 'modified': true, 'relations': true },
+        'modified-new-point-tagged': { 'modified': true, 'nodes': true },
+        'modified-new-point-untagged': { 'modified': true, 'nodes': true },
+        'modified-new-point-on-way': { 'modified': true, 'nodes': true },
+        'modified-new-relation': { 'modified': true, 'relations': true },
+        'deleted-line': { 'deleted': true, 'ways': true },
+        'deleted-point-tagged': { 'deleted': true, 'nodes': true },
+        'deleted-point-untagged': { 'deleted': true, 'nodes': true },
+        'deleted-relation': { 'deleted': true, 'relations': true }
+    };
+
+  var selectedActions = [];
+  var selectedTypes = [];
+
+  document.querySelectorAll('.cmap-layer-selector input:checked')
+  .forEach(function(checkedElement) {
+      selectedActions.push(checkedElement.value);
+  });
+
+  document.querySelectorAll('.cmap-type-selector input:checked')
+  .forEach(function(checkedElement) {
+      selectedTypes.push(checkedElement.value);
+  });
+
+  var layers = Object.keys(layersKey);
+  layers.forEach(function(layer) {
+     var isSelectedAction = selectedActions.reduce(function(accum, action) { return layersKey[layer][action] || accum }, false);
+     var isSelectedType = selectedTypes.reduce(function(accum, type) { return layersKey[layer][type] || accum }, false);
+
+     if (isSelectedAction && isSelectedType) {
+         map.setLayoutProperty(layer, 'visibility', 'visible');
+     } else {
+         map.setLayoutProperty(layer, 'visibility', 'none');
+     }
+
+     if (selectedActions.length === 0 || selectedTypes.length === 0) {
+         map.setLayoutProperty('bg-point', 'visibility', 'none');
+         map.setLayoutProperty('bg-line', 'visibility', 'none');
+     } else {
+         map.setLayoutProperty('bg-point', 'visibility', 'visible');
+         map.setLayoutProperty('bg-line', 'visibility', 'visible');
+     }
+  });
 }
 
 window.changesetMap = module.exports = render;
