@@ -327,7 +327,19 @@ function addMapLayers(baseLayer, result, bounds) {
         },
         'paint': {
             'line-color': 'hsl(0, 0%, 75%)',
-            'line-width': 10,
+            'line-width': {
+                'base': 1,
+                'stops': [
+                    [
+                        10,
+                        15
+                    ],
+                    [
+                        16,
+                        10
+                    ]
+                ]
+            },
             'line-opacity': {
                 'base': 1.5,
                 'stops': [
@@ -356,15 +368,15 @@ function addMapLayers(baseLayer, result, bounds) {
         'paint': {
             'circle-color': 'hsl(0, 0%, 75%)',
             'circle-radius': {
-                'base': 1.5,
+                'base': 1,
                 'stops': [
                     [
                         10,
-                        3
+                        9
                     ],
                     [
                         16,
-                        9
+                        10
                     ]
                 ]
             },
