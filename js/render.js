@@ -1167,9 +1167,14 @@ function getDiffHTML(diff, ignoreList, header) {
 
     var tbody = elt('tbody');
 
-    var types = ['added', 'unchanged', 'deleted', 'modifiedOld', 'modifiedNew'];
+    var types = ['added', 'deleted', 'modifiedOld', 'modifiedNew', 'unchanged'];
+    var sortedProps = Object.keys(diff).sort(function(keyA, keyB) {
+        var indexA = types.indexOf(Object.keys(diff[keyA])[0]);
+        var indexB = types.indexOf(Object.keys(diff[keyB])[0]);
+        return (indexA - indexB);
+    });
 
-    for (var prop in diff) {
+    sortedProps.forEach(function(prop) {
         if (ignoreList.indexOf(prop) === -1) {
             var tr = elt('tr');
 
@@ -1200,7 +1205,7 @@ function getDiffHTML(diff, ignoreList, header) {
 
             tbody.appendChild(tr);
         }
-    }
+    });
 
     root.appendChild(tbody);
 
