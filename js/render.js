@@ -82,6 +82,8 @@ function render(container, id, options) {
     return cmap;
 }
 
+//Recursively adds html elements
+
 function elt(name, attributes) {
     var node = document.createElement(name);
     if (attributes) {
@@ -97,6 +99,8 @@ function elt(name, attributes) {
     }
     return node;
 }
+
+// Sets initial markup for info box and map container
 
 function renderHTML(container) {
     container.classList.add('cmap-container');
@@ -345,11 +349,11 @@ function addMapLayers(baseLayer, result, bounds) {
                 'stops': [
                     [
                         10,
-                        9
+                        10
                     ],
                     [
                         16,
-                        10
+                        11
                     ]
                 ]
             },
@@ -905,7 +909,7 @@ function addMapLayers(baseLayer, result, bounds) {
                     ],
                     [
                         16,
-                        14
+                        7
                     ]
                 ]
             },
@@ -1104,6 +1108,8 @@ function errorMessage(message) {
     document.querySelector('.cmap-type-selector').style.display = 'none';
 }
 
+//Calculates the difference in the selected features
+
 function displayDiff(id, featureMap) {
     var featuresWithId = featureMap[id];
     var metadataProps = featuresWithId.map(function(f) {
@@ -1119,6 +1125,8 @@ function displayDiff(id, featureMap) {
         props.changeType = f.properties.changeType;
         return props;
     });
+
+    // Sets headers for two tables
 
     var type = featuresWithId[0].properties.type;
     var metadataHeader = elt('a', { href: '//www.openstreetmap.org/' + type + '/' + id + '/history', target: '_blank' }, capitalize(type) + ': ' + id);
@@ -1146,6 +1154,8 @@ function clearDiff() {
     document.querySelector('.cmap-diff-tags').innerHTML = '';
     document.querySelector('.cmap-diff-tags').style.display = 'none';
 }
+
+//Renders the markup for a table
 
 function getDiffHTML(diff, ignoreList, header) {
     var isAddedFeature = diff['changeType'].added === 'added';
