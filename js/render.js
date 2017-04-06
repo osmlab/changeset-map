@@ -137,15 +137,15 @@ function renderHTML(container) {
         ),
       elt('ul', {class: 'cmap-hlist'},
         elt('li', {},
-            elt('a', {class: 'cmap-hlist-item cmap-noselect cmap-pointer cmap-c-link-osm'}, 'OSM')),
+            elt('a', {target:'_blank', class: 'cmap-hlist-item cmap-noselect cmap-pointer cmap-c-link-osm'}, 'OSM')),
         elt('li', {},
-            elt('a', {class: 'cmap-hlist-item cmap-noselect cmap-pointer cmap-c-link-osmcha'}, 'OSMCha')),
+            elt('a', {target:'_blank', class: 'cmap-hlist-item cmap-noselect cmap-pointer cmap-c-link-osmcha'}, 'OSMCha')),
         elt('li', {},
-            elt('a', {class: 'cmap-hlist-item cmap-noselect cmap-pointer cmap-c-link-achavi'}, 'Achavi')),
+            elt('a', {target:'_blank', class: 'cmap-hlist-item cmap-noselect cmap-pointer cmap-c-link-achavi'}, 'Achavi')),
         elt('li', {},
-            elt('a', {class: 'cmap-hlist-item cmap-noselect cmap-pointer cmap-c-link-osmhv'}, 'OSM HV')),
+            elt('a', {target:'_blank', class: 'cmap-hlist-item cmap-noselect cmap-pointer cmap-c-link-osmhv'}, 'OSM HV')),
         elt('li', {},
-            elt('a', {class: 'cmap-hlist-item cmap-noselect cmap-pointer cmap-c-link-josm'}, 'JOSM'))
+            elt('a', {target:'_blank', class: 'cmap-hlist-item cmap-noselect cmap-pointer cmap-c-link-josm'}, 'JOSM'))
         )
       )
     );
@@ -158,13 +158,13 @@ function renderHTML(container) {
         elt('em', {class: 'cmap-user-id'})),
       elt('ul', {class: 'cmap-hlist'},
         elt('li', {},
-            elt('a', {class: 'cmap-hlist-item cmap-noselect cmap-pointer cmap-u-link-osm'}, 'OSM')),
+            elt('a', {target:'_blank', class: 'cmap-hlist-item cmap-noselect cmap-pointer cmap-u-link-osm'}, 'OSM')),
         elt('li', {},
-            elt('a', {class: 'cmap-hlist-item cmap-noselect cmap-pointer cmap-u-link-hdyc'}, 'HDYC')),
+            elt('a', {target:'_blank', class: 'cmap-hlist-item cmap-noselect cmap-pointer cmap-u-link-hdyc'}, 'HDYC')),
         elt('li', {},
-            elt('a', {class: 'cmap-hlist-item cmap-noselect cmap-pointer cmap-u-link-disc'}, 'Discussions')),
+            elt('a', {target:'_blank', class: 'cmap-hlist-item cmap-noselect cmap-pointer cmap-u-link-disc'}, 'Discussions')),
         elt('li', {},
-            elt('a', {class: 'cmap-hlist-item cmap-noselect cmap-pointer cmap-u-link-comm'}, 'Comments'))
+            elt('a', {target:'_blank', class: 'cmap-hlist-item cmap-noselect cmap-pointer cmap-u-link-comm'}, 'Comments'))
         )
       )
     );
