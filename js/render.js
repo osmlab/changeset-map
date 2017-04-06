@@ -1275,6 +1275,9 @@ function renderMap(baseLayer, result) {
         map.fitBounds(bounds, {'linear': true, padding: 200});
         addMapLayers(map, result, bounds);
         cmap.emit('load');
+        window.onresize = throttle(function() {
+          map.resize();
+        }, 500);
     });
 }
 
@@ -1372,6 +1375,17 @@ function filterLayers() {
          map.setLayoutProperty('bg-line', 'visibility', 'visible');
      }
   });
+}
+
+function throttle(listener, ms) {
+  var last = 0;
+  return function(event) {
+    var now = performance.now();
+    if (last == 0 || (now - last) > ms) {
+        listener(event);
+        last = now;
+    }
+  }
 }
 
 window.changesetMap = module.exports = render;
