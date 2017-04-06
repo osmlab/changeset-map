@@ -136,7 +136,9 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 100%;
+  left: 0;
+  right: 0;
+  background: #999;
 }
 
 /* Sidebar
@@ -144,33 +146,79 @@
 .cmap-container .cmap-sidebar {
   position: absolute;
   top: 0;
+  left: 0;
+  width: 350px;
+  background: #eee;
+  color: #555;
+  margin: 10px;
+  border-radius: 3px;
+  overflow: hidden;
 }
-.cmap-container .cmap-info {
-  z-index: 1;
-  padding: 20px;
-  width: 250px;
+
+.cmap-sidebar section {
+  padding: 5px 10px;
 }
-.cmap-container .cmap-layer-selector ul,
-.cmap-container .cmap-type-selector ul {
-  margin: 0px;
-  padding: 0px;
-  list-style: none;
-  border: 0 solid #c1dad7;
-  border-width: 0 0 1px 1px;
+
+.cmap-sidebar section .cmap-heading {
+  text-transform: uppercase;
+  font-size: 0.9em;
+  font-weight: bold;
+  margin: 3px 0;
+  color: #666;
 }
-.cmap-container .cmap-layer-selector li,
-.cmap-container .cmap-type-selector li {
-  border: 0 solid #c1dad7;
-  border-width: 1px 1px 0 0;
+
+.cmap-sidebar em {
+  font-style: italic;
+  text-transform: none;
 }
-.cmap-container .cmap-layer-selector label,
-.cmap-container .cmap-type-selector label {
-  display: block;
-  padding: 6px 12px;
+
+/* Horizontal list
+------------------------------------------------------- */
+
+.cmap-hlist li {
+  display: inline-block;
 }
-.cmap-container .cmap-layer-selector label:hover,
-.cmap-container .cmap-type-selector label:hover {
-  background: rgba(0, 0, 0, 0.05);
+
+.cmap-hlist .cmap-hlist-item {
+  display: inline-block;
+  padding: 3px 6px;
+  background: #dadada;
+  border-radius: 3px;
+  margin: 2px 0;
+}
+
+.cmap-hlist a.cmap-hlist-item:link {
+  text-decoration: none;
+  color: #555;
+  background: #dadada;
+}
+
+.cmap-hlist a.cmap-hlist-item:visited {
+  background: #e8e8e8;
+  color: #777;
+}
+
+.cmap-hlist a.cmap-hlist-item:hover, .cmap-hlist a.cmap-hlist-item:focus, .cmap-hlist label.cmap-hlist-item:hover, .cmap-hlist label.cmap-hlist-item:focus {
+  color: #fcfcfc;
+  background: #999;
+}
+
+.cmap-hlist a.cmap-hlist-item:active {
+  background: #888;
+  color: #eee;
+}
+
+.cmap-hlist label.cmap-hlist-item {
+  padding: 3px 6px 3px 3px;
+}
+
+.cmap-hlist-item input {
+  margin-right: 6px;
+}
+
+.cmap-hlist-item .cmap-label-text {
+  display: inline-block;
+  margin-right: 3px;
 }
 
 /* Properties table
@@ -260,24 +308,26 @@
 
 /* Color box
 ------------------------------------------------------- */
-.cmap-container .cmap-color-box {
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  margin-top: 4px;
-  border: 1px solid #555;
+.cmap-hlist-item .cmap-color-box {
+  display:inline-block;
+  width: 0.75em;
+  height: 0.75em;
+  border: 1px solid #777;
+  background: #123;
+  margin: 0 0 -0.075em 1px;
 }
-.cmap-container .cmap-color-box.added {
+
+.cmap-color-box.cmap-color-added {
   background: #39DBC0;
 }
-.cmap-container .cmap-color-box.deleted {
-  background: #CC2C47;
-}
-.cmap-container .cmap-color-box.modified-old {
+.cmap-color-box.cmap-color-modified-old {
   background: #DB950A;
 }
-.cmap-container .cmap-color-box.modified-new {
+.cmap-color-box.cmap-color-modified-new {
   background: #E8E845;
+}
+.cmap-color-box.cmap-color-deleted {
+  background: #CC2C47;
 }
 
 /* Utility classes
@@ -291,6 +341,11 @@
 .cmap-container .cmap-fill-grey {
   background: #eee;
 }
+
+.cmap-container .cmap-fill-light {
+  background: #f8f8f8;
+}
+
 .cmap-container .cmap-pad1 {
   padding: 10px;
 }
@@ -300,6 +355,42 @@
 .cmap-container .cmap-strong {
   font-weight: bold;
 }
+
+/*
+.cmap-pt1{
+  padding-top: 5px !important;
+}
+
+.cmap-pt2{
+  padding-top: 10px !important;
+}
+*/
+.cmap-pt3{
+  padding-top: 15px !important;
+}
+/*
+.cmap-pt4{
+  padding-top: 20px !important;
+}
+
+
+.cmap-pb1{
+  padding-bottom: 5px !important;
+}
+
+.cmap-pb2{
+  padding-bottom: 10px !important;
+}
+*/
+.cmap-pb3{
+  padding-bottom: 15px !important;
+}
+
+/*
+.cmap-pb4{
+  padding-bottom: 20px !important;
+}
+*/
 
 /* Scroll bar
 ------------------------------------------------------- */
