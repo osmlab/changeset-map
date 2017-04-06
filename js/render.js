@@ -32,27 +32,38 @@ function render(container, id, options) {
             var tags = feature.properties.tags || {};
             feature.properties.tagsCount = Object.keys(tags).length;
         });
-
-        document.querySelector('.cmap-layer-selector').style.display = 'block';
-        document.querySelector('.cmap-layer-selector').style.display = 'block';
-        document.querySelector('.cmap-sidebar-changeset').text = 'Changeset - ' + changesetId;
-        document.querySelector('.cmap-sidebar-user').text = 'User - ' + result.changeset.user;
+        
+        document.querySelector('.cmap-changeset-id').textContent = changesetId;
         var time = result.changeset.to ? result.changeset.to : result.changeset.from;
-        document.querySelector('.cmap-sidebar-time').textContent = moment(time).format('MMMM Do YYYY, h:mm a');
-        document.querySelector('.cmap-sidebar-user').href = 'https://openstreetmap.org/user/' + result.changeset.user;
-        document.querySelector('.cmap-sidebar-changeset').href = 'https://openstreetmap.org/changeset/' + changesetId;
+        document.querySelector('.cmap-time').textContent = '('+ moment(time).format('MMM DD, YYYY, h:mm a') + ')';
+        //Should switch to http://momentjs.com/docs/#/displaying/fromnow/
+
+        document.querySelector('.cmap-c-link-osm').href = 'https://openstreetmap.org/changeset/' + changesetId;
+        document.querySelector('.cmap-c-link-osmcha').href = 'https://osmcha.mapbox.com/' + changesetId + '/';
+        document.querySelector('.cmap-c-link-achavi').href = 'https://overpass-api.de/achavi/?changeset=' + changesetId;
+        document.querySelector('.cmap-c-link-osmhv').href = 'http://osmhv.openstreetmap.de/changeset.jsp?id=' + changesetId;
+        document.querySelector('.cmap-c-link-josm').href = 'http://127.0.0.1:8111/import?url=http://www.openstreetmap.org/api/0.6/changeset/' + changesetId + '/download';
+
+        var userName = result.changeset.user;
+        document.querySelector('.cmap-user-id').textContent = userName;
+        var userId = result.changeset.uid;
+        document.querySelector('.cmap-u-link-osm').href = 'https://openstreetmap.org/user/' + userName;
+        document.querySelector('.cmap-u-link-hdyc').href = 'http://hdyc.neis-one.org/?' + userName;
+        document.querySelector('.cmap-u-link-disc').href = 'http://resultmaps.neis-one.org/osm-discussion-comments?uid=' + userId;
+        document.querySelector('.cmap-u-link-comm').href = 'http://resultmaps.neis-one.org/osm-discussion-comments?uid=115894' + userId + '&commented';
+        
         document.querySelector('.cmap-sidebar').style.display = 'block';
         var bbox = result.changeset.bbox;
         var featureMap = result.featureMap;
 
         renderMap(false, result);
 
-        var layerSelector = document.querySelector('.cmap-layer-selector');
-        var typeSelector = document.querySelector('.cmap-type-selector');
+        var layerSelector = document.querySelector('.cmap-filter-action-section');
+        var typeSelector = document.querySelector('.cmap-filter-type-section');
         layerSelector.addEventListener('change', filterLayers);
         typeSelector.addEventListener('change', filterLayers);
 
-        var baseLayerSelector = document.querySelector('.cmap-baselayer-selector');
+        var baseLayerSelector = document.querySelector('.cmap-map-style-section');
         baseLayerSelector.addEventListener('change', function(e) {
             var layer = e.target.value;
             if (layer === 'satellite') {
@@ -113,87 +124,132 @@ function renderHTML(container) {
     var diff = elt('div', {class: 'cmap-diff', style: 'display: none'}, diffMetadata, diffTags);
     container.appendChild(diff);
 
-    var sidebar = elt('div', {class: 'cmap-sidebar cmap-pad1', style: 'display: none'});
+    //Info markup
+    var sidebar = elt('div', {class: 'cmap-sidebar', style: 'display: none'});
+
     sidebar.appendChild(
-    elt('div', {class: 'cmap-fill-grey cmap-info'},
-      elt('a', {class: 'cmap-sidebar-changeset'}),
-      elt('br'),
-      elt('a', {class: 'cmap-sidebar-user icon account'}),
-      elt('br'),
-      elt('span', {class: 'cmap-sidebar-time icon time'})
+    elt('section', {class: 'cmap-changeset-section cmap-fill-light cmap-pt3'},
+      elt('h6', {class: 'cmap-heading'},
+        'Changeset: ',
+        elt('em', {class: 'cmap-changeset-id'}),
+        ' on ',
+        elt('small', {class: 'cmap-time'})
+        ),
+      elt('ul', {class: 'cmap-hlist'},
+        elt('li', {},
+            elt('a', {class: 'cmap-hlist-item cmap-noselect cmap-pointer cmap-c-link-osm'}, 'OSM')),
+        elt('li', {},
+            elt('a', {class: 'cmap-hlist-item cmap-noselect cmap-pointer cmap-c-link-osmcha'}, 'OSMCha')),
+        elt('li', {},
+            elt('a', {class: 'cmap-hlist-item cmap-noselect cmap-pointer cmap-c-link-achavi'}, 'Achavi')),
+        elt('li', {},
+            elt('a', {class: 'cmap-hlist-item cmap-noselect cmap-pointer cmap-c-link-osmhv'}, 'OSM HV')),
+        elt('li', {},
+            elt('a', {class: 'cmap-hlist-item cmap-noselect cmap-pointer cmap-c-link-josm'}, 'JOSM'))
+        )
       )
     );
+
+
     sidebar.appendChild(
-    elt('div', {class: 'cmap-layer-selector cmap-info cmap-fill-grey'},
-      elt('ul', {},
+    elt('section', {class: 'cmap-user-section cmap-fill-light cmap-pb3'},
+      elt('h6', {class: 'cmap-heading'},
+        'By user: ',
+        elt('em', {class: 'cmap-user-id'})),
+      elt('ul', {class: 'cmap-hlist'},
         elt('li', {},
-          elt('label', {for: 'cmap-layer-selector-added', class: 'cmap-noselect cmap-pointer'},
-            elt('input', {type: 'checkbox', value: 'added', checked: true, id: 'cmap-layer-selector-added'}),
-            'Added features',
-            elt('span', {class: 'cmap-fr'},
-              elt('span', {class: 'cmap-color-box added'}))
-            )
-          ),
-
+            elt('a', {class: 'cmap-hlist-item cmap-noselect cmap-pointer cmap-u-link-osm'}, 'OSM')),
         elt('li', {},
-          elt('label', {for: 'cmap-layer-selector-modified', class: 'cmap-noselect cmap-pointer'},
-            elt('input', {type: 'checkbox', value: 'modified', checked: true, id: 'cmap-layer-selector-modified'}),
-            'Modified features',
-            elt('span', {class: 'cmap-fr'},
-              elt('span', {class: 'cmap-color-box modified-old'}),
-              '→',
-              elt('span', {class: 'cmap-color-box modified-new'})
-              )
-            )
-          ),
-
+            elt('a', {class: 'cmap-hlist-item cmap-noselect cmap-pointer cmap-u-link-hdyc'}, 'HDYC')),
         elt('li', {},
-          elt('label', {for: 'cmap-layer-selector-deleted', class: 'cmap-noselect cmap-pointer'},
-            elt('input', {type: 'checkbox', value: 'deleted', checked: true, id: 'cmap-layer-selector-deleted'}),
-            'Deleted features',
-            elt('span', {class: 'cmap-fr'},
-              elt('span', {class: 'cmap-color-box deleted'}))
-            )
-          )
+            elt('a', {class: 'cmap-hlist-item cmap-noselect cmap-pointer cmap-u-link-disc'}, 'Discussions')),
+        elt('li', {},
+            elt('a', {class: 'cmap-hlist-item cmap-noselect cmap-pointer cmap-u-link-comm'}, 'Comments'))
         )
       )
     );
 
     sidebar.appendChild(
-    elt('div', {class: 'cmap-type-selector cmap-info cmap-fill-grey'},
-      elt('ul', {},
+    elt('section', {class: 'cmap-filter-action-section cmap-pt3'},
+      elt('h6', {class: 'cmap-heading'}, 'Filter by action'),
+      elt('ul', {class: 'cmap-hlist'},
         elt('li', {},
-          elt('label', {for: 'cmap-type-selector-nodes', class: 'cmap-noselect cmap-pointer'},
-            elt('input', {type: 'checkbox', value: 'nodes', checked: true, id: 'cmap-type-selector-nodes'}),
-            'Nodes')
-          ),
-
+            elt('label', {class: 'cmap-hlist-item cmap-noselect cmap-pointer'},
+                elt('input', {type: 'checkbox', value: 'added', checked: true, id: 'cmap-layer-selector-added'}),
+                elt('span', {class: 'cmap-label-text'}, 'Added'),
+                elt('span', {class: 'cmap-color-box cmap-color-added'})
+                )
+            ),
         elt('li', {},
-          elt('label', {for: 'cmap-type-selector-ways', class: 'cmap-noselect cmap-pointer'},
-            elt('input', {type: 'checkbox', value: 'ways', checked: true, id: 'cmap-type-selector-ways'}),
-            'Ways')
-          ),
-
+            elt('label', {class: 'cmap-hlist-item cmap-noselect cmap-pointer'},
+                elt('input', {type: 'checkbox', value: 'modified', checked: true, id: 'cmap-layer-selector-modified'}),
+                elt('span', {class: 'cmap-label-text'}, 'Modified'),
+                elt('span', {class: 'cmap-color-box cmap-color-modified-old'}),
+                elt('span', {class: 'cmap-unicode'}, '→'),
+                elt('span', {class: 'cmap-color-box cmap-color-modified-new'})
+                )
+            ),
         elt('li', {},
-          elt('label', {for: 'cmap-type-selector-relations', class: 'cmap-noselect cmap-pointer'},
-            elt('input', {type: 'checkbox', value: 'relations', checked: true, id: 'cmap-type-selector-relations'}),
-            'Relations')
-          )
+            elt('label', {class: 'cmap-hlist-item cmap-noselect cmap-pointer'},
+                elt('input', {type: 'checkbox', value: 'deleted', checked: true, id: 'cmap-layer-selector-deleted'}),
+                elt('span', {class: 'cmap-label-text'}, 'Deleted'),
+                elt('span', {class: 'cmap-color-box cmap-color-deleted'})
+                )
+            )
         )
       )
     );
 
     sidebar.appendChild(
-    elt('div', {class: 'cmap-info cmap-baselayer-selector cmap-fill-grey'},
-        elt('form', {},
-          elt('input', {type: 'radio', value: 'satellite', checked: true, name: 'baselayer', id: 'cmap-baselayer-satellite'}),
-          elt('label', {for: 'cmap-baselayer-satellite', class: 'cmap-noselect cmap-pointer'}, 'Satellite'),
-          elt('input', {type: 'radio', value: 'streets', name: 'baselayer', id: 'cmap-baselayer-streets'}),
-          elt('label', {for: 'cmap-baselayer-streets', class: 'cmap-noselect cmap-pointer'}, 'Streets'),
-          elt('input', {type: 'radio', value: 'dark', name: 'baselayer', id: 'cmap-baselayer-dark'}),
-          elt('label', {for: 'cmap-baselayer-dark', class: 'cmap-noselect cmap-pointer'}, 'Dark')
-          )
+    elt('section', {class: 'cmap-filter-type-section'},
+      elt('h6', {class: 'cmap-heading'}, 'Filter by type'),
+      elt('ul', {class: 'cmap-hlist'},
+        elt('li', {},
+            elt('label', {class: 'cmap-hlist-item cmap-noselect cmap-pointer'},
+                elt('input', {type: 'checkbox', value: 'nodes', checked: true, id: 'cmap-type-selector-nodes'}),
+                elt('span', {class: 'cmap-label-text'}, 'Nodes')
+                )
+            ),
+        elt('li', {},
+            elt('label', {class: 'cmap-hlist-item cmap-noselect cmap-pointer'},
+                elt('input', {type: 'checkbox', value: 'ways', checked: true, id: 'cmap-type-selector-ways'}),
+                elt('span', {class: 'cmap-label-text'}, 'Ways')
+                )
+            ),
+        elt('li', {},
+            elt('label', {class: 'cmap-hlist-item cmap-noselect cmap-pointer'},
+                elt('input', {type: 'checkbox', value: 'relations', checked: true, id: 'cmap-type-selector-relations'}),
+                elt('span', {class: 'cmap-label-text'}, 'Relations')
+                )
+            )
         )
+      )
+    );
+
+    sidebar.appendChild(
+    elt('section', {class: 'cmap-map-style-section cmap-pb3'},
+      elt('h6', {class: 'cmap-heading'}, 'Map style'),
+      elt('ul', {class: 'cmap-hlist'},
+        elt('li', {},
+            elt('label', {class: 'cmap-hlist-item cmap-noselect cmap-pointer'},
+                elt('input', {type: 'radio', value: 'satellite', checked: true, name: 'baselayer', id: 'cmap-baselayer-satellite'}),
+                elt('span', {class: 'cmap-label-text'}, 'Satellite')
+                )
+            ),
+        elt('li', {},
+            elt('label', {class: 'cmap-hlist-item cmap-noselect cmap-pointer'},
+                elt('input', {type: 'radio', value: 'streets', name: 'baselayer', id: 'cmap-baselayer-streets'}),
+                elt('span', {class: 'cmap-label-text'}, 'Streets')
+                )
+            ),
+        elt('li', {},
+            elt('label', {class: 'cmap-hlist-item cmap-noselect cmap-pointer'},
+                elt('input', {type: 'radio', value: 'dark', name: 'baselayer', id: 'cmap-baselayer-dark'}),
+                elt('span', {class: 'cmap-label-text'}, 'Dark')
+                )
+            )
+        )
+      )
     );
 
     container.appendChild(sidebar);
@@ -1343,12 +1399,12 @@ function filterLayers() {
   var selectedActions = [];
   var selectedTypes = [];
 
-  document.querySelectorAll('.cmap-layer-selector input:checked')
+  document.querySelectorAll('.cmap-filter-action-section input:checked')
   .forEach(function(checkedElement) {
       selectedActions.push(checkedElement.value);
   });
 
-  document.querySelectorAll('.cmap-type-selector input:checked')
+  document.querySelectorAll('.cmap-filter-type-section input:checked')
   .forEach(function(checkedElement) {
       selectedTypes.push(checkedElement.value);
   });
