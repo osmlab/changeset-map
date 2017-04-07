@@ -247,25 +247,12 @@
   background: #fff;
 }
 .cmap-container .cmap-diff-table td.cmap-table-head {
-  padding: 0px;
+  padding: 6px 12px;
 }
-.cmap-container .cmap-table-head a,
 .cmap-container .cmap-table-head span {
-  padding: 12px 12px;
-  display: block;
-  font-size: 1.2em;
+  padding: 6px 0px;
   font-weight: bold;
-  text-align: center;
-}
-.cmap-container .cmap-table-head span {
   color: #333;
-}
-.cmap-container .cmap-table-head a {
-  color: #55e;
-}
-.cmap-container .cmap-table-head a:hover {
-  color: #22c;
-  background: #e2e2f0;
 }
 .cmap-container .cmap-diff-table,
 .cmap-container .cmap-diff-table th,

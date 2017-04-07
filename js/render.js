@@ -1187,8 +1187,8 @@ function displayDiff(id, featureMap) {
 
     var type = featuresWithId[0].properties.type;
     var metadataHeader = elt('div', {},
-        elt('span', { class: 'cmap-inline-block' }, capitalize(type) + ': ' + id),
-        elt('ul', { class: 'cmap-hlist cmap-inline-block' },
+        elt('span', { class: 'cmap-inline-block' }, type.toUpperCase() + ': ' + id),
+        elt('ul', { class: 'cmap-hlist cmap-inline-block cmap-fr' },
             elt('li', {},
                 elt('a', { target: '_blank', class: 'cmap-hlist-item cmap-pointer cmap-noselect', href: '//www.openstreetmap.org/'+ type + '/' + id + '/history' }, 'OSM')),
             elt('li', {},
@@ -1196,7 +1196,7 @@ function displayDiff(id, featureMap) {
         )
     );
     var metadataHTML = getDiffHTML(propsDiff(metadataProps), ['id', 'type', 'changeType'], metadataHeader);
-    var tagHeader = elt('span', {}, 'Tag details');
+    var tagHeader = elt('span', { class: 'cmap-inline-block' }, 'Tag details'.toUpperCase());
     var tagHTML = getDiffHTML(propsDiff(tagProps), ['id', 'changeType'], tagHeader);
 
     document.querySelector('.cmap-diff').style.display = 'block';
