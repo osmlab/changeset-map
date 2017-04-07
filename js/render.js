@@ -1186,7 +1186,15 @@ function displayDiff(id, featureMap) {
     // Sets headers for two tables
 
     var type = featuresWithId[0].properties.type;
-    var metadataHeader = elt('a', { href: '//www.openstreetmap.org/' + type + '/' + id + '/history', target: '_blank' }, capitalize(type) + ': ' + id);
+    var metadataHeader = elt('div', {},
+        elt('span', { class: 'cmap-inline-block' }, capitalize(type) + ': ' + id),
+        elt('ul', { class: 'cmap-hlist cmap-inline-block' },
+            elt('li', {},
+                elt('a', { target: '_blank', class: 'cmap-hlist-item cmap-pointer cmap-noselect', href: '//www.openstreetmap.org/'+ type + '/' + id + '/history' }, 'OSM')),
+            elt('li', {},
+                elt('a', { target: '_blank', class: 'cmap-hlist-item cmap-pointer cmap-noselect', href: '//osmlab.github.io/osm-deep-history/#/' + type + '/' + id }, 'Deep History'))
+        )
+    );
     var metadataHTML = getDiffHTML(propsDiff(metadataProps), ['id', 'type', 'changeType'], metadataHeader);
     var tagHeader = elt('span', {}, 'Tag details');
     var tagHTML = getDiffHTML(propsDiff(tagProps), ['id', 'changeType'], tagHeader);

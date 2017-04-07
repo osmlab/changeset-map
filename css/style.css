@@ -355,7 +355,9 @@
 .cmap-container .cmap-strong {
   font-weight: bold;
 }
-
+.cmap-container .cmap-inline-block {
+  display: inline-block !important;
+}
 /*
 .cmap-pt1{
   padding-top: 5px !important;
