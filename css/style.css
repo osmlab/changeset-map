@@ -252,7 +252,7 @@
 .cmap-container .cmap-table-head span {
   padding: 6px 0px;
   font-weight: bold;
-  color: #333;
+  color: #444;
 }
 .cmap-container .cmap-diff-table,
 .cmap-container .cmap-diff-table th,
@@ -260,6 +260,7 @@
   border: 1px solid #dadada;
   padding: 6px 12px;
   text-align: left;
+  color: #666;
 }
 .cmap-container .cmap-diff-table th {
   width: 80px;
