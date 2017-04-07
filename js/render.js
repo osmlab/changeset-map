@@ -155,7 +155,7 @@ function renderHTML(container) {
     sidebar.appendChild(
     elt('section', {class: 'cmap-user-section cmap-fill-light cmap-pb3'},
       elt('h6', {class: 'cmap-heading'},
-        'By user: ',
+        'User: ',
         elt('em', {class: 'cmap-user-id'})),
       elt('ul', {class: 'cmap-hlist'},
         elt('li', {},
