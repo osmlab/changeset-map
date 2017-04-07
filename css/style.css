@@ -236,11 +236,11 @@
 }
 .cmap-container .cmap-diff-metadata,
 .cmap-container .cmap-diff-tags {
-  padding: 20px;
+  padding: 10px;
   margin-bottom: 10px;
   background: #f5f5f5;
   border-radius: 5px;
-  max-height: 40vh;
+  max-height: 35vh;
   max-width: 450px;
 }
 .cmap-container .cmap-diff-table thead tr {
@@ -257,7 +257,7 @@
 .cmap-container .cmap-diff-table,
 .cmap-container .cmap-diff-table th,
 .cmap-container .cmap-diff-table td {
-  border: 1px solid #c1dad7;
+  border: 1px solid #dadada;
   padding: 6px 12px;
   text-align: left;
 }
@@ -271,10 +271,10 @@
   background: #fff;
 }
 .cmap-container .cmap-diff-table tbody tr:nth-of-type(odd) {
-  background: #f5fafa;
+  background: #f8f8f8;
 }
 .cmap-container .cmap-diff-table tbody tr:hover {
-  background: #e5f3f3;
+  background: #eee;
 }
 .cmap-container .cmap-diff-table td {
   width: 150px;
