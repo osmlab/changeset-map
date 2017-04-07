@@ -32,11 +32,12 @@ function render(container, id, options) {
             var tags = feature.properties.tags || {};
             feature.properties.tagsCount = Object.keys(tags).length;
         });
-        
+
         document.querySelector('.cmap-changeset-id').textContent = changesetId;
-        var time = result.changeset.to ? result.changeset.to : result.changeset.from;
-        document.querySelector('.cmap-time').textContent = '('+ moment(time).format('MMM DD, YYYY, h:mm a') + ')';
-        //Should switch to http://momentjs.com/docs/#/displaying/fromnow/
+
+        var date = new Date(result.changeset.to ? result.changeset.to : result.changeset.from);
+        document.querySelector('.cmap-time').textContent = '('+ moment(date).fromNow() + ')';
+        document.querySelector('.cmap-time').setAttribute('title', date);
 
         document.querySelector('.cmap-c-link-osm').href = 'https://openstreetmap.org/changeset/' + changesetId;
         document.querySelector('.cmap-c-link-osmcha').href = 'https://osmcha.mapbox.com/' + changesetId + '/';
@@ -51,7 +52,7 @@ function render(container, id, options) {
         document.querySelector('.cmap-u-link-hdyc').href = 'http://hdyc.neis-one.org/?' + userName;
         document.querySelector('.cmap-u-link-disc').href = 'http://resultmaps.neis-one.org/osm-discussion-comments?uid=' + userId;
         document.querySelector('.cmap-u-link-comm').href = 'http://resultmaps.neis-one.org/osm-discussion-comments?uid=115894' + userId + '&commented';
-        
+
         document.querySelector('.cmap-sidebar').style.display = 'block';
         var bbox = result.changeset.bbox;
         var featureMap = result.featureMap;
@@ -132,7 +133,7 @@ function renderHTML(container) {
       elt('h6', {class: 'cmap-heading'},
         'Changeset: ',
         elt('em', {class: 'cmap-changeset-id'}),
-        ' on ',
+        ' ',
         elt('small', {class: 'cmap-time'})
         ),
       elt('ul', {class: 'cmap-hlist'},
