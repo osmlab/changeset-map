@@ -1,6 +1,6 @@
 {
   "name": "changeset-map",
-  "version": "0.0.7",
+  "version": "0.0.88888888",
   "description": "Visualize OSM changesets on a GL map (WIP)",
   "main": "js/index.js",
   "scripts": {
