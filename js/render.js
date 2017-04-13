@@ -39,11 +39,17 @@ function render(container, id, options) {
         document.querySelector('.cmap-time').textContent = '('+ moment(date).fromNow() + ')';
         document.querySelector('.cmap-time').setAttribute('title', date);
 
+        var bbox = result.changeset.bbox;
+        var bounds = getBounds(bbox);
+        var center = bounds.getCenter();
+
         document.querySelector('.cmap-c-link-osm').href = 'https://openstreetmap.org/changeset/' + changesetId;
         document.querySelector('.cmap-c-link-osmcha').href = 'https://osmcha.mapbox.com/' + changesetId + '/';
         document.querySelector('.cmap-c-link-achavi').href = 'https://overpass-api.de/achavi/?changeset=' + changesetId;
         document.querySelector('.cmap-c-link-osmhv').href = 'http://osmhv.openstreetmap.de/changeset.jsp?id=' + changesetId;
         document.querySelector('.cmap-c-link-josm').href = 'http://127.0.0.1:8111/import?url=http://www.openstreetmap.org/api/0.6/changeset/' + changesetId + '/download';
+        document.querySelector('.cmap-c-link-id').href = 'http://preview.ideditor.com/release#map=15/' + center.lat + '/' + center.lng;
+
 
         var userName = result.changeset.user;
         document.querySelector('.cmap-user-id').textContent = userName;
@@ -54,7 +60,6 @@ function render(container, id, options) {
         document.querySelector('.cmap-u-link-comm').href = 'http://resultmaps.neis-one.org/osm-discussion-comments?uid=115894' + userId + '&commented';
 
         document.querySelector('.cmap-sidebar').style.display = 'block';
-        var bbox = result.changeset.bbox;
         var featureMap = result.featureMap;
 
         renderMap(false, result);
@@ -146,7 +151,9 @@ function renderHTML(container) {
         elt('li', {},
             elt('a', {target:'_blank', class: 'cmap-hlist-item cmap-noselect cmap-pointer cmap-c-link-osmhv'}, 'OSM HV')),
         elt('li', {},
-            elt('a', {target:'_blank', class: 'cmap-hlist-item cmap-noselect cmap-pointer cmap-c-link-josm'}, 'JOSM'))
+            elt('a', {target:'_blank', class: 'cmap-hlist-item cmap-noselect cmap-pointer cmap-c-link-josm'}, 'JOSM')),
+        elt('li', {},
+            elt('a', {target:'_blank', class: 'cmap-hlist-item cmap-noselect cmap-pointer cmap-c-link-id'}, 'iD'))
         )
       )
     );
