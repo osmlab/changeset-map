@@ -2,11 +2,11 @@
   "name": "changeset-map",
   "version": "0.0.88888888",
   "description": "Visualize OSM changesets on a GL map (WIP)",
-  "main": "js/index.js",
+  "main": "index.js",
   "scripts": {
     "start": "npm run serve & npm run watch",
     "watch": "watchify js/render.js -o dist/bundle.js",
-    "build": "browserify js/render.js | uglifyjs > dist/bundle.js",
+    "build": "browserify js/render.js > dist/bundle.js",
     "serve": "http-server .",
     "lint": "eslint js/*.js",
     "lint:fix": "eslint js/*.js --fix"
