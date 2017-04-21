@@ -10,20 +10,8 @@ var turfBboxPolygon = require('@turf/bbox-polygon');
 var featureCollection = require('@turf/helpers').featureCollection;
 var cmap, map;
 
-function render(container, id, options) {
-    var changesetId = id;
-    cmap = new events();
-
-    container.style.width = options.width || '1000px';
-    container.style.height = options.height || '500px';
-    renderHTML(container);
-
-    options = options || {};
-    options.overpassBase = options.overpassBase || config.overpassBase;
-    mapboxgl.accessToken = config.mapboxAccessToken;
-
-    container.classList.add('cmap-loading');
-    getChangeset(changesetId, options.overpassBase, function(err, result) {
+function render(container, id, options, data) {
+    function processChangeset(err, result) {
         container.classList.remove('cmap-loading');
         if (err) return errorMessage(err.msg);
 
@@ -94,7 +82,24 @@ function render(container, id, options) {
         cmap.on('clearFeature', function () {
             clearFeature(map);
         });
-    });
+    }
+    var changesetId = id;
+    cmap = new events();
+
+    container.style.width = options.width || '1000px';
+    container.style.height = options.height || '500px';
+    renderHTML(container);
+
+    options = options || {};
+    options.overpassBase = options.overpassBase || config.overpassBase;
+    mapboxgl.accessToken = config.mapboxAccessToken;
+
+    container.classList.add('cmap-loading');
+    if (!data) {
+        getChangeset(changesetId, options.overpassBase, processChangeset);
+    } else {
+        processChangeset(null, data);
+    }
 
     return cmap;
 }
@@ -1445,5 +1450,5 @@ function filterLayers() {
      }
   });
 }
-
-window.changesetMap = module.exports = render;
+window.renderChangesetMap = render;
+module.exports = render;
