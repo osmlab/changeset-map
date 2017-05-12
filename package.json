@@ -4,8 +4,11 @@
   "description": "",
   "main": "dist/bundle.js",
   "scripts": {
+    "precommit": "lint-staged",
     "build-website": "rollup -c ./rollup.website.config.js",
-    "build-plugin": "rollup -c ./rollup.plugin.config.js"
+    "build-plugin": "rollup -c ./rollup.plugin.config.js",
+    "predeploy": "yarn run build",
+    "deploy": "gh-pages -d public"
   },
   "author": "",
   "license": "ISC",
@@ -27,6 +30,7 @@
     "babel-preset-es2015-rollup": "^3.0.0",
     "babel-preset-react": "^6.24.1",
     "eslint-plugin-react": "^7.0.0",
+    "gh-pages": "^1.0.0",
     "husky": "^0.13.3",
     "prettier": "^1.3.1",
     "prettier-eslint-cli": "^3.4.3",
