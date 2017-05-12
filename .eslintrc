@@ -1,5 +1,8 @@
 {
-  "extends": "mourner",
+  "extends": [
+    "mourner",
+    "plugin:react/recommended"
+  ],
   "rules": {
     "space-before-function-paren": 0
   },
@@ -8,6 +11,9 @@
     "es6": true
   },
   "parserOptions": {
-    "sourceType": "module"
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
   }
 }

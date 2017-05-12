@@ -1,30 +1,63 @@
 import React from 'react';
 import { render } from 'react-dom';
 import mapboxgl from 'mapbox-gl';
-// import get from '../lib/getChangeset';
-import { render as rander } from '../lib/render';
-console.log(rander);
-rander(document.getElementById('map'), '47876083', {
-    height: 1000,
-    width: 600
-});
-// mapboxgl.accessToken = 'pk.eyJ1IjoicmFzYWd5IiwiYSI6ImNpejVrMjc4eTAwNGczM2thNWozYnJ1OHkifQ.yFRr3Sd39TJiwEguQpIkWQ';
-// var map = new mapboxgl.Map({
-//     container: 'map', // container id
-//     style: 'mapbox://styles/mapbox/streets-v9', //stylesheet location
-//     center: [-74.50, 40], // starting position
-//     zoom: 9 // starting zoom
-// });
-// get(
-//     '47876083',
-//     '//overpass-cfn-production.tilestream.net/api/interpreter',
-//     function(err, result) {
-//         console.log(err, result);
-//     }
-// );
+import { render as changesetMap } from '../lib/render';
+
 render(
     <div>
-        <h1>Hello Rollup+React+Redux!</h1>
+        <h1 />
     </div>,
     document.getElementById('root')
 );
+
+var cMap;
+
+var containerWidth = window.innerWidth + 'px';
+var containerHeight = window.innerHeight + 'px';
+
+if (location.hash !== '') {
+    document.getElementById('formContainer').style.display = 'none';
+    var id = location.hash.split('/')[0].replace('#', '');
+    var [, geometryType, featureId] = location.hash.split('/');
+    cMap = changesetMap(document.getElementById('container'), id, {
+        width: containerWidth,
+        height: containerHeight
+    });
+    cMap.on('load', function() {
+        cMap.emit('selectFeature', geometryType, featureId);
+    });
+}
+
+document
+    .getElementById('changesetForm')
+    .addEventListener('submit', function(e) {
+        e.preventDefault();
+        document.getElementById('formContainer').style.display = 'none';
+        var changesetID = document.getElementById('changesetInput').value;
+        location.hash = changesetID;
+        cMap = changesetMap(document.getElementById('container'), changesetID, {
+            hash: location.hash,
+            width: containerWidth,
+            height: containerHeight
+        });
+    });
+
+cMap.on('featureChange', function(geometryType, featureId) {
+    clearHash();
+    if (geometryType && featureId) {
+        updateHash(geometryType, featureId);
+    }
+});
+
+function updateHash(osmType, featureId) {
+    clearHash();
+
+    location.hash += '/' + osmType;
+    location.hash += '/' + featureId;
+}
+
+function clearHash() {
+    var changesetId = location.hash.split('/')[0].replace('#', '');
+
+    location.hash = changesetId;
+}
