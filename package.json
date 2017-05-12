@@ -8,7 +8,7 @@
     "build:website": "rollup -c ./rollup.website.config.js",
     "build": "rollup -c ./rollup.plugin.config.js",
     "start": "http-server public",
-    "predeploy": "yarn run build",
+    "predeploy": "npm run build",
     "deploy": "gh-pages -d public"
   },
   "author": "",

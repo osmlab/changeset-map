@@ -40,13 +40,12 @@ For a custom overpass instance, set a `overpassBase` key in the options object. 
 ### Setup
 
  - Install dependencies using `npm install`. 
- - Build the plugin by `npm run build`.
- - Build the website by `npm run build:website` and host the website using `npm start`.
- 
-### Test Locally
-
-Run `npm run start` to start a server and `watchify` process to watch for changes to your files and re-build. Go to the browser at the port where the webserver is running. eg. `http://localhost:8080`
 
 ### Build
+ - Build the plugin by `npm run build`.
+ - Build the website by `npm run build:website`.
 
-To build files, run `npm run build`.
+### Test Locally
+
+Run `npm run start` to start a server. Go to the browser at the port where the webserver is running. eg. `http://localhost:8080`
+
