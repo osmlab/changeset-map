@@ -15,9 +15,15 @@ Create a container div to hold the UI.
 ```
 
 ```js
+// es6 modules 
+import {getChangeset, query, propsDiff, render} from 'changeset-map';
+
+// commonjs
 var changesetMap = require('changeset-map');
+var render = changesetMap.render;
+
 var container = document.getElementById('container');
-var changesetMapControl = changesetMap(container, changesetID, { width: '1000px', height: '1000px' });
+var changesetMapControl = render(container, changesetID, { width: '1000px', height: '1000px' });
 
 // binding events
 changesetMapControl.on('load', function () {
@@ -33,8 +39,10 @@ For a custom overpass instance, set a `overpassBase` key in the options object. 
 
 ### Setup
 
- Install dependencies using `npm install`.
-
+ - Install dependencies using `npm install`. 
+ - Build the plugin by `npm run build`.
+ - Build the website by `npm run build:website` and host the website using `npm start`.
+ 
 ### Test Locally
 
 Run `npm run start` to start a server and `watchify` process to watch for changes to your files and re-build. Go to the browser at the port where the webserver is running. eg. `http://localhost:8080`

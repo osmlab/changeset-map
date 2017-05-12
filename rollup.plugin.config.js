@@ -7,7 +7,7 @@ import globals from 'rollup-plugin-node-globals';
 import eslint from 'rollup-plugin-eslint';
 
 export default {
-    entry: 'lib/index.js',
+    entry: 'js/index.js',
     dest: 'dist/bundle.js',
     format: 'cjs',
     sourceMap: 'inline',

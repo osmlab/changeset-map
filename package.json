@@ -5,8 +5,9 @@
   "main": "dist/bundle.js",
   "scripts": {
     "precommit": "lint-staged",
-    "build-website": "rollup -c ./rollup.website.config.js",
-    "build-plugin": "rollup -c ./rollup.plugin.config.js",
+    "build:website": "rollup -c ./rollup.website.config.js",
+    "build": "rollup -c ./rollup.plugin.config.js",
+    "start": "http-server public",
     "predeploy": "yarn run build",
     "deploy": "gh-pages -d public"
   },
@@ -31,6 +32,7 @@
     "babel-preset-react": "^6.24.1",
     "eslint-plugin-react": "^7.0.0",
     "gh-pages": "^1.0.0",
+    "http-server": "^0.10.0",
     "husky": "^0.13.3",
     "lint-staged": "^3.4.1",
     "prettier": "^1.3.1",
