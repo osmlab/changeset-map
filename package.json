@@ -4,7 +4,8 @@
   "description": "",
   "main": "dist/bundle.js",
   "scripts": {
-    "build website": "rollup -c ./rollup.website.config.js"
+    "build-website": "rollup -c ./rollup.website.config.js",
+    "build-plugin": "rollup -c ./rollup.plugin.config.js"
   },
   "author": "",
   "license": "ISC",

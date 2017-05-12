@@ -1,9 +1,8 @@
 import React from 'react';
 import { render } from 'react-dom';
-import mapboxgl from 'mapbox-gl';
-import { render as changesetMap } from '../lib/render';
-import * as K from '../dist/bundle.js';
-console.log(K);
+
+import { render as changesetMap } from '../js/render';
+
 render(
     <div>
         <h1 />
