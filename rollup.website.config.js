@@ -8,7 +8,7 @@ import eslint from 'rollup-plugin-eslint';
 
 export default {
     entry: 'www/index.js',
-    dest: 'dist/bundle.js',
+    dest: 'public/bundle.js',
     format: 'iife',
     sourceMap: 'inline',
     plugins: [
