@@ -3,10 +3,6 @@
     "mourner",
     "plugin:react/recommended"
   ],
-  "rules": {
-    "space-before-function-paren": 0,
-    "object-curly-spacing": 0
-  },
   "env": {
     "browser": true,
     "es6": true
