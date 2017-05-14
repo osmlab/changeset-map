@@ -1,6 +1,4 @@
-'use strict';
-
-function propsDiff(propsArray) {
+export function propsDiff(propsArray) {
     // Edge case: features may be duplicated. See issue #122.
     // If the changeType is `added` ignore the second feature.
     if (propsArray.length === 1 || propsArray[0].changeType === 'added') {
@@ -37,7 +35,7 @@ function getDiff(oldProps, newProps) {
     for (var oldProp in oldProps) {
         if (!ret.hasOwnProperty(oldProp)) {
             ret[oldProp] = {
-                'deleted': oldProps[oldProp]
+                deleted: oldProps[oldProp]
             };
         }
     }
@@ -48,7 +46,7 @@ function getAdded(props) {
     var ret = {};
     for (var prop in props) {
         ret[prop] = {
-            'added': props[prop]
+            added: props[prop]
         };
     }
     return ret;
@@ -71,5 +69,3 @@ function getNew(propsArray) {
         }
     }
 }
-
-module.exports = propsDiff;
