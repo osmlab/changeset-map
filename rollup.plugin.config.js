@@ -10,7 +10,7 @@ export default {
     entry: 'lib/index.js',
     dest: 'dist/bundle.js',
     format: 'cjs',
-    sourceMap: 'inline',
+    sourceMap: true,
     plugins: [
         eslint({
             exclude: ['src/styles/**']
