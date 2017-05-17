@@ -5,5 +5,12 @@
     ],
     "plugins": [
         "external-helpers"
-    ]
+    ],
+    "env": {
+        "production": {
+            "presets": [
+                "babili"
+            ]
+        }
+    }
 }

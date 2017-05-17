@@ -1,14 +1,14 @@
-import React from 'react';
-import { render } from 'react-dom';
+// import React from 'react';
+// import { render } from 'react-dom';
 
 import { render as changesetMap } from '../lib/render';
 
-render(
-  <div>
-    <h1 />
-  </div>,
-  document.getElementById('root')
-);
+// render(
+//   <div>
+//     <h1 />
+//   </div>,
+//   document.getElementById('root')
+// );
 
 var cMap;
 

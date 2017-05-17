@@ -29,6 +29,7 @@
   "devDependencies": {
     "babel": "^6.23.0",
     "babel-plugin-external-helpers": "^6.22.0",
+    "babel-preset-babili": "0.0.12",
     "babel-preset-es2015-rollup": "^3.0.0",
     "babel-preset-react": "^6.24.1",
     "eslint-config-mourner": "^2.0.1",
@@ -41,6 +42,7 @@
     "prettier-eslint-cli": "^3.4.3",
     "rollup": "^0.41.6",
     "rollup-plugin-babel": "^2.7.1",
+    "rollup-plugin-butternut": "^0.1.0",
     "rollup-plugin-commonjs": "^8.0.2",
     "rollup-plugin-eslint": "^3.0.0",
     "rollup-plugin-json": "^2.1.1",
@@ -49,6 +51,7 @@
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-npm": "^2.0.0",
     "rollup-plugin-replace": "^1.1.1",
+    "rollup-plugin-sizes": "^0.3.0",
     "rollup-watch": "^3.2.2"
   },
   "lint-staged": {

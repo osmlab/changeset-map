@@ -43,7 +43,7 @@ For a custom overpass instance, set a `overpassBase` key in the options object. 
 
 ### Build
  - Build the plugin by `npm run build`.
- - Build the website by `npm run build:website`.
+ - Build the website by `npm run build:website`, the websites html can be found in `public` folder. The javascript code to run changeset map can be found in `www` folder. 
 
 ### Test Locally
 

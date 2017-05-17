@@ -5,6 +5,7 @@ import nodeResolve from 'rollup-plugin-node-resolve';
 import builtins from 'rollup-plugin-node-builtins';
 import globals from 'rollup-plugin-node-globals';
 import eslint from 'rollup-plugin-eslint';
+import sizes from 'rollup-plugin-sizes';
 
 export default {
     entry: 'lib/index.js',
@@ -40,6 +41,8 @@ export default {
         babel({
             exclude: 'node_modules/**'
         }),
-        globals()
+        globals(),
+
+        sizes()
     ]
 };
