@@ -16,7 +16,7 @@ export default {
             exclude: ['src/styles/**']
         }),
         replace({
-            'process.env.NODE_ENV': JSON.stringify('dev')
+            'process.env.NODE_ENV': JSON.stringify('production')
         }),
         builtins(),
         nodeResolve({

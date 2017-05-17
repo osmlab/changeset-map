@@ -7,8 +7,9 @@
     "precommit": "lint-staged",
     "build:website": "rollup -c ./rollup.website.config.js",
     "build": "rollup -c ./rollup.plugin.config.js",
+    "prestart": "npm run build:website",
     "start": "http-server public",
-    "predeploy": "npm run build",
+    "predeploy": "npm run build && npm run build:website",
     "deploy": "gh-pages -d public"
   },
   "author": "",
