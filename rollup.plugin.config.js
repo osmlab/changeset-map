@@ -11,7 +11,7 @@ export default {
     entry: 'lib/index.js',
     dest: 'dist/bundle.js',
     format: 'cjs',
-    sourceMap: true,
+    sourceMap: false,
     plugins: [
         eslint({
             exclude: ['src/styles/**']
@@ -42,7 +42,6 @@ export default {
             exclude: 'node_modules/**'
         }),
         globals(),
-
         sizes()
     ]
 };
