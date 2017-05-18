@@ -8,7 +8,7 @@
     "build:website": "rollup -c ./rollup.website.config.js",
     "build": "rollup -c ./rollup.plugin.config.js",
     "start": "http-server public",
-    "predeploy": "npm run build",
+    "predeploy": "npm run build:website",
     "deploy": "gh-pages -d public"
   },
   "author": "",
@@ -30,6 +30,7 @@
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-preset-es2015-rollup": "^3.0.0",
     "babel-preset-react": "^6.24.1",
+    "eslint-config-mourner": "^2.0.1",
     "eslint-plugin-react": "^7.0.0",
     "gh-pages": "^1.0.0",
     "http-server": "^0.10.0",
