@@ -1,14 +1,14 @@
-import React from 'react';
-import { render } from 'react-dom';
+// import React from 'react';
+// import { render } from 'react-dom';
 
-import { render as changesetMap } from '../js/render';
+import { render as changesetMap } from '../lib/render';
 
-render(
-    <div>
-        <h1 />
-    </div>,
-    document.getElementById('root')
-);
+// render(
+//   <div>
+//     <h1 />
+//   </div>,
+//   document.getElementById('root')
+// );
 
 var cMap;
 
@@ -29,18 +29,18 @@ if (location.hash !== '') {
 }
 
 document
-    .getElementById('changesetForm')
-    .addEventListener('submit', function(e) {
-        e.preventDefault();
-        document.getElementById('formContainer').style.display = 'none';
-        var changesetID = document.getElementById('changesetInput').value;
-        location.hash = changesetID;
-        cMap = changesetMap(document.getElementById('container'), changesetID, {
-            hash: location.hash,
-            width: containerWidth,
-            height: containerHeight
-        });
-    });
+  .getElementById('changesetForm')
+  .addEventListener('submit', function(e) {
+      e.preventDefault();
+      document.getElementById('formContainer').style.display = 'none';
+      var changesetID = document.getElementById('changesetInput').value;
+      location.hash = changesetID;
+      cMap = changesetMap(document.getElementById('container'), changesetID, {
+          hash: location.hash,
+          width: containerWidth,
+          height: containerHeight
+      });
+  });
 
 cMap.on('featureChange', function(geometryType, featureId) {
     clearHash();

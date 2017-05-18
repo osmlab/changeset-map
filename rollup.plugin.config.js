@@ -5,18 +5,19 @@ import nodeResolve from 'rollup-plugin-node-resolve';
 import builtins from 'rollup-plugin-node-builtins';
 import globals from 'rollup-plugin-node-globals';
 import eslint from 'rollup-plugin-eslint';
+import sizes from 'rollup-plugin-sizes';
 
 export default {
-    entry: 'js/index.js',
+    entry: 'lib/index.js',
     dest: 'dist/bundle.js',
     format: 'cjs',
-    sourceMap: 'inline',
+    sourceMap: true,
     plugins: [
         eslint({
             exclude: ['src/styles/**']
         }),
         replace({
-            'process.env.NODE_ENV': JSON.stringify('dev')
+            'process.env.NODE_ENV': JSON.stringify('production')
         }),
         builtins(),
         nodeResolve({
@@ -40,6 +41,8 @@ export default {
         babel({
             exclude: 'node_modules/**'
         }),
-        globals()
+        globals(),
+
+        sizes()
     ]
 };
