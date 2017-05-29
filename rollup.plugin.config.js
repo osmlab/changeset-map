@@ -10,7 +10,7 @@ import uglify from 'rollup-plugin-uglify';
 export default {
     entry: 'lib/index.js',
     dest: 'dist/bundle.js',
-    format: 'es',
+    format: 'cjs',
     sourceMap: false,
     plugins: [
         eslint({
