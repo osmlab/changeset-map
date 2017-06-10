@@ -14,15 +14,18 @@
   },
   "author": "",
   "license": "ISC",
+  "peerDependencies": {
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4"
+  },
   "dependencies": {
-    "@turf/bbox-polygon": "^4.3.0",
-    "@turf/helpers": "^4.3.0",
-    "mapbox-gl": "^0.37.0",
+    "@turf/bbox-polygon": "^4.4.0",
+    "@turf/helpers": "^4.4.0",
+    "mapbox-gl": "^0.38.0",
     "moment": "^2.18.1",
     "osm-adiff-parser-saxjs": "^1.0.0",
-    "react": "^15.5.4",
-    "react-dom": "^15.5.4",
     "real-changesets-parser": "^1.2.3",
+    "rollup-plugin-uglify": "^2.0.1",
     "sax": "^1.2.2",
     "xhr": "^2.4.0"
   },
