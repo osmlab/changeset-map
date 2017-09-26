@@ -5,7 +5,8 @@
   ],
   "rules": {
     "space-before-function-paren": 0,
-    "object-curly-spacing": 0
+    "object-curly-spacing": 0,
+    "indent": [2, 2]
   },
   "env": {
     "browser": true,
