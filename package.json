@@ -1,6 +1,6 @@
 {
   "name": "changeset-map",
-  "version": "0.9.0",
+  "version": "1.1.0",
   "description": "",
   "main": "dist/bundle.js",
   "scripts": {
@@ -14,15 +14,19 @@
   },
   "author": "",
   "license": "ISC",
+  "peerDependencies": {
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4"
+  },
   "dependencies": {
     "@turf/bbox-polygon": "^4.3.0",
     "@turf/helpers": "^4.3.0",
     "mapbox-gl": "^0.37.0",
+    "global": "^4.3.2",
     "moment": "^2.18.1",
     "osm-adiff-parser-saxjs": "^1.0.0",
-    "react": "^15.5.4",
-    "react-dom": "^15.5.4",
     "real-changesets-parser": "^1.2.3",
+    "rollup-plugin-uglify": "^2.0.1",
     "sax": "^1.2.2",
     "xhr": "^2.4.0"
   },
@@ -40,7 +44,7 @@
     "lint-staged": "^3.4.1",
     "prettier": "^1.3.1",
     "prettier-eslint-cli": "^3.4.3",
-    "rollup": "^0.41.6",
+    "rollup": "^0.42.0",
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-butternut": "^0.1.0",
     "rollup-plugin-commonjs": "^8.0.2",
