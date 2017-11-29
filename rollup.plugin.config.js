@@ -6,7 +6,6 @@ import builtins from 'rollup-plugin-node-builtins';
 import globals from 'rollup-plugin-node-globals';
 import eslint from 'rollup-plugin-eslint';
 import sizes from 'rollup-plugin-sizes';
-import uglify from 'rollup-plugin-uglify';
 export default {
   entry: 'lib/index.js',
   dest: 'dist/bundle.js',
