@@ -2,6 +2,10 @@
 
 Log of changes since the 1.1.0 version
 
+#### 1.3.1
+
+* Link to OSM Visual History instead of OSM Deep History
+
 #### 1.3.0
 
 * Update mapbox-gl-js to 0.4.3
