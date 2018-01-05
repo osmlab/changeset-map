@@ -47,9 +47,32 @@
   color: #666;
 }
 
+.cmap-sidebar section .cmap-sub-heading {
+  font-size: 0.9em;
+  margin: 3px 0;
+  color: #666;
+}
+
 .cmap-sidebar em {
   font-style: italic;
   text-transform: none;
+}
+
+/* Vertical list
+------------------------------------------------------- */
+
+.cmap-vlist li {
+  display: block;
+}
+.cmap-vlist li:hover {
+  font-weight: bold;
+}
+
+.cmap-sub-heading {
+  padding-left: 0.8em;
+}
+.cmap-vlist {
+  padding-left: 1.6em !important;
 }
 
 /* Horizontal list
@@ -172,6 +195,10 @@
 }
 .cmap-container .cmap-diff-tags .props-diff-deleted {
   background: rgba(204, 44, 71, 0.3);
+}
+
+.cmap-changeset-link {
+  color: #666;
 }
 
 /* Color box
@@ -361,4 +388,8 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.pointer {
+  cursor: pointer;
 }
