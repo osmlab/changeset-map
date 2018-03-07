@@ -2,6 +2,10 @@
 
 Log of changes since the 1.1.0 version
 
+#### 1.3.1
+
+* Change OSM link on feature sidebar, making it link to OSM feature page, not to history page
+
 #### 1.3.0
 
 * Update mapbox-gl-js to 0.4.3
