@@ -15,7 +15,7 @@ Create a container div to hold the UI.
 ```
 
 ```js
-// es6 modules 
+// es6 modules
 import {getChangeset, query, propsDiff, render} from 'changeset-map';
 
 // commonjs
@@ -35,17 +35,16 @@ changesetMapControl.on('load', function () {
 })
 ```
 
-For a custom overpass instance, set a `overpassBase` key in the options object. Default instance is https://overpass-api.de/api/interpreter.
+For a custom overpass instance, set a `overpassBase` key in the options object. Default instance is https://overpass.maptime.in/api/interpreter.
 
 ### Setup
 
- - Install dependencies using `npm install`. 
+ - Install dependencies using `npm install`.
 
 ### Build
  - Build the plugin by `npm run build`.
- - Build the website by `npm run build:website`, the websites html can be found in `public` folder. The javascript code to run changeset map can be found in `www` folder. 
+ - Build the website by `npm run build:website`, the websites html can be found in `public` folder. The javascript code to run changeset map can be found in `www` folder.
 
 ### Test Locally
 
 Run `npm run start` to start a server. Go to the browser at the port where the webserver is running. eg. `http://localhost:8080`
-
