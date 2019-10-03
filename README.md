@@ -42,9 +42,13 @@ For a custom overpass instance, set a `overpassBase` key in the options object. 
  - Install dependencies using `npm install`.
 
 ### Build
+
  - Build the plugin by `npm run build`.
  - Build the website by `npm run build:website`, the websites html can be found in `public` folder. The javascript code to run changeset map can be found in `www` folder.
 
-### Test Locally
+### Development
 
-Run `npm run start` to start a server. Go to the browser at the port where the webserver is running. eg. `http://localhost:8080`
+ - `nvm use 8.15.1` # Use node 8.15, [nvm](https://github.com/nvm-sh/nvm) is recommended
+ - `yarn add react react-dom` # Install those packages manually
+ - `yarn install` # Install packages
+ - `yarn start` # To get going …
