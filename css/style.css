@@ -215,10 +215,10 @@
 .cmap-color-box.cmap-color-added {
   background: #39DBC0;
 }
-.cmap-color-box.cmap-color-modified-old {
+.cmap-color-box.cmap-color-modified-old, .cmap-color-box.cmap-color-modifiedOld {
   background: #DB950A;
 }
-.cmap-color-box.cmap-color-modified-new {
+.cmap-color-box.cmap-color-modified-new, .cmap-color-box.cmap-color-modifiedNew {
   background: #E8E845;
 }
 .cmap-color-box.cmap-color-deleted {
@@ -257,11 +257,11 @@
 .cmap-pt1{
   padding-top: 5px !important;
 }
+*/
 
 .cmap-pt2{
   padding-top: 10px !important;
 }
-*/
 .cmap-pt3{
   padding-top: 15px !important;
 }
@@ -288,6 +288,24 @@
   padding-bottom: 20px !important;
 }
 */
+
+/* Relation members
+------------------------------------------------------- */
+.modifiedNew {
+  background-color: #E8E845;
+}
+.modifiedOld {
+  background-color: #DB950A;
+}
+.added {
+  color: #48b9d4;
+}
+.deletedOld, .deletedNew {
+  color: #d55b57;
+}
+.cmap-max-content {
+  width: max-content;
+}
 
 /* Scroll bar
 ------------------------------------------------------- */
