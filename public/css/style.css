@@ -354,6 +354,8 @@
   display: inline-block;
   vertical-align: middle;
   background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%220%200%2018%2018%22%3E%3Cpath%20fill%3D%22%23666%22%20d%3D%22M9%2012.4a.605.605%200%200%201-.6-.3L4.8%208.2A.849.849%200%201%201%206%207l3%203.2L12.4%207a.912.912%200%200%201%201.2%200%20.912.912%200%200%201%200%201.2l-4%203.9a.864.864%200%200%201-.6.3z%22%2F%3E%3C%2Fsvg%3E");
+  background-size: cover;
+  background-position: -3px;
 }
 
 .cmap-container .cmap-dropdown-content {

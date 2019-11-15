@@ -2,6 +2,10 @@
 
 Log of changes since the 1.1.0 version
 
+#### 1.3.8
+
+* Add more object history options and open feature on iD/JOSM
+
 #### 1.3.1
 
 * Change OSM link on feature sidebar, making it link to OSM feature page, not to history page
