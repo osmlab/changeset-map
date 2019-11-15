@@ -215,10 +215,10 @@
 .cmap-color-box.cmap-color-added {
   background: #39DBC0;
 }
-.cmap-color-box.cmap-color-modified-old, .cmap-color-box.cmap-color-modifiedOld {
+.cmap-color-box.cmap-color-modified-old {
   background: #DB950A;
 }
-.cmap-color-box.cmap-color-modified-new, .cmap-color-box.cmap-color-modifiedNew {
+.cmap-color-box.cmap-color-modified-new {
   background: #E8E845;
 }
 .cmap-color-box.cmap-color-deleted {
@@ -253,15 +253,20 @@
 .cmap-container .cmap-inline-block {
   display: inline-block !important;
 }
+.cmap-container .cmap-space-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 /*
 .cmap-pt1{
   padding-top: 5px !important;
 }
-*/
 
 .cmap-pt2{
   padding-top: 10px !important;
 }
+*/
 .cmap-pt3{
   padding-top: 15px !important;
 }
@@ -289,24 +294,6 @@
 }
 */
 
-/* Relation members
-------------------------------------------------------- */
-.modifiedNew {
-  background-color: #E8E845;
-}
-.modifiedOld {
-  background-color: #DB950A;
-}
-.added {
-  color: #48b9d4;
-}
-.deletedOld, .deletedNew {
-  color: #d55b57;
-}
-.cmap-max-content {
-  width: max-content;
-}
-
 /* Scroll bar
 ------------------------------------------------------- */
 .cmap-container .cmap-scroll-styled {
@@ -327,6 +314,84 @@
 .cmap-container .cmap-scroll-styled::-webkit-scrollbar-thumb {
   background: rgba(0, 0, 0, 0.1);
   border-radius: 0;
+}
+
+/* Dropdown menu
+------------------------------------------------------- */
+.cmap-container .cmap-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.cmap-container .cmap-dropdown:hover {
+  cursor: pointer;
+}
+
+.cmap-container .cmap-dropbtn {
+  margin: 0px 3px;
+  background-color: rgba(0, 0, 0, 0.1);
+  color: rgb(102, 102, 102);
+  padding: 3px 6px 1px 12px;
+  font-size: 12px;
+  cursor: pointer;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+}
+
+.cmap-container .cmap-dropbtn span {
+  color: rgb(102, 102, 102);
+}
+
+.cmap-container .cmap-dropdown:hover .cmap-dropbtn {
+  background-color: rgba(0,0,0,.05);
+  border-color: rgba(0, 0, 0, 0.25);
+}
+
+.cmap-container .cmap-dropbtn .cmap-dropdown-icon {
+  width: 1.25em;
+  height: 0.5em;
+  margin-left: 0.25em;
+  display: inline-block;
+  vertical-align: middle;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%220%200%2018%2018%22%3E%3Cpath%20fill%3D%22%23666%22%20d%3D%22M9%2012.4a.605.605%200%200%201-.6-.3L4.8%208.2A.849.849%200%201%201%206%207l3%203.2L12.4%207a.912.912%200%200%201%201.2%200%20.912.912%200%200%201%200%201.2l-4%203.9a.864.864%200%200%201-.6.3z%22%2F%3E%3C%2Fsvg%3E");
+  background-size: cover;
+  background-position: -3px;
+}
+
+.cmap-container .cmap-dropdown-content {
+  display: block;
+  margin-top: 5px;
+  position: fixed;
+  -webkit-box-shadow: 0px 0px 1px 1px rgba(204, 204, 204, 1);
+  -moz-box-shadow: 0px 0px 1px 1px rgba(204, 204, 204, 1);
+  box-shadow: 0px 0px 1px 1px rgba(204, 204, 204, 1);
+  background-color: #f9f9f9;
+  z-index: 1;
+  border-radius: 4px;
+  min-width: 96px;
+  max-width: 240px;
+}
+
+.cmap-container .cmap-dropdown-content span {
+  padding: 6px 12px;
+  font-size: 15px;
+  font-weight: normal;
+  text-decoration: none;
+  display: block;
+}
+
+.cmap-container .cmap-dropdown-content span:hover {
+  background-color: #ccc;
+}
+
+.cmap-container .cmap-dropdown-content span a,
+.cmap-container .cmap-dropdown-content span a:link,
+.cmap-container .cmap-dropdown-content span a:visited,
+.cmap-container .cmap-dropdown-content span a:hover {
+  display: block;
+  text-decoration: none;
+  color: #666;
+  white-space: nowrap;
 }
 
 /* Loading overlay
