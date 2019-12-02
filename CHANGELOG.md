@@ -2,7 +2,11 @@
 
 Log of changes since the 1.1.0 version
 
-#### 1.3.8
+#### 1.3.10
+
+* Auto select element if it's the only one + adjust spacing on tablehead
+
+#### 1.3.9
 
 * Add more object history options and open feature on iD/JOSM
 
