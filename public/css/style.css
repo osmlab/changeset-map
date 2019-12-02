@@ -150,7 +150,7 @@
   background: #fff;
 }
 .cmap-container .cmap-diff-table td.cmap-table-head {
-  padding: 6px 12px;
+  padding: 6px 0 6px 8px;
 }
 .cmap-container .cmap-table-head span {
   padding: 6px 0px;
