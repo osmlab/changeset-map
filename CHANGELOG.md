@@ -2,6 +2,14 @@
 
 Log of changes since the 1.1.0 version
 
+#### 1.4.1
+
+* Fix bug when switching from one changeset to another in OSMCha
+
+#### 1.4.0
+
+* Enable visualization or relation members
+
 #### 1.3.10
 
 * Auto select element if it's the only one + adjust spacing on tablehead
