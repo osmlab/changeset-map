@@ -1,6 +1,6 @@
 {
   "name": "changeset-map",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "",
   "main": "dist/bundle.js",
   "scripts": {
@@ -12,7 +12,11 @@
     "predeploy": "npm run build && npm run build:website",
     "deploy": "gh-pages -d public"
   },
-  "author": "",
+  "author": "Mapbox",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/osmlab/changeset-map/"
+  },
   "license": "ISC",
   "peerDependencies": {
     "react": "^15.5.4",
@@ -20,6 +24,7 @@
   },
   "dependencies": {
     "@turf/bbox-polygon": "^5.1.5",
+    "@turf/bbox": "^6.0.1",
     "@turf/helpers": "^5.1.5",
     "global": "^4.3.2",
     "mapbox-gl": "^0.43.0",
