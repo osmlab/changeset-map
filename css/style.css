@@ -168,9 +168,7 @@
 }
 .cmap-container .cmap-diff-table th {
   width: 80px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
+  overflow-wrap: break-word;
 }
 .cmap-container .cmap-diff-table tbody tr:nth-of-type(even) {
   background: #fff;
