@@ -2,6 +2,15 @@
 
 Log of changes since the 1.1.0 version
 
+#### 1.4.3
+
+* Add zoom controls if device is touchscreen and without mouse
+
+#### 1.4.2
+
+* Update URLs to osmcha.org
+* Zoom to feature when selecting it from the sidebar
+
 #### 1.4.1
 
 * Fix bug when switching from one changeset to another in OSMCha
