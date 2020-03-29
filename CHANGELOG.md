@@ -2,6 +2,10 @@
 
 Log of changes since the 1.1.0 version
 
+#### 1.4.4
+
+* Exclude relation members with invalid coordinates from the map visualization
+
 #### 1.4.3
 
 * Add zoom controls if device is touchscreen and without mouse
