@@ -2,6 +2,10 @@
 
 Log of changes since the 1.1.0 version
 
+#### 1.4.5
+
+* Add link to open feature on Level0 editor
+
 #### 1.4.4
 
 * Exclude relation members with invalid coordinates from the map visualization
