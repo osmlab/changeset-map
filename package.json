@@ -1,6 +1,6 @@
 {
   "name": "changeset-map",
-  "version": "1.4.5",
+  "version": "1.5.0",
   "description": "",
   "main": "dist/bundle.js",
   "scripts": {
@@ -32,7 +32,7 @@
     "osm-adiff-parser-saxjs": "^1.0.0",
     "platform-detect": "^3.0.0",
     "react-click-outside": "^3.0.1",
-    "real-changesets-parser": "^1.2.3",
+    "real-changesets-parser": "github:willemarcel/real-changesets-parser#1.2.4",
     "rollup-plugin-uglify": "^2.0.1",
     "sax": "^1.2.2",
     "xhr": "^2.4.0"

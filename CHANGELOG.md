@@ -2,6 +2,10 @@
 
 Log of changes since the 1.1.0 version
 
+#### 1.5.0
+
+* Enable visualization of ways that had dragged nodes
+
 #### 1.4.5
 
 * Add link to open feature on Level0 editor
