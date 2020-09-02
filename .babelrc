@@ -1,16 +1,8 @@
 {
-    "presets": [
-        "es2015-rollup",
-        "react"
-    ],
-    "plugins": [
-        "external-helpers"
-    ],
-    "env": {
-        "production": {
-            "presets": [
-                "babili"
-            ]
-        }
+  "presets": ["@babel/preset-react"],
+  "env": {
+    "production": {
+      "presets": ["minify"]
     }
+  }
 }
