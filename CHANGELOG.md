@@ -2,6 +2,11 @@
 
 Log of changes since the 1.1.0 version
 
+#### 1.6.0
+
+- Update babel, rollup and its plugins
+- Make it compatible with modern node versions, like 12.x and 14.x
+
 #### 1.5.0
 
 * Enable visualization of ways that had dragged nodes
