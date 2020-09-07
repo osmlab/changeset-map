@@ -2,17 +2,18 @@ import babel from '@rollup/plugin-babel';
 import replace from '@rollup/plugin-replace';
 import commonjs from '@rollup/plugin-commonjs';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
-import builtins from 'rollup-plugin-node-builtins';
 import globals from 'rollup-plugin-node-globals';
 import eslint from 'rollup-plugin-eslint';
+import json from '@rollup/plugin-json';
+import nodePolyfills from 'rollup-plugin-node-polyfills';
 
 export default {
   input: 'lib/index.js',
   output: {
     file: 'dist/bundle.js',
-    format: 'cjs'
+    format: 'es',
+    sourcemap: false
   },
-  sourcemap: false,
   plugins: [
     eslint({
       exclude: ['src/styles/**']
@@ -20,11 +21,10 @@ export default {
     replace({
       'process.env.NODE_ENV': JSON.stringify('production')
     }),
-    builtins(),
+    nodePolyfills(),
     nodeResolve({
-      jsnext: false,
-      main: true,
-      browser: true
+      mainFields: ['browser', 'main'],
+      modulesOnly: true
     }),
     commonjs({
       include: ['node_modules/**'],
@@ -39,9 +39,8 @@ export default {
         'node_modules/react-dom/index.js': ['render']
       }
     }),
-    babel({
-      exclude: 'node_modules/**'
-    }),
+    json({ indent: '' }),
+    babel(),
     globals()
   ]
 };
