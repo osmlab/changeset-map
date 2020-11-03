@@ -2,6 +2,10 @@
 
 Log of changes since the 1.1.0 version
 
+#### 1.6.1
+
+- Improve rollup config with node polyfills
+
 #### 1.6.0
 
 - Update babel, rollup and its plugins
