@@ -147,6 +147,9 @@
   max-height: 35vh;
   max-width: 450px;
 }
+.cmap-diff-members {
+  max-height: 25vh !important;
+}
 .cmap-container .cmap-diff-table thead tr {
   background: #fff;
 }
@@ -162,8 +165,10 @@
 .cmap-container .cmap-diff-table th,
 .cmap-container .cmap-diff-table td {
   border: 1px solid #dadada;
-  padding: 6px 12px;
+  padding: 6px 6px;
   text-align: left;
+  word-break: break-word;
+  hyphens: auto;
   color: #666;
 }
 .cmap-container .cmap-diff-table th {
