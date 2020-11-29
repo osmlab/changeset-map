@@ -1,6 +1,6 @@
 {
   "name": "changeset-map",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "description": "Provide visualization of changesets to OSMCha & to the OSM community",
   "main": "dist/bundle.js",
   "scripts": {
@@ -24,17 +24,17 @@
   },
   "dependencies": {
     "@turf/bbox": "^6.0.1",
-    "@turf/bbox-polygon": "^5.1.5",
-    "@turf/helpers": "^5.1.5",
-    "global": "^4.3.2",
-    "mapbox-gl": "^0.43.0",
+    "@turf/bbox-polygon": "^6.0.1",
+    "@turf/helpers": "^6.1.4",
+    "global": "^4.4.0",
+    "mapbox-gl": "^1.13.0",
     "moment": "^2.18.1",
     "osm-adiff-parser-saxjs": "^1.0.0",
-    "platform-detect": "^3.0.0",
+    "platform-detect": "^3.0.1",
     "react-click-outside": "^3.0.1",
     "real-changesets-parser": "^1.2.4",
-    "sax": "^1.2.2",
-    "xhr": "^2.4.0"
+    "sax": "^1.2.4",
+    "xhr": "^2.6.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.11.5",
