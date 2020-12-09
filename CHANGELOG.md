@@ -2,6 +2,15 @@
 
 Log of changes since the 1.1.0 version
 
+#### 1.8.1
+
+- Update real-changesets-parser to 1.3.0
+- Fix problems on map attribution control
+
+#### 1.8.0
+
+- Update mapbox-gl-js to 1.13.0
+
 #### 1.6.1
 
 - Improve rollup config with node polyfills
