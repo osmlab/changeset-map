@@ -35,7 +35,8 @@ export default {
           'Children',
           'Component',
           'PropTypes',
-          'createElement'
+          'createElement',
+          'createBbox'
         ],
         'node_modules/react-dom/index.js': ['render']
       }
