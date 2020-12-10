@@ -2,6 +2,10 @@
 
 Log of changes since the 1.1.0 version
 
+#### 1.8.2
+
+- Add createBbox function to the named exports
+
 #### 1.8.1
 
 - Update real-changesets-parser to 1.3.0
