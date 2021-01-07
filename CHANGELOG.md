@@ -2,6 +2,11 @@
 
 Log of changes since the 1.1.0 version
 
+#### 1.9.0
+
+- Add option to load selected feature on OSM website (#224)
+- Fix problems on plugin build system (#225)
+
 #### 1.8.2
 
 - Add createBbox function to the named exports

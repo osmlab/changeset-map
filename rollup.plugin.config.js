@@ -5,7 +5,7 @@ import { nodeResolve } from '@rollup/plugin-node-resolve';
 import globals from 'rollup-plugin-node-globals';
 import eslint from 'rollup-plugin-eslint';
 import json from '@rollup/plugin-json';
-import nodePolyfills from 'rollup-plugin-node-polyfills';
+import builtins from 'rollup-plugin-node-builtins';
 
 export default {
   input: 'lib/index.js',
@@ -21,10 +21,11 @@ export default {
     replace({
       'process.env.NODE_ENV': JSON.stringify('production')
     }),
-    nodePolyfills(),
+    builtins(),
     nodeResolve({
-      mainFields: ['browser', 'main'],
-      modulesOnly: true
+      jsnext: true,
+      main: true,
+      browser: true
     }),
     commonjs({
       include: ['node_modules/**'],
@@ -34,14 +35,15 @@ export default {
           'Children',
           'Component',
           'PropTypes',
-          'createElement',
-          'createBbox'
+          'createElement'
         ],
         'node_modules/react-dom/index.js': ['render']
       }
     }),
     json({ indent: '' }),
-    babel(),
+    babel({
+      exclude: 'node_modules/**'
+    }),
     globals()
   ]
 };
