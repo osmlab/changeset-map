@@ -2,6 +2,11 @@
 
 Log of changes since the 1.1.0 version
 
+#### 1.9.1
+
+- Fetch OSM API with json format (#226)
+- Update @turfjs libs (#227)
+
 #### 1.9.0
 
 - Add option to load selected feature on OSM website (#224)
