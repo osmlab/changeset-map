@@ -2,6 +2,14 @@
 
 Log of changes since the 1.1.0 version
 
+#### 1.9.3
+
+- Fetch OSM api with include_discussion=true and pass data to render function (#229)
+
+#### 1.9.2
+
+- Fallback to overpass if the elements field of real-changesets is empty (#228)
+
 #### 1.9.1
 
 - Fetch OSM API with json format (#226)
