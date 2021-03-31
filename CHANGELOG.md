@@ -2,6 +2,11 @@
 
 Log of changes since the 1.1.0 version
 
+#### 1.9.4
+
+- Update y18n (#231)
+- Remove unneeded sax and xhr dependencies
+
 #### 1.9.3
 
 - Fetch OSM api with include_discussion=true and pass data to render function (#229)
