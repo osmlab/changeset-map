@@ -39,6 +39,24 @@
   padding: 5px 10px;
 }
 
+.cmap-container .cmap-block {
+  position: relative;
+  display: block !important;
+  padding-bottom: 6px !important;
+}
+
+.cmap-container .cmap-btn {
+  font-weight: bold;
+  margin: 0px 3px;
+  background-color: rgba(0, 0, 0, 0.1);
+  color: rgb(102, 102, 102) !important;
+  padding: 3px 12px 1px;
+  font-size: 12px !important;
+  cursor: pointer;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 4px !important;
+}
+
 .cmap-sidebar section .cmap-heading {
   text-transform: uppercase;
   font-size: 0.9em;
@@ -258,7 +276,6 @@
   display: inline-block !important;
 }
 .cmap-container .cmap-space-between {
-  display: flex;
   justify-content: space-between;
   align-items: center;
 }
@@ -380,7 +397,7 @@
   background-position: -3px;
 }
 
-.cmap-container .cmap-dropdown-content {
+.cmap-container .cmap-dropdown-content, .cmap-button {
   display: block;
   margin-top: 5px;
   position: fixed;
@@ -497,4 +514,45 @@
 
 .pointer {
   cursor: pointer;
+}
+
+.pl6 {
+  padding-left: 6px !important;
+}
+
+.b--red {
+  border: 1px solid #ff8280 !important;
+}
+
+.bg-white {
+  background-color: #fff !important;
+}
+
+.gg-close {
+    box-sizing: border-box;
+    position: relative;
+    display: inline-block;
+    transform: scale(var(--ggs,1));
+    width: 10px;
+    height: 10px;
+    vertical-align: top !important;
+    border: 2px solid transparent;
+    border-radius: 40px
+}
+.gg-close::after,
+.gg-close::before {
+    content: "";
+    display: block;
+    box-sizing: border-box;
+    position: absolute;
+    width: 10px;
+    height: 2px;
+    background: currentColor;
+    transform: rotate(45deg);
+    border-radius: 5px;
+    top: 8px;
+    left: 1px
+}
+.gg-close::after {
+    transform: rotate(-45deg)
 }
