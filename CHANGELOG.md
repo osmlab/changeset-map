@@ -2,6 +2,10 @@
 
 Log of changes since the 1.1.0 version
 
+#### 1.10.0
+
+- Add the possibility to flag a feature to OSMCha (#236)
+
 #### 1.9.4
 
 - Update y18n (#231)
