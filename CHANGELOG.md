@@ -5,6 +5,8 @@ Log of changes since the 1.1.0 version
 #### 1.10.0
 
 - Add the possibility to flag a feature to OSMCha (#236)
+- Replace moment by date-fns (#238)
+- Update Mapbox-GL and Turf (#238)
 
 #### 1.9.4
 
