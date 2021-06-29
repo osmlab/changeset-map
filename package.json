@@ -23,12 +23,11 @@
     "react-dom": "^15.5.4"
   },
   "dependencies": {
-    "@turf/bbox": "^6.3.0",
-    "@turf/bbox-polygon": "^6.3.0",
-    "@turf/helpers": "^6.3.0",
-    "global": "^4.4.0",
-    "mapbox-gl": "^1.13.0",
-    "moment": "^2.18.1",
+    "@turf/bbox": "^6.4.0",
+    "@turf/bbox-polygon": "^6.4.0",
+    "@turf/helpers": "^6.4.0",
+    "date-fns": "^2.22.1",
+    "mapbox-gl": "^1.13.1",
     "osm-adiff-parser-saxjs": "^1.0.0",
     "platform-detect": "^3.0.1",
     "react-click-outside": "^3.0.1",
