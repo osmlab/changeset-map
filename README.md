@@ -4,9 +4,11 @@
 
 ![](https://cloud.githubusercontent.com/assets/126868/24163445/a88728d4-0e90-11e7-9d02-d755b7845c00.png)
 
-Very experimental work in progress. The idea being that you can pass a changeset id and a container HTML element where you want the map rendered, and this plugin should render details of changes made by that changeset in the specified HTML element on a MapboxGL map.
+Changeset viewer module for [osmcha.org](https://osmcha.org/) ([Example](https://osmlab.github.io/changeset-map/#110574164), [Github](https://github.com/mapbox/osmcha-frontend)).
 
-Heavily inspired by the ACHAVI Changeset Viewer: http://wiki.openstreetmap.org/wiki/Achavi
+Pass as changeset id to render details of changes made by that changeset on a MapboxGL map.
+
+Heavily inspired by the ACHAVI Changeset Viewer ([Example](https://overpass-api.de/achavi/?changeset=110574164), [Github](https://github.com/nrenner/achavi)).
 
 ### Use as a module
 
