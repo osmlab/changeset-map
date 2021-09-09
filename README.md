@@ -41,10 +41,6 @@ changesetMapControl.on('load', function () {
 
 For a custom overpass instance, set a `overpassBase` key in the options object. Default instance is https://overpass.maptime.in/api/interpreter.
 
-### Setup
-
- - Install dependencies using `npm install`.
-
 ### Build
 
  - Build the plugin by `npm run build`.
@@ -52,7 +48,8 @@ For a custom overpass instance, set a `overpassBase` key in the options object. 
 
 ### Development
 
- - `nvm use 8.15.1` # Use node 8.15, [nvm](https://github.com/nvm-sh/nvm) is recommended
+ - Install [asdf version manager](https://asdf-vm.com/guide/getting-started.html#getting-started)
+ - `asdf install` # To install the required tools from [.tool-versions](./.tool-versions)
  - `yarn add react react-dom` # Install those packages manually
  - `yarn install` # Install packages
  - `yarn start` # To get going …
