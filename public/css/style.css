@@ -144,6 +144,29 @@
 
 /* Properties table
 ------------------------------------------------------- */
+.cmap-container .cmap-diff-close {
+  display: none;
+}
+@media (pointer: coarse) {
+  /* About this media query:
+    https://css-tricks.com/touch-devices-not-judged-size/
+    https://developer.mozilla.org/en-US/docs/Web/CSS/@media/pointer
+    https://dev.opera.com/articles/media-features/ */
+  .cmap-container .cmap-diff-close {
+    position: absolute;
+    top: -10px;
+    right: -5px;
+    background: rgb(229, 229, 229);
+    font-size: 1.5rem;
+    display: flex;
+    width: 30px;
+    height: 30px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100%;
+    border: 1px solid #dadada;
+  }
+}
 .cmap-container .cmap-diff {
   position: absolute;
   z-index: 1;
