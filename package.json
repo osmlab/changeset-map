@@ -1,6 +1,6 @@
 {
   "name": "changeset-map",
-  "version": "1.10.0",
+  "version": "1.11.0",
   "description": "Provide visualization of changesets to OSMCha & to the OSM community",
   "main": "dist/bundle.js",
   "scripts": {
