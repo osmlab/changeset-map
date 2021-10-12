@@ -2,6 +2,11 @@
 
 Log of changes since the 1.1.0 version
 
+#### 1.11.0
+- Refator lib/featureDiff (#245)
+- Improve responsiveness (#245)
+- Update node version and documentation (#244)
+
 #### 1.10.0
 
 - Add the possibility to flag a feature to OSMCha (#236)
