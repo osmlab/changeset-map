@@ -144,6 +144,29 @@
 
 /* Properties table
 ------------------------------------------------------- */
+.cmap-container .cmap-diff-close {
+  display: none;
+}
+@media (pointer: coarse) {
+  /* About this media query:
+    https://css-tricks.com/touch-devices-not-judged-size/
+    https://developer.mozilla.org/en-US/docs/Web/CSS/@media/pointer
+    https://dev.opera.com/articles/media-features/ */
+  .cmap-container .cmap-diff-close {
+    position: absolute;
+    top: -10px;
+    right: -5px;
+    background: rgb(229, 229, 229);
+    font-size: 1.5rem;
+    display: flex;
+    width: 30px;
+    height: 30px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100%;
+    border: 1px solid #dadada;
+  }
+}
 .cmap-container .cmap-diff {
   position: absolute;
   z-index: 1;
@@ -397,8 +420,7 @@
   background-position: -3px;
 }
 
-.cmap-container .cmap-dropdown-content, .cmap-button {
-  display: block;
+.cmap-container .cmap-dropdown-content {
   margin-top: 5px;
   position: fixed;
   -webkit-box-shadow: 0px 0px 1px 1px rgba(204, 204, 204, 1);
@@ -411,22 +433,21 @@
   max-width: 240px;
 }
 
-.cmap-container .cmap-dropdown-content span {
+.cmap-container .cmap-dropdown-content-item {
   padding: 6px 12px;
   font-size: 15px;
   font-weight: normal;
   text-decoration: none;
-  display: block;
 }
 
-.cmap-container .cmap-dropdown-content span:hover {
+.cmap-container .cmap-dropdown-content-item:hover {
   background-color: #ccc;
 }
 
-.cmap-container .cmap-dropdown-content span a,
-.cmap-container .cmap-dropdown-content span a:link,
-.cmap-container .cmap-dropdown-content span a:visited,
-.cmap-container .cmap-dropdown-content span a:hover {
+.cmap-container .cmap-dropdown-content-item a,
+.cmap-container .cmap-dropdown-content-item a:link,
+.cmap-container .cmap-dropdown-content-item a:visited,
+.cmap-container .cmap-dropdown-content-item a:hover {
   display: block;
   text-decoration: none;
   color: #666;
