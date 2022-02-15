@@ -39,7 +39,7 @@ changesetMapControl.on('load', function () {
 })
 ```
 
-For a custom overpass instance, set a `overpassBase` key in the options object. Default instance is https://overpass.maptime.in/api/interpreter.
+For a custom overpass instance, set a `overpassBase` key in the options object. Default instance is https://overpass.osmcha.org/api/interpreter.
 
 ### Build
 
