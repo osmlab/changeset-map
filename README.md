@@ -6,7 +6,7 @@
 
 Changeset viewer module for [osmcha.org](https://osmcha.org/) ([Example](https://osmlab.github.io/changeset-map/#110574164), [Github](https://github.com/mapbox/osmcha-frontend)).
 
-Pass as changeset id to render details of changes made by that changeset on a MapboxGL map.
+Pass a changeset id to render details of changes made by that changeset on a MapboxGL map.
 
 Heavily inspired by the ACHAVI Changeset Viewer ([Example](https://overpass-api.de/achavi/?changeset=110574164), [Github](https://github.com/nrenner/achavi)).
 
