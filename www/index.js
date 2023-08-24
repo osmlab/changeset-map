@@ -2,6 +2,7 @@
 // import { render } from 'react-dom';
 
 import { render as changesetMap } from '../lib/render';
+import { config } from '../lib/config';
 
 // render(
 //   <div>
@@ -19,10 +20,14 @@ if (location.hash !== '') {
   document.getElementById('formContainer').style.display = 'none';
   var id = location.hash.split('/')[0].replace('#', '');
   var [, geometryType, featureId] = location.hash.split('/');
-  cMap = changesetMap(document.getElementById('container'), id, {
-    width: containerWidth,
-    height: containerHeight
-  });
+  cMap = changesetMap(
+    document.getElementById('container'),
+    id,
+    Object.assign(config, {
+      width: containerWidth,
+      height: containerHeight
+    })
+  );
   cMap.on('load', function() {
     cMap.emit('selectFeature', geometryType, featureId);
   });
@@ -35,11 +40,15 @@ document
     document.getElementById('formContainer').style.display = 'none';
     var changesetID = document.getElementById('changesetInput').value;
     location.hash = changesetID;
-    cMap = changesetMap(document.getElementById('container'), changesetID, {
-      hash: location.hash,
-      width: containerWidth,
-      height: containerHeight
-    });
+    cMap = changesetMap(
+      document.getElementById('container'),
+      changesetID,
+      Object.assign(config, {
+        hash: location.hash,
+        width: containerWidth,
+        height: containerHeight
+      })
+    );
   });
 
 cMap.on('featureChange', function(geometryType, featureId) {
