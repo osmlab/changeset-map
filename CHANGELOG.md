@@ -2,6 +2,9 @@
 
 Log of changes since the 1.1.0 version
 
+#### 1.12.1
+- Update real-changesets URL
+
 #### 1.12.0
 - Make app configurable through OSMCha
 
