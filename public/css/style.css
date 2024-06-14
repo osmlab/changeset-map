@@ -242,6 +242,7 @@
   background: rgba(204, 44, 71, 0.3);
 }
 
+.cmap-wikidata-link,
 .cmap-changeset-link {
   color: #666;
 }
