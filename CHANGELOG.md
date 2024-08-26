@@ -2,6 +2,9 @@
 
 Log of changes since the 1.1.0 version
 
+#### 1.13.0
+- Change OSM API /changeset/:id.json endpoint response parsing to handle new JSON schema (#265)
+
 #### 1.12.1
 - Update real-changesets URL
 
