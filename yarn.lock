@@ -341,6 +341,13 @@
   resolved "https://registry.yarnpkg.com/@mapbox/whoots-js/-/whoots-js-3.1.0.tgz#497c67a1cef50d1a2459ba60f315e448d2ad87fe"
   integrity sha512-Es6WcD0nO5l+2BOQS4uLfNPYQaNDfbot3X1XUoloz+x0mPDS3eeORZJl06HXjwBG1fOGwCRnzK88LMdxKRrd6Q==
 
+"@osmcha/osm-adiff-parser@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@osmcha/osm-adiff-parser/-/osm-adiff-parser-2.0.0.tgz#8d199d51613f8fb9229ada87652d447bb0cfa9fc"
+  integrity sha512-KXpEHYaYQiDaUijYXDAIxsTv9XJ3sxzB/LbyLe8elXTcgcSdyg+RlbTT27Uh4MhBejWSk9ozVBNSpdSkuHW4NA==
+  dependencies:
+    sax "^1.4.1"
+
 "@rollup/plugin-babel@^5.2.0":
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/@rollup/plugin-babel/-/plugin-babel-5.2.0.tgz#b87556d61ed108b4eaf9d18b5323965adf8d9bee"
@@ -3398,14 +3405,6 @@ os-locale@^1.4.0:
   dependencies:
     lcid "^1.0.0"
 
-osm-adiff-parser-saxjs@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/osm-adiff-parser-saxjs/-/osm-adiff-parser-saxjs-1.0.0.tgz#fd5adff9d16c32bf8720d5faf8bac9fe31c54401"
-  integrity sha1-/Vrf+dFsMr+HINX6+LrJ/jHFRAE=
-  dependencies:
-    ramda "^0.23.0"
-    sax "^1.2.2"
-
 p-finally@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/p-finally/-/p-finally-1.0.0.tgz#3fbcfb15b899a44123b34b6dcc18b724336a2cae"
@@ -3724,11 +3723,6 @@ quickselect@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/quickselect/-/quickselect-2.0.0.tgz#f19680a486a5eefb581303e023e98faaf25dd018"
   integrity sha512-RKJ22hX8mHe3Y6wH/N3wCM6BWtjaxIyyUIkpHOvfFnxdI4yD4tBXEBKSbriGujF6jnSVkJrffuo6vxACiSSxIw==
-
-ramda@^0.23.0:
-  version "0.23.0"
-  resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.23.0.tgz#ccd13fff73497a93974e3e86327bfd87bd6e8e2b"
-  integrity sha1-zNE//3NJepOXTj6GMnv9h71ujis=
 
 ramda@^0.27.1:
   version "0.27.1"
@@ -4124,10 +4118,10 @@ safe-regex@^1.1.0:
   resolved "https://registry.yarnpkg.com/safer-buffer/-/safer-buffer-2.1.2.tgz#44fa161b0187b9549dd84bb91802f9bd8385cd6a"
   integrity sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==
 
-sax@^1.2.2:
-  version "1.2.4"
-  resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
-  integrity sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==
+sax@^1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/sax/-/sax-1.4.1.tgz#44cc8988377f126304d3b3fc1010c733b929ef0f"
+  integrity sha512-+aWOz7yVScEGoKNd4PA10LZ8sk0A/z5+nXQG5giUO5rprX9jgYsTdov9qCchZiPIZezbZH+jRut8nPodFAX4Jg==
 
 secure-compare@3.0.1:
   version "3.0.1"
