@@ -2,6 +2,10 @@
 
 Log of changes since the 1.1.0 version
 
+#### 1.14.0
+- Add link to Wikidata items
+- Switch to @osmcha/osm-adiff-parser
+
 #### 1.13.0
 - Change OSM API /changeset/:id.json endpoint response parsing to handle new JSON schema (#265)
 
