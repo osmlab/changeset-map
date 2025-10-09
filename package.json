@@ -1,7 +1,7 @@
 {
   "name": "changeset-map",
   "version": "1.14.0",
-  "description": "Provide visualization of changesets to OSMCha & to the OSM community",
+  "description": "library and application which displays OpenStreetMap changesets in a web browser",
   "main": "dist/bundle.js",
   "scripts": {
     "precommit": "lint-staged",

@@ -4,11 +4,11 @@
 
 ![](https://cloud.githubusercontent.com/assets/126868/24163445/a88728d4-0e90-11e7-9d02-d755b7845c00.png)
 
-Changeset viewer module for [osmcha.org](https://osmcha.org/) ([Example](https://osmlab.github.io/changeset-map/#110574164), [Github](https://github.com/mapbox/osmcha-frontend)).
+`changeset-map` is a JavaScript library and application which displays OpenStreetMap [changesets](https://wiki.openstreetmap.org/wiki/Changeset) in a web browser. Pass in a changeset ID, and it will render a map visualization of what was edited in that changeset. Things that were added are shown in green, deletions in red, and things that were modified are yellow, similar to a code diff.
 
-Pass a changeset id to render details of changes made by that changeset on a MapboxGL map.
+This library was originally a core component of [OSMCha](https://osmcha.org), the OpenStreetMap changeset review and validation tool. It is no longer used in OSMCha (having been replaced by [maplibre-adiff-viewer](https://github.com/OSMCha/maplibre-adiff-viewer)), but can still be used as a standalone application at [osmlab.github.io/changeset-map](http://osmlab.github.io/changeset-map/). ([Example](https://osmlab.github.io/changeset-map/#110574164))
 
-Heavily inspired by the ACHAVI Changeset Viewer ([Example](https://overpass-api.de/achavi/?changeset=110574164), [Github](https://github.com/nrenner/achavi)).
+Heavily inspired by the [Achavi Changeset Viewer](https://overpass-api.de/achavi/). ([Example](https://overpass-api.de/achavi/?changeset=110574164), [Github](https://github.com/nrenner/achavi)).
 
 ### Use as a module
 
